@@ -41,7 +41,7 @@ export const alerts: ComplianceAlert[] = [
     title: "IEC 62446-1 Edition 2.0 Published",
     description: "IEC 62446-1 Edition 2.0 published — impact assessment available for active projects.",
     timestamp: "2026-02-28T08:00:00Z",
-    acknowledged: true,
+    acknowledged: false,
   },
   {
     id: "alert-5",
@@ -70,7 +70,7 @@ export const alerts: ComplianceAlert[] = [
     description: "EU 2023/1542 implementation guidance updated. New data fields required by Q3 2026 for BESS installations.",
     standardRef: "EU 2023/1542",
     timestamp: "2026-02-27T10:00:00Z",
-    acknowledged: true,
+    acknowledged: false,
   },
   {
     id: "alert-8",
@@ -133,7 +133,7 @@ export const alerts: ComplianceAlert[] = [
     description: "Q1 2026 quarterly thermographic inspection due by March 15. O&M contractor notified.",
     gatewayId: "gw-algarve-g8",
     timestamp: "2026-02-28T09:00:00Z",
-    acknowledged: true,
+    acknowledged: false,
   },
   {
     id: "alert-14",
@@ -143,7 +143,7 @@ export const alerts: ComplianceAlert[] = [
     description: "Warranty claim filed for 12 modules with >3% power degradation in Year 1. LONGi review in progress.",
     gatewayId: "gw-algarve-g8",
     timestamp: "2026-02-25T14:00:00Z",
-    acknowledged: true,
+    acknowledged: false,
   },
   {
     id: "alert-15",
@@ -196,7 +196,7 @@ export const alerts: ComplianceAlert[] = [
     description: "Tolling agreement negotiations with Habitat Energy progressing. Draft expected by March 15.",
     gatewayId: "gw-yorkshire-g2",
     timestamp: "2026-02-27T16:00:00Z",
-    acknowledged: true,
+    acknowledged: false,
   },
 
   // ─── Atacama Hybrid (construction phase — additional alerts) ────
@@ -238,7 +238,7 @@ export const alerts: ComplianceAlert[] = [
     description: "SCADA signal verification and data logging integration test scheduled for March 12-14.",
     gatewayId: "gw-atacama-g4",
     timestamp: "2026-02-26T09:00:00Z",
-    acknowledged: true,
+    acknowledged: false,
   },
 
   // ─── Al Dhafra Extension (development phase) ───────────────────
