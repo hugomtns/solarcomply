@@ -1,0 +1,144 @@
+export const COLORS = {
+  navy: '#1B2A4A',
+  blue: '#2E75B6',
+  teal: '#00B0A0',
+  amber: '#F59E0B',
+  orange: '#ED7D31',
+  red: '#EF4444',
+  gray50: '#F9FAFB',
+  gray100: '#F3F4F6',
+  gray200: '#E5E7EB',
+  gray400: '#9CA3AF',
+  gray600: '#4B5563',
+  gray900: '#111827',
+  status: {
+    passed: '#00B0A0',
+    inReview: '#F59E0B',
+    blocked: '#EF4444',
+    upcoming: '#D1D5DB',
+    waived: '#8B5CF6',
+  },
+} as const;
+
+export const GATEWAY_STATUS_LABELS: Record<string, string> = {
+  passed: 'Passed',
+  in_review: 'In Review',
+  blocked: 'Blocked',
+  upcoming: 'Upcoming',
+  waived: 'Waived',
+};
+
+export const DOCUMENT_STATUS_LABELS: Record<string, string> = {
+  approved: 'Approved',
+  pending_review: 'Pending Review',
+  rejected: 'Rejected',
+  draft: 'Draft',
+  expired: 'Expired',
+};
+
+export const CHECK_STATUS_LABELS: Record<string, string> = {
+  pass: 'Pass',
+  fail: 'Fail',
+  warning: 'Warning',
+  pending: 'Pending',
+  not_applicable: 'N/A',
+};
+
+export const APPROVAL_STATUS_LABELS: Record<string, string> = {
+  approved: 'Approved',
+  pending: 'Pending',
+  rejected: 'Rejected',
+  not_required: 'Not Required',
+};
+
+export const STAKEHOLDER_ROLE_LABELS: Record<string, string> = {
+  execute: 'Execute',
+  review: 'Review',
+  approve: 'Approve',
+  witness: 'Witness',
+  sign_off: 'Sign-off',
+  shadow: 'Shadow',
+  input: 'Input',
+  none: 'None',
+};
+
+export const PERMISSION_LEVEL_LABELS: Record<string, string> = {
+  none: 'None',
+  view: 'View',
+  download: 'Download',
+  upload: 'Upload',
+  approve: 'Approve',
+  admin: 'Admin',
+};
+
+export const DOCUMENT_CATEGORY_LABELS: Record<string, string> = {
+  solar_resource: 'Solar Resource',
+  geotechnical: 'Geotechnical',
+  eia: 'EIA',
+  grid_study: 'Grid Study',
+  financial_model: 'Financial Model',
+  ppa: 'PPA',
+  land_lease: 'Land Lease',
+  design_drawings: 'Design Drawings',
+  sld: 'SLD',
+  cable_schedule: 'Cable Schedule',
+  structural_calcs: 'Structural Calcs',
+  fat_report: 'FAT Report',
+  itp: 'ITP',
+  ncr: 'NCR',
+  progress_report: 'Progress Report',
+  commissioning_report: 'Commissioning Report',
+  iv_curves: 'IV Curves',
+  thermal_imaging: 'Thermal Imaging',
+  insulation_test: 'Insulation Test',
+  as_built_drawings: 'As-Built Drawings',
+  om_manual: 'O&M Manual',
+  scada_documentation: 'SCADA Documentation',
+  warranty_certificate: 'Warranty Certificate',
+  performance_report: 'Performance Report',
+  maintenance_log: 'Maintenance Log',
+  drone_inspection: 'Drone Inspection',
+  bess_test_report: 'BESS Test Report',
+  ul9540a_report: 'UL 9540A Report',
+  battery_passport: 'Battery Passport',
+  insurance_policy: 'Insurance Policy',
+  ie_report: 'IE Report',
+  grid_compliance_cert: 'Grid Compliance Cert',
+};
+
+export const PROJECT_TYPE_LABELS: Record<string, string> = {
+  pv: 'Solar PV',
+  bess: 'BESS',
+  hybrid: 'Hybrid',
+};
+
+export const ORG_TYPE_LABELS: Record<string, string> = {
+  ipp: 'IPP',
+  epc: 'EPC',
+  om: 'O&M',
+  lender: 'Lender',
+  technical_advisor: 'Technical Advisor',
+  grid_operator: 'Grid Operator',
+  oem: 'OEM',
+  insurer: 'Insurer',
+  regulator: 'Regulator',
+};
+
+export const LIFECYCLE_STAGE_ORDER: string[] = [
+  'feasibility', 'development', 'financing', 'engineering',
+  'procurement', 'construction', 'commissioning', 'cod',
+  'operations', 'decommissioning',
+];
+
+export const LIFECYCLE_STAGE_LABELS: Record<string, string> = {
+  feasibility: 'Feasibility',
+  development: 'Development',
+  financing: 'Financing',
+  engineering: 'Engineering',
+  procurement: 'Procurement',
+  construction: 'Construction',
+  commissioning: 'Commissioning',
+  cod: 'COD',
+  operations: 'Operations',
+  decommissioning: 'Decommissioning',
+};

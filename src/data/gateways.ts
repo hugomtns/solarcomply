@@ -1,0 +1,161 @@
+import { Gateway } from "@/lib/types";
+
+export const gateways: Gateway[] = [
+  {
+    id: "gw-sonnenberg-g0", projectId: "proj-sonnenberg", code: "G0", name: "Site Identification",
+    description: "Initial site screening, solar resource assessment, and preliminary feasibility.",
+    status: "passed", complianceScore: 100, stage: "feasibility",
+    completedDate: "2024-03-15", targetDate: "2024-03-15",
+    requirements: [
+      { id: "g0-r1", category: "document", label: "Solar Resource Assessment", description: "Preliminary solar resource data and yield estimate", status: "pass", checkType: "manual", linkedDocumentIds: ["doc-solar-resource"] },
+      { id: "g0-r2", category: "document", label: "Site Identification Report", description: "Land availability and preliminary site layout", status: "pass", checkType: "manual" },
+      { id: "g0-r3", category: "standard", label: "Grid Capacity Check", description: "Preliminary grid capacity assessment", status: "pass", checkType: "automated", standardRef: "50Hertz Technical Code" },
+    ],
+    approvals: [
+      { stakeholderOrgId: "org-greenfield", requiredRole: "approve", status: "approved", approverUserId: "user-thomas", timestamp: "2024-03-15T10:00:00Z" },
+    ],
+  },
+  {
+    id: "gw-sonnenberg-g1", projectId: "proj-sonnenberg", code: "G1", name: "Development Approval",
+    description: "EIA completion, land lease execution, grid connection agreement, development permits.",
+    status: "passed", complianceScore: 100, stage: "development",
+    completedDate: "2024-07-20", targetDate: "2024-07-31",
+    requirements: [
+      { id: "g1-r1", category: "document", label: "EIA Report", description: "Environmental Impact Assessment complete", status: "pass", checkType: "manual", linkedDocumentIds: ["doc-eia"] },
+      { id: "g1-r2", category: "document", label: "Land Lease Agreement", description: "Executed land lease for project site", status: "pass", checkType: "manual", linkedDocumentIds: ["doc-land-lease"] },
+      { id: "g1-r3", category: "document", label: "Grid Connection Agreement", description: "Signed grid connection agreement with 50Hertz", status: "pass", checkType: "manual", linkedDocumentIds: ["doc-grid-study"] },
+      { id: "g1-r4", category: "approval", label: "Development Permits", description: "All required development permits obtained", status: "pass", checkType: "manual" },
+    ],
+    approvals: [
+      { stakeholderOrgId: "org-greenfield", requiredRole: "approve", status: "approved", approverUserId: "user-thomas", timestamp: "2024-07-20T14:00:00Z" },
+      { stakeholderOrgId: "org-dnv", requiredRole: "review", status: "approved", approverUserId: "user-hendrik", timestamp: "2024-07-18T09:00:00Z" },
+    ],
+  },
+  {
+    id: "gw-sonnenberg-g2", projectId: "proj-sonnenberg", code: "G2", name: "Financial Close",
+    description: "Lender due diligence, PPA execution, financial model approval, insurance placement.",
+    status: "passed", complianceScore: 100, stage: "financing",
+    completedDate: "2024-11-10", targetDate: "2024-11-15",
+    requirements: [
+      { id: "g2-r1", category: "document", label: "Financial Model", description: "Approved financial model with sensitivity analysis", status: "pass", checkType: "manual", linkedDocumentIds: ["doc-financial-model"] },
+      { id: "g2-r2", category: "document", label: "PPA Agreement", description: "Executed Power Purchase Agreement", status: "pass", checkType: "manual", linkedDocumentIds: ["doc-ppa"] },
+      { id: "g2-r3", category: "document", label: "IE Report", description: "Independent Engineer's report", status: "pass", checkType: "manual", linkedDocumentIds: ["doc-ie-report"] },
+      { id: "g2-r4", category: "document", label: "Insurance Policies", description: "All required insurance policies in place", status: "pass", checkType: "manual", linkedDocumentIds: ["doc-insurance"] },
+    ],
+    approvals: [
+      { stakeholderOrgId: "org-greenfield", requiredRole: "approve", status: "approved", approverUserId: "user-anna", timestamp: "2024-11-10T11:00:00Z" },
+      { stakeholderOrgId: "org-eib", requiredRole: "approve", status: "approved", approverUserId: "user-james", timestamp: "2024-11-08T16:00:00Z" },
+      { stakeholderOrgId: "org-dnv", requiredRole: "sign_off", status: "approved", approverUserId: "user-hendrik", timestamp: "2024-11-09T10:00:00Z" },
+    ],
+  },
+  {
+    id: "gw-sonnenberg-g3", projectId: "proj-sonnenberg", code: "G3", name: "Design Freeze",
+    description: "Detailed engineering complete, design drawings approved, procurement specifications finalized.",
+    status: "passed", complianceScore: 98, stage: "engineering",
+    completedDate: "2025-03-01", targetDate: "2025-02-28",
+    requirements: [
+      { id: "g3-r1", category: "document", label: "Single Line Diagram", description: "Approved SLD per IEC 62548-1", status: "pass", checkType: "automated", standardRef: "IEC 62548-1", linkedDocumentIds: ["doc-sld"] },
+      { id: "g3-r2", category: "document", label: "Design Drawings Package", description: "Complete design drawings set", status: "pass", checkType: "manual", linkedDocumentIds: ["doc-design-drawings"] },
+      { id: "g3-r3", category: "standard", label: "IEC 62548-1 Compliance", description: "PV array design per IEC 62548-1", status: "pass", checkType: "ai_assisted", standardRef: "IEC 62548-1", aiConfidence: 0.95 },
+      { id: "g3-r4", category: "document", label: "Cable Schedule", description: "Complete cable schedule and sizing calculations", status: "pass", checkType: "manual", linkedDocumentIds: ["doc-cable-schedule"] },
+      { id: "g3-r5", category: "document", label: "Structural Calculations", description: "Foundation and mounting structure calculations", status: "pass", checkType: "manual", linkedDocumentIds: ["doc-structural-calcs"] },
+    ],
+    approvals: [
+      { stakeholderOrgId: "org-solaris", requiredRole: "execute", status: "approved", approverUserId: "user-erik", timestamp: "2025-02-28T09:00:00Z" },
+      { stakeholderOrgId: "org-dnv", requiredRole: "review", status: "approved", approverUserId: "user-hendrik", timestamp: "2025-02-27T15:00:00Z" },
+      { stakeholderOrgId: "org-greenfield", requiredRole: "approve", status: "approved", approverUserId: "user-thomas", timestamp: "2025-03-01T10:00:00Z" },
+    ],
+  },
+  {
+    id: "gw-sonnenberg-g4", projectId: "proj-sonnenberg", code: "G4", name: "Cold Commissioning",
+    description: "Equipment installation complete, FAT reports accepted, cold commissioning tests passed.",
+    status: "passed", complianceScore: 96, stage: "construction",
+    completedDate: "2026-02-12", targetDate: "2026-02-15",
+    requirements: [
+      { id: "g4-r1", category: "document", label: "FAT Reports — Modules", description: "JinkoSolar module FAT reports for all batches", status: "pass", checkType: "automated", standardRef: "IEC 61215", linkedDocumentIds: ["doc-fat-modules"] },
+      { id: "g4-r2", category: "document", label: "FAT Reports — Inverters", description: "SMA inverter FAT reports", status: "pass", checkType: "automated", standardRef: "IEC 62109-1", linkedDocumentIds: ["doc-fat-inverters"] },
+      { id: "g4-r3", category: "document", label: "FAT Reports — BESS", description: "BYD BESS system FAT and safety reports", status: "pass", checkType: "manual", linkedDocumentIds: ["doc-fat-bess"] },
+      { id: "g4-r4", category: "standard", label: "UL 9540A Testing", description: "BESS cell-level thermal runaway test results", status: "pass", checkType: "manual", standardRef: "UL 9540A", linkedDocumentIds: ["doc-ul9540a"] },
+      { id: "g4-r5", category: "document", label: "ITP Sign-off", description: "Inspection and Test Plan fully executed", status: "pass", checkType: "manual", linkedDocumentIds: ["doc-itp"] },
+      { id: "g4-r6", category: "data_quality", label: "SCADA Integration Test", description: "All SCADA signals verified and logging", status: "pass", checkType: "automated" },
+    ],
+    approvals: [
+      { stakeholderOrgId: "org-solaris", requiredRole: "execute", status: "approved", approverUserId: "user-erik", timestamp: "2026-02-10T09:00:00Z" },
+      { stakeholderOrgId: "org-dnv", requiredRole: "witness", status: "approved", approverUserId: "user-priya", timestamp: "2026-02-11T14:00:00Z" },
+      { stakeholderOrgId: "org-greenfield", requiredRole: "approve", status: "approved", approverUserId: "user-thomas", timestamp: "2026-02-12T16:00:00Z" },
+      { stakeholderOrgId: "org-sma", requiredRole: "sign_off", status: "approved", approverUserId: "user-stefan", timestamp: "2026-02-09T11:00:00Z" },
+      { stakeholderOrgId: "org-byd", requiredRole: "sign_off", status: "approved", approverUserId: "user-zhang", timestamp: "2026-02-10T15:00:00Z" },
+    ],
+  },
+  {
+    id: "gw-sonnenberg-g5", projectId: "proj-sonnenberg", code: "G5", name: "Hot Commissioning",
+    description: "Energization, performance testing, BESS cycling tests, grid compliance verification.",
+    status: "in_review", complianceScore: 82, stage: "commissioning",
+    targetDate: "2026-03-15",
+    requirements: [
+      { id: "g5-r1", category: "document", label: "Commissioning Test Report — PV", description: "Full PV string and inverter commissioning test results per IEC 62446-1", status: "pass", checkType: "automated", standardRef: "IEC 62446-1", linkedDocumentIds: ["doc-comm-pv"] },
+      { id: "g5-r2", category: "document", label: "IV Curve Traces", description: "IV curve measurements for all PV strings", status: "pass", checkType: "automated", standardRef: "IEC 62446-1 §7.2", linkedDocumentIds: ["doc-iv-curves"] },
+      { id: "g5-r3", category: "document", label: "Thermal Imaging Report", description: "IR thermography survey of all modules and connections", status: "pass", checkType: "ai_assisted", standardRef: "IEC 62446-3", aiConfidence: 0.92, linkedDocumentIds: ["doc-thermal"] },
+      { id: "g5-r4", category: "document", label: "Insulation Resistance Tests", description: "Insulation resistance test results for all strings", status: "pass", checkType: "automated", linkedDocumentIds: ["doc-insulation"] },
+      { id: "g5-r5", category: "document", label: "BESS Commissioning Report", description: "Full BESS charge/discharge cycling test results", status: "pass", checkType: "manual", standardRef: "IEC 62619", linkedDocumentIds: ["doc-bess-comm"] },
+      { id: "g5-r6", category: "standard", label: "BESS Fire Safety Compliance", description: "NFPA 855 and UL 9540 compliance verification", status: "warning", checkType: "ai_assisted", standardRef: "NFPA 855 / UL 9540", aiConfidence: 0.78 },
+      { id: "g5-r7", category: "data_quality", label: "Performance Ratio Validation", description: "PR within expected range for commissioning period", status: "pass", checkType: "automated", standardRef: "IEC 61724-1" },
+      { id: "g5-r8", category: "data_quality", label: "BESS Round-Trip Efficiency", description: "RTE above 88% threshold per warranty terms", status: "fail", checkType: "automated" },
+      { id: "g5-r9", category: "document", label: "As-Built Drawings", description: "Editable DWG/DXF as-built drawings per IEC 62446-1 §6.2", status: "fail", checkType: "automated", standardRef: "IEC 62446-1 §6.2", linkedDocumentIds: ["doc-asbuilt-sld", "doc-asbuilt-layout"] },
+      { id: "g5-r10", category: "standard", label: "Grid Code Compliance", description: "Grid compliance testing per 50Hertz requirements and IEEE 2800", status: "pending", checkType: "manual", standardRef: "IEEE 2800" },
+      { id: "g5-r11", category: "approval", label: "Grid Operator Witness", description: "50Hertz witnessed commissioning test sign-off", status: "pending", checkType: "manual" },
+      { id: "g5-r12", category: "document", label: "Battery Passport Data", description: "EU Battery Regulation 2023/1542 passport data fields populated", status: "warning", checkType: "ai_assisted", standardRef: "EU 2023/1542", aiConfidence: 0.85 },
+      { id: "g5-r13", category: "standard", label: "UN 38.3 Transport Certification", description: "Battery cell transport test certification verified", status: "pass", checkType: "automated", standardRef: "UN 38.3" },
+      { id: "g5-r14", category: "document", label: "NCR Register", description: "All non-conformance reports documented and tracked", status: "pass", checkType: "manual", linkedDocumentIds: ["doc-ncr-1", "doc-ncr-2", "doc-ncr-3"] },
+      { id: "g5-r15", category: "data_quality", label: "Data Completeness Check", description: "SCADA data completeness ≥99% for commissioning period", status: "pass", checkType: "automated" },
+    ],
+    approvals: [
+      { stakeholderOrgId: "org-solaris", requiredRole: "execute", status: "approved", approverUserId: "user-erik", timestamp: "2026-02-25T09:00:00Z", comment: "All commissioning tests executed per ITP." },
+      { stakeholderOrgId: "org-dnv", requiredRole: "witness", status: "approved", approverUserId: "user-priya", timestamp: "2026-02-26T14:00:00Z", comment: "Witnessed PV and BESS commissioning. Minor observations noted." },
+      { stakeholderOrgId: "org-greenfield", requiredRole: "approve", status: "pending" },
+      { stakeholderOrgId: "org-50hertz", requiredRole: "witness", status: "pending" },
+      { stakeholderOrgId: "org-sma", requiredRole: "sign_off", status: "approved", approverUserId: "user-stefan", timestamp: "2026-02-24T11:00:00Z", comment: "SMA inverter commissioning parameters verified." },
+      { stakeholderOrgId: "org-byd", requiredRole: "sign_off", status: "approved", approverUserId: "user-zhang", timestamp: "2026-02-25T15:00:00Z", comment: "BYD MC Cube commissioning completed. RTE issue under investigation." },
+      { stakeholderOrgId: "org-techwind", requiredRole: "shadow", status: "approved", approverUserId: "user-chen", timestamp: "2026-02-26T10:00:00Z" },
+    ],
+  },
+  {
+    id: "gw-sonnenberg-g6", projectId: "proj-sonnenberg", code: "G6", name: "PAC",
+    description: "Provisional Acceptance Certificate — plant meets minimum performance criteria.",
+    status: "upcoming", complianceScore: 0, stage: "cod",
+    targetDate: "2026-04-15",
+    requirements: [], approvals: [],
+  },
+  {
+    id: "gw-sonnenberg-g7", projectId: "proj-sonnenberg", code: "G7", name: "COD",
+    description: "Commercial Operation Date — plant enters commercial operation.",
+    status: "upcoming", complianceScore: 0, stage: "cod",
+    targetDate: "2026-09-15",
+    requirements: [], approvals: [],
+  },
+  {
+    id: "gw-sonnenberg-g8", projectId: "proj-sonnenberg", code: "G8", name: "FAC",
+    description: "Final Acceptance Certificate — performance test period completed, defects resolved.",
+    status: "upcoming", complianceScore: 0, stage: "operations",
+    targetDate: "2027-09-15",
+    requirements: [], approvals: [],
+  },
+  {
+    id: "gw-sonnenberg-g9", projectId: "proj-sonnenberg", code: "G9", name: "Warranty Expiry",
+    description: "End of EPC warranty period, O&M transition complete.",
+    status: "upcoming", complianceScore: 0, stage: "operations",
+    targetDate: "2028-09-15",
+    requirements: [], approvals: [],
+  },
+  {
+    id: "gw-sonnenberg-g10", projectId: "proj-sonnenberg", code: "G10", name: "Decommissioning",
+    description: "End-of-life planning, recycling compliance, site restoration.",
+    status: "upcoming", complianceScore: 0, stage: "decommissioning",
+    targetDate: "2051-09-15",
+    requirements: [], approvals: [],
+  },
+];
+
+export function getGatewaysForProject(projectId: string): Gateway[] {
+  return gateways.filter((g) => g.projectId === projectId);
+}
