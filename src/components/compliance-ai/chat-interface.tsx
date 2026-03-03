@@ -74,9 +74,11 @@ export function ChatInterface() {
 
   // Attach submitQuery to a ref so parent can call it
   useEffect(() => {
-    (window as Record<string, unknown>).__chatSubmit = submitQuery;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__chatSubmit = submitQuery;
     return () => {
-      delete (window as Record<string, unknown>).__chatSubmit;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      delete (window as any).__chatSubmit;
     };
   }, [submitQuery]);
 

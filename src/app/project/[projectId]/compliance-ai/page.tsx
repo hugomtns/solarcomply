@@ -34,7 +34,8 @@ export default function ComplianceAIPage() {
 
   const handlePromptClick = (prompt: string) => {
     setSelectedPrompt(prompt);
-    const submitFn = (window as Record<string, unknown>).__chatSubmit as
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const submitFn = (window as any).__chatSubmit as
       | ((q: string) => void)
       | undefined;
     if (submitFn) {

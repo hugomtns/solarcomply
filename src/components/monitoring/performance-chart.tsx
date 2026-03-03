@@ -125,8 +125,9 @@ export function PerformanceChart() {
                   <XAxis dataKey="date" tick={{ fontSize: 11 }} interval="preserveStartEnd" />
                   <YAxis domain={[0.7, 0.9]} tick={{ fontSize: 11 }} tickFormatter={(v: number) => `${(v * 100).toFixed(0)}%`} />
                   <Tooltip
-                    formatter={(value: number) => [`${(value * 100).toFixed(2)}%`, "PR"]}
-                    labelFormatter={(label: string) => `Date: ${label}`}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    formatter={(value: any) => [`${(Number(value) * 100).toFixed(2)}%`, "PR"]}
+                    labelFormatter={(label) => `Date: ${label}`}
                   />
                   <ReferenceLine
                     y={0.78}
@@ -162,8 +163,9 @@ export function PerformanceChart() {
                   <XAxis dataKey="date" tick={{ fontSize: 11 }} interval="preserveStartEnd" />
                   <YAxis tick={{ fontSize: 11 }} tickFormatter={(v: number) => `${v.toFixed(0)} MW`} />
                   <Tooltip
-                    formatter={(value: number) => [`${value.toFixed(2)} MW`, "Power Output"]}
-                    labelFormatter={(label: string) => `Date: ${label}`}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    formatter={(value: any) => [`${Number(value).toFixed(2)} MW`, "Power Output"]}
+                    labelFormatter={(label) => `Date: ${label}`}
                   />
                   <Area
                     type="monotone"
@@ -191,8 +193,9 @@ export function PerformanceChart() {
                     tickFormatter={(v: number) => `${(v * 100).toFixed(1)}%`}
                   />
                   <Tooltip
-                    formatter={(value: number) => [`${(value * 100).toFixed(2)}%`, "SoH"]}
-                    labelFormatter={(label: string) => `Date: ${label}`}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    formatter={(value: any) => [`${(Number(value) * 100).toFixed(2)}%`, "SoH"]}
+                    labelFormatter={(label) => `Date: ${label}`}
                   />
                   <Line
                     type="monotone"
@@ -214,8 +217,9 @@ export function PerformanceChart() {
                   <XAxis dataKey="date" tick={{ fontSize: 11 }} interval="preserveStartEnd" />
                   <YAxis tick={{ fontSize: 11 }} tickFormatter={(v: number) => `${v.toFixed(0)} W/m²`} />
                   <Tooltip
-                    formatter={(value: number) => [`${value.toFixed(1)} W/m²`, "GHI"]}
-                    labelFormatter={(label: string) => `Date: ${label}`}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    formatter={(value: any) => [`${Number(value).toFixed(1)} W/m²`, "GHI"]}
+                    labelFormatter={(label) => `Date: ${label}`}
                   />
                   <Area
                     type="monotone"
