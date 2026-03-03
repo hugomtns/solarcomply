@@ -44,7 +44,7 @@ export function NotificationBell() {
                 className={cn(
                   "border-b border-l-4 px-4 py-3 last:border-b-0",
                   config.border,
-                  !alert.acknowledged && config.bg
+                  !alert.acknowledged ? config.bg : "bg-white"
                 )}
               >
                 <div className="flex items-start gap-2">

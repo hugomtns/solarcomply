@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import { PageHeader } from "@/components/layout/page-header";
 import { ChatInterface } from "@/components/compliance-ai/chat-interface";
 import { Separator } from "@/components/ui/separator";
@@ -29,7 +29,12 @@ const quickPrompts = [
   },
 ];
 
-export default function ComplianceAIPage() {
+export default function ComplianceAIPage({
+  params,
+}: {
+  params: Promise<{ projectId: string }>;
+}) {
+  const { projectId } = use(params);
   const [selectedPrompt, setSelectedPrompt] = useState<string | null>(null);
 
   const handlePromptClick = (prompt: string) => {
@@ -123,7 +128,7 @@ export default function ComplianceAIPage() {
 
         {/* Main chat area */}
         <div className="flex-1 overflow-hidden">
-          <ChatInterface />
+          <ChatInterface projectId={projectId} />
         </div>
       </div>
     </div>

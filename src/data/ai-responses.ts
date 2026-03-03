@@ -1,28 +1,77 @@
 import { AIMessage } from "@/lib/types";
+import { projects } from "@/data/projects";
 
 interface AIResponseEntry {
   keywords: string[];
+  projectId?: string; // if set, only matches for this project
   response: AIMessage;
 }
 
-export const aiGreeting: AIMessage = {
-  id: "ai-greeting",
-  role: "assistant",
-  content: `Welcome to the SolarComply AI Assistant. I'm here to help with compliance, standards, and documentation queries for the **Sonnenberg Solar + Storage** project.
+// ─── Project-aware greeting ───────────────────────────────────────
+
+export function getAiGreeting(projectId?: string): AIMessage {
+  const project = projects.find((p) => p.id === projectId);
+  if (!project) {
+    return {
+      id: "ai-greeting",
+      role: "assistant",
+      content: `Welcome to the SolarComply AI Assistant. Select a project to get started with compliance, standards, and documentation queries.`,
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  const typeLabel = project.type === "pv" ? "Solar PV" : project.type === "bess" ? "BESS" : "Hybrid (PV + BESS)";
+  const gwCode = project.currentGatewayId.replace(/^gw-\w+-/, "").toUpperCase();
+
+  return {
+    id: "ai-greeting",
+    role: "assistant",
+    content: `Welcome to the SolarComply AI Assistant. I'm here to help with compliance, standards, and documentation queries for **${project.name}**.
 
 **Project snapshot:**
-- 100 MW PV + 50 MW / 100 MWh BESS hybrid
-- Currently at **Gateway G5 — Hot Commissioning** (82% compliance)
-- 2 failed requirements, 2 pending approvals
-- 3 active critical alerts
+- ${project.capacityMW} MW ${typeLabel}${project.capacityMWh ? ` / ${project.capacityMWh} MWh` : ""} in ${project.location.region}, ${project.location.country}
+- Currently at **Gateway ${gwCode}** (${project.complianceScore}% compliance)
+- Stage: ${project.currentStage}
 
 How can I help you today? You can ask about standards compliance, documentation status, performance analysis, or regulatory requirements.`,
-  timestamp: new Date().toISOString(),
-};
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// Backward-compatible export
+export const aiGreeting: AIMessage = getAiGreeting("proj-sonnenberg");
+
+// ─── Project-aware fallback ───────────────────────────────────────
+
+export function getFallbackResponse(projectId?: string): AIMessage {
+  const project = projects.find((p) => p.id === projectId);
+  const name = project?.name ?? "your project";
+
+  return {
+    id: "ai-fallback",
+    role: "assistant",
+    content: `I can help with standards compliance, documentation review, and performance analysis for ${name}. Try asking about:
+
+- **Applicable standards** and compliance requirements
+- **Documentation status** and gap analysis
+- **Gateway progress** and pending approvals
+- **Regulatory requirements** for your jurisdiction
+
+What would you like to know?`,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// Backward-compatible export
+export const fallbackResponse: AIMessage = getFallbackResponse("proj-sonnenberg");
+
+// ─── Responses (global + project-specific) ────────────────────────
 
 export const aiResponses: AIResponseEntry[] = [
+  // ── Sonnenberg-specific responses (existing) ────────────────────
   {
     keywords: ["fire", "safety", "bess", "nfpa", "battery fire"],
+    projectId: "proj-sonnenberg",
     response: {
       id: "ai-fire-safety",
       role: "assistant",
@@ -46,6 +95,7 @@ export const aiResponses: AIResponseEntry[] = [
   },
   {
     keywords: ["pac", "commissioning", "documentation", "complete", "provisional acceptance"],
+    projectId: "proj-sonnenberg",
     response: {
       id: "ai-pac-docs",
       role: "assistant",
@@ -75,6 +125,7 @@ The following gaps must be addressed before PAC:`,
   },
   {
     keywords: ["battery passport", "eu regulation", "2023/1542", "passport"],
+    projectId: "proj-sonnenberg",
     response: {
       id: "ai-battery-passport",
       role: "assistant",
@@ -110,6 +161,7 @@ The EU Battery Regulation requires a digital "battery passport" for all industri
   },
   {
     keywords: ["non-conformance", "ncr", "hot commissioning", "defect"],
+    projectId: "proj-sonnenberg",
     response: {
       id: "ai-ncrs",
       role: "assistant",
@@ -130,6 +182,7 @@ The EU Battery Regulation requires a digital "battery passport" for all industri
   },
   {
     keywords: ["performance ratio", "pr", "guarantee", "trend", "forecast", "breach"],
+    projectId: "proj-sonnenberg",
     response: {
       id: "ai-pr-trend",
       role: "assistant",
@@ -160,28 +213,228 @@ At the current rate of decline, the 30-day rolling average is projected to breac
       timestamp: new Date().toISOString(),
     },
   },
+
+  // ── Algarve-specific responses ──────────────────────────────────
+  {
+    keywords: ["fac", "final acceptance", "defects", "warranty period"],
+    projectId: "proj-algarve",
+    response: {
+      id: "ai-algarve-fac",
+      role: "assistant",
+      content: `**FAC Readiness Assessment — Algarve Sun Farm**
+
+**Overall: 9 of 10 requirements met (90%)**
+
+The project has completed its 12-month performance test period with strong results. One item remains outstanding:`,
+      gapItems: [
+        { standard: "IEC 61724-1", requirement: "12-month performance report", status: "pass", action: "Annual PR of 83.2% — above 81% guarantee" },
+        { standard: "N/A", requirement: "Defects liability register cleared", status: "pass", action: "All 14 defects remediated and signed off" },
+        { standard: "N/A", requirement: "O&M KPI targets met", status: "pass", action: "Availability 99.3%, response time within SLA" },
+        { standard: "REN Grid Code", requirement: "Continuous grid compliance", status: "pass", action: "Zero grid code violations in 12 months" },
+        { standard: "N/A", requirement: "Spare parts inventory handover", status: "warning", action: "Inventory list pending final reconciliation" },
+        { standard: "N/A", requirement: "DNV lender TA final report", status: "pending", action: "Report overdue by 8 days — blocking FAC" },
+      ],
+      timestamp: new Date().toISOString(),
+    },
+  },
+  {
+    keywords: ["performance", "availability", "production", "yield"],
+    projectId: "proj-algarve",
+    response: {
+      id: "ai-algarve-perf",
+      role: "assistant",
+      content: `**Performance Summary — Algarve Sun Farm (Year 1)**
+
+- Annual energy production: **267.8 GWh** (vs. 260.5 GWh P50 estimate)
+- Performance Ratio: **83.2%** (guarantee: 81.0%)
+- Technical availability: **99.3%** (target: 99.0%)
+- Specific yield: **1,785 kWh/kWp**
+- Soiling losses: **1.8%** (within budget of 2.5%)
+
+**Notable Events:**
+- Inverter Station 3 downtime (4 days) due to IGBT failure — warranty replacement
+- 12 modules replaced under warranty for >3% power degradation
+- Zero curtailment events from REN grid operator`,
+      timestamp: new Date().toISOString(),
+    },
+  },
+
+  // ── Yorkshire-specific responses ────────────────────────────────
+  {
+    keywords: ["financial close", "lender", "bankability", "financing"],
+    projectId: "proj-yorkshire",
+    response: {
+      id: "ai-yorkshire-fc",
+      role: "assistant",
+      content: `**Financial Close Readiness — Yorkshire Storage**
+
+**Gateway G2 Status: 71% complete (BLOCKED)**
+
+Key blockers preventing financial close:`,
+      gapItems: [
+        { standard: "N/A", requirement: "Revenue contract (tolling/merchant)", status: "fail", action: "Tolling agreement negotiations with Habitat Energy ongoing" },
+        { standard: "N/A", requirement: "All-risk insurance quotation", status: "fail", action: "Previous quote expired — re-quotation needed with NFPA 855 data" },
+        { standard: "NGESO Grid Code", requirement: "Grid pre-assessment received", status: "pending", action: "NGESO response awaited — submitted 6 weeks ago" },
+        { standard: "DNV-RP-0043", requirement: "IE BESS safety assessment", status: "warning", action: "DNV report overdue by 14 days" },
+        { standard: "GC0137", requirement: "UK Grid Code compliance path", status: "pending", action: "Compliance strategy to be finalized with EPC" },
+      ],
+      timestamp: new Date().toISOString(),
+    },
+  },
+  {
+    keywords: ["bess", "safety", "fire", "nfpa"],
+    projectId: "proj-yorkshire",
+    response: {
+      id: "ai-yorkshire-bess-safety",
+      role: "assistant",
+      content: `**BESS Safety Standards — Yorkshire Storage (80 MW / 160 MWh)**
+
+As a UK-based BESS project, the following safety standards and regulations apply:`,
+      gapItems: [
+        { standard: "NFPA 855", requirement: "ESS installation safety requirements", status: "warning", action: "Safety assessment in progress with DNV" },
+        { standard: "UL 9540", requirement: "System-level safety certification", status: "pending", action: "OEM to provide system certification" },
+        { standard: "UL 9540A", requirement: "Thermal runaway fire propagation testing", status: "pending", action: "Cell-level test results awaited from OEM" },
+        { standard: "BS EN 62619", requirement: "UK-adopted IEC secondary lithium cell safety", status: "pending", action: "To be verified at design freeze stage" },
+        { standard: "HSE CDM", requirement: "Construction Design Management compliance", status: "pass", action: "CDM coordinator appointed" },
+      ],
+      timestamp: new Date().toISOString(),
+    },
+  },
+
+  // ── Atacama-specific responses ──────────────────────────────────
+  {
+    keywords: ["construction", "progress", "schedule", "delay"],
+    projectId: "proj-atacama",
+    response: {
+      id: "ai-atacama-construction",
+      role: "assistant",
+      content: `**Construction Progress — Atacama Hybrid (200 MW PV + 200 MWh BESS)**
+
+**Current Status: Gateway G4 — Cold Commissioning (58% complete)**
+
+- PV tracker installation: **78%** complete (on track)
+- BESS container installation: **35%** (2 weeks behind schedule)
+- MV cabling: **65%** complete
+- Substation: **90%** complete
+- SCADA integration: **Not started** (blocked by BESS delay)
+
+**Schedule Impact:**
+- EPC schedule delay of 3 weeks on tracker installation milestone
+- BESS container shipment delayed by 2 weeks (port congestion)
+- Overall G4 completion target pushed to June 2026`,
+      timestamp: new Date().toISOString(),
+    },
+  },
+  {
+    keywords: ["ncr", "non-conformance", "quality"],
+    projectId: "proj-atacama",
+    response: {
+      id: "ai-atacama-ncr",
+      role: "assistant",
+      content: `**Non-Conformance Reports — Atacama Hybrid Construction Phase**
+
+**Summary: 3 NCRs raised | 1 closed | 2 open**`,
+      gapItems: [
+        { standard: "NCR-ATK-001", requirement: "Cable tray routing deviation — MV Section B", status: "pass", action: "Design change approved, rework completed — Closed" },
+        { standard: "NCR-ATK-002", requirement: "Tracker pile depth insufficient — Row C12-C18", status: "warning", action: "Geotechnical review in progress — additional piles may be needed" },
+        { standard: "NCR-ATK-003", requirement: "Foundation alignment deviation — Section C", status: "warning", action: "15mm deviation detected — engineering review required" },
+      ],
+      timestamp: new Date().toISOString(),
+    },
+  },
+
+  // ── Al Dhafra-specific responses ────────────────────────────────
+  {
+    keywords: ["eia", "environmental", "biodiversity", "assessment"],
+    projectId: "proj-aldhafra",
+    response: {
+      id: "ai-aldhafra-eia",
+      role: "assistant",
+      content: `**EIA Status — Al Dhafra Extension (300 MW PV)**
+
+The Environmental Impact Assessment is currently in draft stage, submitted to the Environment Agency Abu Dhabi (EAD).
+
+**Key findings from draft EIA:**
+- No significant biodiversity impact — desert habitat with low ecological sensitivity
+- Dust management plan required during construction
+- Groundwater monitoring recommended (sabkha terrain)
+- Additional biodiversity survey requested by EAD (3-week delay)
+
+**Timeline:**
+- Draft submitted: November 2025
+- EAD additional data request: February 2026
+- Updated submission expected: March 2026
+- EAD clearance expected: May 2026`,
+      timestamp: new Date().toISOString(),
+    },
+  },
+  {
+    keywords: ["grid", "connection", "transco", "ewec"],
+    projectId: "proj-aldhafra",
+    response: {
+      id: "ai-aldhafra-grid",
+      role: "assistant",
+      content: `**Grid Connection Status — Al Dhafra Extension**
+
+**TRANSCO Grid Connection Study: In Review**
+
+- Connection point: Al Dhafra 400kV substation
+- Capacity requested: 300 MW
+- Study submitted: January 2026
+- TRANSCO requested updated reactive power compensation data
+- Revised study expected: March 2026
+
+**EWEC Technical Requirements:**
+- Compliant with EWEC technical requirements (confirmed)
+- Power factor range: 0.95 leading to 0.95 lagging
+- Frequency response capability: required per EWEC code
+- LVRT compliance: to be demonstrated during commissioning`,
+      timestamp: new Date().toISOString(),
+    },
+  },
+
+  // ── Global responses (match any project) ────────────────────────
+  {
+    keywords: ["fire", "safety", "bess", "nfpa", "battery fire"],
+    response: {
+      id: "ai-fire-safety-global",
+      role: "assistant",
+      content: `**BESS Fire Safety Standards — Overview**
+
+The following international standards apply to BESS fire safety across all projects:`,
+      gapItems: [
+        { standard: "NFPA 855", requirement: "ESS installation safety", status: "pass", action: "Applicable to all BESS and hybrid projects" },
+        { standard: "UL 9540", requirement: "System-level ESS safety", status: "pass", action: "Required for system certification" },
+        { standard: "UL 9540A", requirement: "Thermal runaway testing", status: "pass", action: "Cell, module, unit, and installation level" },
+        { standard: "IEC 62933-5-2", requirement: "EES system safety", status: "pass", action: "Grid-connected storage systems" },
+      ],
+      timestamp: new Date().toISOString(),
+    },
+  },
 ];
 
-export function findAIResponse(query: string): AIMessage | null {
+// ─── Query matching ───────────────────────────────────────────────
+
+export function findAIResponse(query: string, projectId?: string): AIMessage | null {
   const lower = query.toLowerCase();
-  for (const entry of aiResponses) {
-    const matched = entry.keywords.some((kw) => lower.includes(kw));
-    if (matched) return { ...entry.response, id: `ai-${Date.now()}`, timestamp: new Date().toISOString() };
+
+  // First try project-specific match
+  if (projectId) {
+    for (const entry of aiResponses) {
+      if (entry.projectId === projectId) {
+        const matched = entry.keywords.some((kw) => lower.includes(kw));
+        if (matched) return { ...entry.response, id: `ai-${Date.now()}`, timestamp: new Date().toISOString() };
+      }
+    }
   }
+
+  // Then try global match (entries without projectId)
+  for (const entry of aiResponses) {
+    if (!entry.projectId) {
+      const matched = entry.keywords.some((kw) => lower.includes(kw));
+      if (matched) return { ...entry.response, id: `ai-${Date.now()}`, timestamp: new Date().toISOString() };
+    }
+  }
+
   return null;
 }
-
-export const fallbackResponse: AIMessage = {
-  id: "ai-fallback",
-  role: "assistant",
-  content: `I can help with standards compliance, documentation review, and performance analysis for the Sonnenberg project. Try asking about:
-
-- **Fire safety standards** for the BESS
-- **PAC documentation completeness**
-- **EU Battery Passport** requirements and readiness
-- **Non-conformance reports** from hot commissioning
-- **Performance ratio** trend analysis and guarantee threshold
-
-What would you like to know?`,
-  timestamp: new Date().toISOString(),
-};

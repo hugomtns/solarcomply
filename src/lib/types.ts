@@ -103,6 +103,35 @@ export interface Document {
   formatValid: boolean;
   tags: string[];
   retentionYears: number;
+  latestVersionId?: string;
+  approvalRequired?: boolean;
+}
+
+export interface DocumentVersion {
+  id: string;
+  documentId: string;
+  version: number;
+  fileName: string;
+  fileType: Document['fileType'];
+  fileSizeMB: number;
+  uploadedBy: string;
+  uploadedAt: string;
+  changelog: string;
+  status: DocumentStatus;
+  formatValid: boolean;
+  isCurrent: boolean;
+}
+
+export interface DocumentApproval {
+  id: string;
+  documentId: string;
+  documentVersionId: string;
+  stakeholderOrgId: string;
+  requiredRole: StakeholderRole;
+  status: ApprovalStatus;
+  approverUserId?: string;
+  timestamp?: string;
+  comment?: string;
 }
 
 export type DocumentCategory =

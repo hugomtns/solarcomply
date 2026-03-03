@@ -21,13 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Search, BookOpen, Globe, Zap } from "lucide-react";
+import { Search, BookOpen, Globe, Zap, ChevronRight } from "lucide-react";
 import { PROJECT_TYPE_LABELS } from "@/lib/constants";
 
 const bodyOptions = Array.from(new Set(standards.map((s) => s.body))).sort();
@@ -42,6 +36,7 @@ export default function StandardsPage() {
   const [search, setSearch] = useState("");
   const [bodyFilter, setBodyFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   const filtered = useMemo(() => {
     return standards.filter((s) => {
@@ -56,6 +51,15 @@ export default function StandardsPage() {
       return matchSearch && matchBody && matchType;
     });
   }, [search, bodyFilter, typeFilter]);
+
+  function toggleRow(id: string) {
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
 
   return (
     <>
@@ -124,80 +128,89 @@ export default function StandardsPage() {
 
       {/* Standards Table */}
       <Card>
-        <Accordion type="multiple" className="w-full">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[140px]">Standard</TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead className="w-[100px]">Edition</TableHead>
-                <TableHead className="w-[120px]">Gateways</TableHead>
-                <TableHead className="w-[140px]">Project Types</TableHead>
-                <TableHead className="w-[120px]">Jurisdictions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filtered.map((std) => (
-                <AccordionItem key={std.id} value={std.id} className="border-0">
-                  <TableRow className="cursor-pointer hover:bg-gray-50">
-                    <TableCell className="font-medium text-[#2E75B6]">
-                      <AccordionTrigger className="py-0 hover:no-underline">
-                        {std.number}
-                      </AccordionTrigger>
-                    </TableCell>
-                    <TableCell className="text-sm text-gray-700 max-w-[400px] truncate">
-                      {std.title}
-                    </TableCell>
-                    <TableCell className="text-xs text-gray-500">{std.edition}</TableCell>
-                    <TableCell>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[140px]">Standard</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead className="w-[100px]">Edition</TableHead>
+              <TableHead className="w-[120px]">Gateways</TableHead>
+              <TableHead className="w-[140px]">Project Types</TableHead>
+              <TableHead className="w-[120px]">Jurisdictions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filtered.map((std) => (
+              <>
+                <TableRow
+                  key={std.id}
+                  className="cursor-pointer hover:bg-gray-50"
+                  onClick={() => toggleRow(std.id)}
+                >
+                  <TableCell className="font-medium text-[#2E75B6]">
+                    <div className="flex items-center gap-1.5">
+                      <ChevronRight
+                        className={`h-4 w-4 shrink-0 text-gray-400 transition-transform ${
+                          expanded.has(std.id) ? "rotate-90" : ""
+                        }`}
+                      />
+                      {std.number}
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-sm text-gray-700 max-w-[400px] truncate">
+                    {std.title}
+                  </TableCell>
+                  <TableCell className="text-xs text-gray-500">{std.edition}</TableCell>
+                  <TableCell>
+                    <div className="flex flex-wrap gap-1">
+                      {std.applicableGateways.map((g) => (
+                        <Badge
+                          key={g}
+                          variant="outline"
+                          className="text-[10px] px-1.5 py-0 bg-sky-50 text-sky-700 border-sky-200"
+                        >
+                          {g}
+                        </Badge>
+                      ))}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-wrap gap-1">
+                      {std.projectTypes.map((t) => (
+                        <Badge
+                          key={t}
+                          variant="outline"
+                          className={`text-[10px] px-1.5 py-0 ${typeColors[t]}`}
+                        >
+                          {PROJECT_TYPE_LABELS[t]}
+                        </Badge>
+                      ))}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    {std.jurisdictions.length === 0 ? (
+                      <span className="flex items-center gap-1 text-xs text-gray-400">
+                        <Globe className="h-3 w-3" /> Global
+                      </span>
+                    ) : (
                       <div className="flex flex-wrap gap-1">
-                        {std.applicableGateways.map((g) => (
+                        {std.jurisdictions.map((j) => (
                           <Badge
-                            key={g}
+                            key={j}
                             variant="outline"
-                            className="text-[10px] px-1.5 py-0 bg-sky-50 text-sky-700 border-sky-200"
+                            className="text-[10px] px-1.5 py-0"
                           >
-                            {g}
+                            {j}
                           </Badge>
                         ))}
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex flex-wrap gap-1">
-                        {std.projectTypes.map((t) => (
-                          <Badge
-                            key={t}
-                            variant="outline"
-                            className={`text-[10px] px-1.5 py-0 ${typeColors[t]}`}
-                          >
-                            {PROJECT_TYPE_LABELS[t]}
-                          </Badge>
-                        ))}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      {std.jurisdictions.length === 0 ? (
-                        <span className="flex items-center gap-1 text-xs text-gray-400">
-                          <Globe className="h-3 w-3" /> Global
-                        </span>
-                      ) : (
-                        <div className="flex flex-wrap gap-1">
-                          {std.jurisdictions.map((j) => (
-                            <Badge
-                              key={j}
-                              variant="outline"
-                              className="text-[10px] px-1.5 py-0"
-                            >
-                              {j}
-                            </Badge>
-                          ))}
-                        </div>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
+                    )}
+                  </TableCell>
+                </TableRow>
+                {expanded.has(std.id) && (
+                  <TableRow key={`${std.id}-detail`}>
                     <TableCell colSpan={6} className="p-0">
-                      <AccordionContent className="px-4 pb-4 pt-0">
+                      <div className="px-4 pb-4 pt-2">
                         <div className="rounded-lg bg-gray-50 p-4">
                           <div className="flex items-start gap-2 mb-2">
                             <Zap className="h-4 w-4 mt-0.5 text-[#2E75B6]" />
@@ -222,14 +235,14 @@ export default function StandardsPage() {
                             </span>
                           </div>
                         </div>
-                      </AccordionContent>
+                      </div>
                     </TableCell>
                   </TableRow>
-                </AccordionItem>
-              ))}
-            </TableBody>
-          </Table>
-        </Accordion>
+                )}
+              </>
+            ))}
+          </TableBody>
+        </Table>
       </Card>
     </>
   );

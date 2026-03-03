@@ -22,7 +22,7 @@ export function GatewayPipeline({ projectId }: GatewayPipelineProps) {
       (g) => g.id === project.currentGatewayId
     );
     if (currentIndex > 0) {
-      const nodeWidth = 92; // approximate width of node + connector
+      const nodeWidth = 104; // nodeBox (56px) + connector w-12 (48px)
       const scrollTarget = currentIndex * nodeWidth - 60;
       scrollRef.current.scrollTo({ left: scrollTarget, behavior: "smooth" });
     }

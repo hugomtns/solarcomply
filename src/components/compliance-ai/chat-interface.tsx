@@ -2,15 +2,19 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { AIMessage } from "@/lib/types";
-import { aiGreeting, findAIResponse, fallbackResponse } from "@/data/ai-responses";
+import { getAiGreeting, findAIResponse, getFallbackResponse } from "@/data/ai-responses";
 import { MessageBubble } from "@/components/compliance-ai/message-bubble";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send, Bot, Loader2 } from "lucide-react";
 
-export function ChatInterface() {
-  const [messages, setMessages] = useState<AIMessage[]>([aiGreeting]);
+interface ChatInterfaceProps {
+  projectId?: string;
+}
+
+export function ChatInterface({ projectId }: ChatInterfaceProps) {
+  const [messages, setMessages] = useState<AIMessage[]>([getAiGreeting(projectId)]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -41,9 +45,9 @@ export function ChatInterface() {
       setIsTyping(true);
 
       setTimeout(() => {
-        const aiResponse = findAIResponse(query);
+        const aiResponse = findAIResponse(query, projectId);
         const response = aiResponse || {
-          ...fallbackResponse,
+          ...getFallbackResponse(projectId),
           id: `ai-${Date.now()}`,
           timestamp: new Date().toISOString(),
         };
@@ -52,7 +56,7 @@ export function ChatInterface() {
         setIsTyping(false);
       }, 800);
     },
-    [inputValue, isTyping]
+    [inputValue, isTyping, projectId]
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

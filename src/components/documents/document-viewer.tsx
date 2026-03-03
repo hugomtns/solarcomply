@@ -26,11 +26,14 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { DOCUMENT_CATEGORY_LABELS, DOCUMENT_STATUS_LABELS } from "@/lib/constants";
 import { users } from "@/data/stakeholders";
 import { gateways } from "@/data/gateways";
+import { getApprovalsForDocument } from "@/data/document-approvals";
 import { VersionHistory } from "./version-history";
+import { DocumentApprovalPanel } from "./document-approval-panel";
 import type { Document } from "@/lib/types";
 
 interface DocumentViewerProps {
@@ -66,6 +69,12 @@ export function DocumentViewer({ document: doc, open, onOpenChange }: DocumentVi
   const uploader = users.find((u) => u.id === doc.uploadedBy);
   const gateway = gateways.find((g) => g.id === doc.gatewayId);
 
+  // Approval summary
+  const approvals = getApprovalsForDocument(doc.id);
+  const approvedCount = approvals.filter((a) => a.status === "approved").length;
+  const requiredCount = approvals.filter((a) => a.status !== "not_required").length;
+  const hasApprovals = approvals.length > 0;
+
   const metaRows: { label: string; value: string }[] = [
     { label: "File Name", value: doc.fileName },
     { label: "File Type", value: doc.fileType.toUpperCase() },
@@ -90,9 +99,18 @@ export function DocumentViewer({ document: doc, open, onOpenChange }: DocumentVi
           className="w-full sm:max-w-lg overflow-y-auto"
         >
           <SheetHeader>
-            <SheetTitle className="text-lg">{doc.name}</SheetTitle>
+            <SheetTitle className="text-lg">
+              {doc.name}
+            </SheetTitle>
             <SheetDescription>
-              <StatusBadge status={doc.status} />
+              <span className="flex items-center gap-2 flex-wrap">
+                <StatusBadge status={doc.status} />
+                {hasApprovals && (
+                  <span className="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 text-xs font-medium text-gray-700">
+                    {approvedCount}/{requiredCount} approved
+                  </span>
+                )}
+              </span>
             </SheetDescription>
           </SheetHeader>
 
@@ -133,27 +151,43 @@ export function DocumentViewer({ document: doc, open, onOpenChange }: DocumentVi
 
           <Separator className="mx-4" />
 
-          {/* Metadata Panel */}
-          <div className="px-4 space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Metadata</h3>
-            <dl className="space-y-1.5">
-              {metaRows.map((row) => (
-                <div key={row.label} className="flex gap-2 text-sm">
-                  <dt className="w-28 shrink-0 text-gray-500">{row.label}</dt>
-                  <dd className="text-gray-900 break-all">{row.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          <Separator className="mx-4" />
-
-          {/* Version History */}
+          {/* Tabbed Content */}
           <div className="px-4 pb-4">
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">
-              Version History
-            </h3>
-            <VersionHistory document={doc} />
+            <Tabs defaultValue="details">
+              <TabsList variant="line" className="w-full justify-start mb-4">
+                <TabsTrigger value="details">Details</TabsTrigger>
+                <TabsTrigger value="versions">Versions</TabsTrigger>
+                <TabsTrigger value="approvals">
+                  Approvals
+                  {hasApprovals && (
+                    <span className="ml-1.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-gray-100 px-1 text-[10px] font-medium text-gray-600">
+                      {approvedCount}/{requiredCount}
+                    </span>
+                  )}
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="details">
+                <div className="space-y-2">
+                  <dl className="space-y-1.5">
+                    {metaRows.map((row) => (
+                      <div key={row.label} className="flex gap-2 text-sm">
+                        <dt className="w-28 shrink-0 text-gray-500">{row.label}</dt>
+                        <dd className="text-gray-900 break-all">{row.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="versions">
+                <VersionHistory document={doc} />
+              </TabsContent>
+
+              <TabsContent value="approvals">
+                <DocumentApprovalPanel documentId={doc.id} />
+              </TabsContent>
+            </Tabs>
           </div>
         </SheetContent>
       </Sheet>

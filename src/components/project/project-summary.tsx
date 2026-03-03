@@ -1,8 +1,13 @@
+"use client";
+
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ComplianceScoreRing } from "@/components/shared/compliance-score-ring";
 import { projects } from "@/data/projects";
 import { organizations } from "@/data/stakeholders";
+import { ORG_TYPE_BADGE_COLORS } from "@/lib/stakeholder-utils";
 import {
   PROJECT_TYPE_LABELS,
   LIFECYCLE_STAGE_LABELS,
@@ -15,25 +20,22 @@ import {
   Globe,
   Layers,
   Users,
+  Settings,
+  Plus,
 } from "lucide-react";
+import { StakeholderDetailSheet } from "./stakeholder-detail-sheet";
+import { ManageStakeholdersDialog } from "./manage-stakeholders-dialog";
+import { InviteStakeholderDialog } from "./invite-stakeholder-dialog";
 
 interface ProjectSummaryProps {
   projectId: string;
 }
 
-const orgTypeBadgeColors: Record<string, string> = {
-  ipp: "bg-indigo-100 text-indigo-800 border-indigo-200",
-  epc: "bg-orange-100 text-orange-800 border-orange-200",
-  om: "bg-cyan-100 text-cyan-800 border-cyan-200",
-  lender: "bg-green-100 text-green-800 border-green-200",
-  technical_advisor: "bg-blue-100 text-blue-800 border-blue-200",
-  grid_operator: "bg-yellow-100 text-yellow-800 border-yellow-200",
-  oem: "bg-purple-100 text-purple-800 border-purple-200",
-  insurer: "bg-rose-100 text-rose-800 border-rose-200",
-  regulator: "bg-red-100 text-red-800 border-red-200",
-};
-
 export function ProjectSummary({ projectId }: ProjectSummaryProps) {
+  const [selectedOrgId, setSelectedOrgId] = useState<string | null>(null);
+  const [manageOpen, setManageOpen] = useState(false);
+  const [inviteOpen, setInviteOpen] = useState(false);
+
   const project = projects.find((p) => p.id === projectId);
   if (!project) return null;
 
@@ -118,15 +120,39 @@ export function ProjectSummary({ projectId }: ProjectSummaryProps) {
       {/* Stakeholders Card */}
       <Card>
         <CardHeader>
-          <div className="flex items-center gap-2">
-            <Users className="h-4 w-4 text-gray-400" />
-            <CardTitle className="text-sm">Stakeholders</CardTitle>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Users className="h-4 w-4 text-gray-400" />
+              <CardTitle className="text-sm">Stakeholders</CardTitle>
+            </div>
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon-xs"
+                onClick={() => setManageOpen(true)}
+                title="Manage stakeholders"
+              >
+                <Settings className="h-3.5 w-3.5" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon-xs"
+                onClick={() => setInviteOpen(true)}
+                title="Invite stakeholder"
+              >
+                <Plus className="h-3.5 w-3.5" />
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
           <ul className="space-y-2.5">
             {projectOrgs.map((org) => (
-              <li key={org.id} className="flex items-center justify-between gap-2">
+              <li
+                key={org.id}
+                className="flex items-center justify-between gap-2 cursor-pointer rounded-md px-1 py-0.5 -mx-1 hover:bg-gray-50 transition-colors"
+                onClick={() => setSelectedOrgId(org.id)}
+              >
                 <div className="flex items-center gap-2 min-w-0">
                   <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-gray-100 text-[10px] font-bold text-gray-600">
                     {org.logo || org.name.substring(0, 2).toUpperCase()}
@@ -138,7 +164,7 @@ export function ProjectSummary({ projectId }: ProjectSummaryProps) {
                 <Badge
                   variant="outline"
                   className={`flex-shrink-0 text-[10px] ${
-                    orgTypeBadgeColors[org.type] || "bg-gray-100 text-gray-600"
+                    ORG_TYPE_BADGE_COLORS[org.type] || "bg-gray-100 text-gray-600"
                   }`}
                 >
                   {ORG_TYPE_LABELS[org.type] || org.type}
@@ -148,6 +174,25 @@ export function ProjectSummary({ projectId }: ProjectSummaryProps) {
           </ul>
         </CardContent>
       </Card>
+
+      {/* Detail Sheet + Dialogs */}
+      <StakeholderDetailSheet
+        orgId={selectedOrgId}
+        projectId={projectId}
+        open={selectedOrgId !== null}
+        onOpenChange={(open) => {
+          if (!open) setSelectedOrgId(null);
+        }}
+      />
+      <ManageStakeholdersDialog
+        projectId={projectId}
+        open={manageOpen}
+        onOpenChange={setManageOpen}
+      />
+      <InviteStakeholderDialog
+        open={inviteOpen}
+        onOpenChange={setInviteOpen}
+      />
     </div>
   );
 }

@@ -32,16 +32,18 @@ interface DataRoomBuilderProps {
   documents: Document[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  projectName?: string;
 }
 
 export function DataRoomBuilder({
   documents,
   open,
   onOpenChange,
+  projectName,
 }: DataRoomBuilderProps) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [search, setSearch] = useState("");
-  const [roomName, setRoomName] = useState("Sonnenberg Solar Park - Data Room");
+  const [roomName, setRoomName] = useState(`${projectName ?? "Project"} - Data Room`);
   const [expiryDate, setExpiryDate] = useState("2026-04-30");
   const [accessLevel, setAccessLevel] = useState("view-only");
   const [watermark, setWatermark] = useState(true);

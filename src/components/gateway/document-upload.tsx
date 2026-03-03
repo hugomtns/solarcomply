@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { documents } from "@/data/documents";
+import { projects } from "@/data/projects";
 import { DOCUMENT_CATEGORY_LABELS } from "@/lib/constants";
 import type { Document } from "@/lib/types";
 
@@ -25,24 +26,29 @@ interface MockUpload {
   uploadedAt: string;
 }
 
-const mockFiles = [
-  {
-    name: "As-Built SLD Rev4",
-    fileName: "Sonnenberg_AsBuilt_SLD_Rev4.dwg",
-    fileType: "dwg",
-    formatFeedback: "DWG format detected -- editable as-built confirmed",
-    formatValid: true,
-  },
-  {
-    name: "As-Built Layout PDF Export",
-    fileName: "Sonnenberg_AsBuilt_Layout_Export.pdf",
-    fileType: "pdf",
-    formatFeedback: "PDF format detected -- editable DWG/DXF required per IEC 62446-1 \u00A76.2",
-    formatValid: false,
-  },
-];
+function getMockFiles(projectId: string) {
+  const project = projects.find((p) => p.id === projectId);
+  const slug = project?.name.split(/\s+/)[0] ?? "Project";
+  return [
+    {
+      name: "As-Built SLD Rev4",
+      fileName: `${slug}_AsBuilt_SLD_Rev4.dwg`,
+      fileType: "dwg",
+      formatFeedback: "DWG format detected -- editable as-built confirmed",
+      formatValid: true,
+    },
+    {
+      name: "As-Built Layout PDF Export",
+      fileName: `${slug}_AsBuilt_Layout_Export.pdf`,
+      fileType: "pdf",
+      formatFeedback: "PDF format detected -- editable DWG/DXF required per IEC 62446-1 \u00A76.2",
+      formatValid: false,
+    },
+  ];
+}
 
 export function DocumentUpload({ gatewayId, projectId }: DocumentUploadProps) {
+  const mockFiles = getMockFiles(projectId);
   const [uploads, setUploads] = useState<MockUpload[]>([]);
   const [mockIndex, setMockIndex] = useState(0);
 

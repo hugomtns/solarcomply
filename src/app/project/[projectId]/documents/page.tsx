@@ -17,6 +17,7 @@ import { DocumentTable } from "@/components/documents/document-table";
 import { DocumentViewer } from "@/components/documents/document-viewer";
 import { DataRoomBuilder } from "@/components/documents/data-room-builder";
 import { documents } from "@/data/documents";
+import { projects } from "@/data/projects";
 import { DOCUMENT_CATEGORY_LABELS, DOCUMENT_STATUS_LABELS } from "@/lib/constants";
 import type { Document, DocumentCategory } from "@/lib/types";
 
@@ -36,6 +37,7 @@ const FILE_TYPE_OPTIONS = [
 
 export default function DocumentsPage({ params }: DocumentsPageProps) {
   const { projectId } = use(params);
+  const project = projects.find((p) => p.id === projectId);
 
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
@@ -187,6 +189,7 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
         documents={projectDocs}
         open={dataRoomOpen}
         onOpenChange={setDataRoomOpen}
+        projectName={project?.name}
       />
     </>
   );
