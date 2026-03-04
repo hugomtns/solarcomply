@@ -193,6 +193,19 @@ export const FINDING_TYPE_ICONS: Record<string, string> = {
   coverage_gap: 'ShieldAlert',
 };
 
+export const AI_FINDING_SEVERITY_LABELS: Record<string, string> = {
+  critical: 'Critical',
+  warning: 'Warning',
+  info: 'Info',
+};
+
+export const AI_CHECK_STATUS_LABELS: Record<string, string> = {
+  pass: 'Pass',
+  fail: 'Fail',
+  warning: 'Warning',
+  not_applicable: 'N/A',
+};
+
 export const LIFECYCLE_STAGE_LABELS: Record<string, string> = {
   feasibility: 'Feasibility',
   development: 'Development',

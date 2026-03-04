@@ -1,17 +1,20 @@
 "use client";
 
-import { CheckCircle, XCircle, Clock, AlertTriangle, Minus, FileText, ShieldAlert } from "lucide-react";
+import { CheckCircle, XCircle, Clock, AlertTriangle, Minus, FileText, ShieldAlert, Sparkles } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import type { GatewayRequirement, CheckStatus } from "@/lib/types";
 import { documents } from "@/data/documents";
+import { usePoc } from "@/contexts/poc-context";
 import { useState } from "react";
 
 interface RequirementsChecklistProps {
   requirements: GatewayRequirement[];
+  projectId?: string;
   onRequestWaiver?: (requirement: GatewayRequirement) => void;
+  onViewAiAnalysis?: () => void;
 }
 
 const statusIcons: Record<CheckStatus, { icon: typeof CheckCircle; className: string }> = {
@@ -37,8 +40,9 @@ const checkTypeBadge: Record<string, { label: string; className: string }> = {
   ai_assisted: { label: "AI", className: "bg-purple-100 text-purple-700 border-purple-200" },
 };
 
-export function RequirementsChecklist({ requirements, onRequestWaiver }: RequirementsChecklistProps) {
+export function RequirementsChecklist({ requirements, projectId, onRequestWaiver, onViewAiAnalysis }: RequirementsChecklistProps) {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const poc = usePoc();
 
   const passCount = requirements.filter((r) => r.status === "pass").length;
   const failCount = requirements.filter((r) => r.status === "fail").length;
@@ -102,6 +106,11 @@ export function RequirementsChecklist({ requirements, onRequestWaiver }: Require
                 .map((id) => documents.find((d) => d.id === id))
                 .filter(Boolean);
 
+              // Check for AI result for this requirement
+              const aiResult = projectId
+                ? poc.getResultForRequirement(projectId, req.id)
+                : undefined;
+
               return (
                 <AccordionItem key={req.id} value={req.id}>
                   <AccordionTrigger className="px-4 hover:no-underline">
@@ -116,6 +125,10 @@ export function RequirementsChecklist({ requirements, onRequestWaiver }: Require
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
+                        {/* AI result mini badge */}
+                        {aiResult && (
+                          <AiResultBadge status={aiResult.status} findingCount={aiResult.findings.length} />
+                        )}
                         <Badge variant="outline" className={`text-xs ${checkCfg.className}`}>
                           {checkCfg.label}
                         </Badge>
@@ -192,6 +205,55 @@ export function RequirementsChecklist({ requirements, onRequestWaiver }: Require
                         )}
                       </div>
 
+                      {/* AI result inline */}
+                      {aiResult && (
+                        <div className="rounded-md border border-purple-200 bg-purple-50 p-2.5">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <Sparkles className="h-3.5 w-3.5 text-purple-600" />
+                              <span className="text-xs font-medium text-purple-900">
+                                AI Analysis: {aiResult.status.toUpperCase()}
+                              </span>
+                              <span className="text-xs text-purple-600">
+                                ({Math.round(aiResult.confidence * 100)}% confidence)
+                              </span>
+                            </div>
+                            {onViewAiAnalysis && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-6 gap-1 text-xs text-purple-700 hover:text-purple-900"
+                                onClick={onViewAiAnalysis}
+                              >
+                                View AI Analysis
+                              </Button>
+                            )}
+                          </div>
+                          <p className="mt-1 text-xs text-purple-800">{aiResult.summary}</p>
+                          {aiResult.findings.length > 0 && (
+                            <p className="mt-1 text-[11px] text-purple-600">
+                              {aiResult.findings.length} finding{aiResult.findings.length !== 1 ? "s" : ""}: {" "}
+                              {aiResult.findings.filter(f => f.severity === "critical").length} critical, {" "}
+                              {aiResult.findings.filter(f => f.severity === "warning").length} warning, {" "}
+                              {aiResult.findings.filter(f => f.severity === "info").length} info
+                            </p>
+                          )}
+                        </div>
+                      )}
+
+                      {/* AI check button for ai_assisted requirements without results */}
+                      {req.checkType === "ai_assisted" && !aiResult && projectId && onViewAiAnalysis && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="gap-1.5 text-xs text-purple-700 border-purple-200 hover:bg-purple-50"
+                          onClick={onViewAiAnalysis}
+                        >
+                          <Sparkles className="h-3 w-3" />
+                          AI Check
+                        </Button>
+                      )}
+
                       {/* Waiver button for failed/warning */}
                       {(req.status === "fail" || req.status === "warning") && onRequestWaiver && (
                         <Button
@@ -213,5 +275,20 @@ export function RequirementsChecklist({ requirements, onRequestWaiver }: Require
         </div>
       ))}
     </div>
+  );
+}
+
+function AiResultBadge({ status, findingCount }: { status: string; findingCount: number }) {
+  const config: Record<string, string> = {
+    pass: "bg-green-100 text-green-700 border-green-200",
+    warning: "bg-amber-100 text-amber-700 border-amber-200",
+    fail: "bg-red-100 text-red-700 border-red-200",
+  };
+  return (
+    <Badge variant="outline" className={`gap-1 text-[10px] ${config[status] ?? config.warning}`}>
+      <Sparkles className="h-2.5 w-2.5" />
+      {status.toUpperCase()}
+      {findingCount > 0 && ` (${findingCount})`}
+    </Badge>
   );
 }

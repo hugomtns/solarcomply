@@ -470,6 +470,135 @@ The EU Forced Labour Regulation prohibits products made with forced labour from 
     },
   },
 
+  // ── Sonnenberg G8-specific responses ──────────────────────────
+  {
+    keywords: ["annual compliance", "annual review", "g8"],
+    projectId: "proj-sonnenberg",
+    response: {
+      id: "ai-sonnenberg-g8",
+      role: "assistant",
+      content: `**G8 Annual Compliance Review — Sonnenberg Solar + Storage**
+
+The G8 Annual Compliance Review for Sonnenberg covers EU regulatory obligations across multiple frameworks. Here's the current status:
+
+**Overall: 6 of 14 requirements passed (43%)**
+
+Key compliance areas requiring attention:`,
+      gapItems: [
+        { standard: "EU 2022/2464 (CSRD)", requirement: "Sustainability reporting disclosure", status: "warning", action: "Report drafted but missing key ESRS disclosures — GHG targets, governance expertise, due diligence process" },
+        { standard: "ESRS E1", requirement: "Climate change disclosure", status: "warning", action: "Scope 1 & 2 reported but Scope 3 missing. No transition plan or locked-in emissions assessment" },
+        { standard: "ESRS E2", requirement: "Pollution disclosure", status: "pending", action: "Not yet prepared — PFAS assessment and substances of concern needed" },
+        { standard: "ESRS E4", requirement: "Biodiversity disclosure", status: "pending", action: "Ecological monitoring done but no quantified targets or land use metrics" },
+        { standard: "ESRS E5", requirement: "Circular economy disclosure", status: "pending", action: "Basic waste data available but no material inflows or end-of-life plans" },
+        { standard: "EU 2023/1542 Art. 77", requirement: "Battery passport data update", status: "warning", action: "15 of 22 fields populated — carbon footprint and recycled content declarations overdue" },
+        { standard: "EU 2020/852", requirement: "Taxonomy alignment (solar §4.1)", status: "warning", action: "Substantial contribution met, but DNSH assessment incomplete across multiple objectives" },
+        { standard: "EU Taxonomy CDA", requirement: "DNSH assessment", status: "fail", action: "Critical gaps: climate adaptation not covering full lifetime, no WEEE plan, no PFAS assessment, biodiversity monitoring incomplete" },
+        { standard: "EU 2024/1735 Art. 11", requirement: "Nature restoration compliance", status: "pending", action: "No ecosystem restoration contribution assessment" },
+        { standard: "EU 2024/573", requirement: "F-Gas regulation", status: "pass", action: "SF6 and HFC records maintained, leak checks completed" },
+      ],
+      timestamp: new Date().toISOString(),
+    },
+  },
+  {
+    keywords: ["csrd", "sustainability reporting", "corporate sustainability"],
+    projectId: "proj-sonnenberg",
+    response: {
+      id: "ai-sonnenberg-csrd",
+      role: "assistant",
+      content: `**CSRD Compliance Assessment — Sonnenberg Solar + Storage**
+
+The Corporate Sustainability Reporting Directive (EU 2022/2464) requires comprehensive sustainability disclosures under ESRS standards. Here's the Sonnenberg status:
+
+**CSRD Art. 19a Disclosure Requirements:**`,
+      gapItems: [
+        { standard: "CSRD Art. 19a(2)(a)", requirement: "Business model & strategy resilience", status: "pass", action: "Basic disclosure provided in annual report" },
+        { standard: "CSRD Art. 19a(2)(b)", requirement: "Time-bound sustainability targets", status: "fail", action: "No specific GHG reduction targets with base year/target year. No SBTi alignment." },
+        { standard: "CSRD Art. 19a(2)(c)", requirement: "Governance body expertise", status: "fail", action: "No description of board/management expertise on sustainability matters" },
+        { standard: "CSRD Art. 19a(2)(d)", requirement: "Sustainability policies", status: "warning", action: "Partial — supply chain policy exists but broader sustainability policy framework incomplete" },
+        { standard: "CSRD Art. 19a(2)(f)", requirement: "Due diligence process", status: "fail", action: "No systematic due diligence process described for adverse impacts. BYD audit still pending." },
+        { standard: "CSRD Art. 19a(2)(g)", requirement: "Principal risks description", status: "warning", action: "Climate risks partially addressed but no comprehensive risk taxonomy" },
+      ],
+      timestamp: new Date().toISOString(),
+    },
+  },
+  {
+    keywords: ["esrs", "european sustainability", "reporting standard"],
+    projectId: "proj-sonnenberg",
+    response: {
+      id: "ai-sonnenberg-esrs",
+      role: "assistant",
+      content: `**ESRS Environmental Standards — Sonnenberg Compliance Overview**
+
+The European Sustainability Reporting Standards (EU 2023/2772) require detailed environmental disclosures across five pillars:
+
+| Standard | Status | Key Gap |
+|----------|--------|---------|
+| E1 Climate Change | ⚠️ Warning | Scope 3 not reported, no transition plan |
+| E2 Pollution | ⏳ Pending | PFAS and substances of concern not assessed |
+| E4 Biodiversity | ⏳ Pending | No quantified targets, missing land use metrics |
+| E5 Circular Economy | ⏳ Pending | No material inflows, no end-of-life plans |
+
+**Priority actions:**
+1. Complete Scope 3 GHG inventory (embodied carbon in modules, BESS, steel)
+2. Develop PFAS assessment for PV module backsheets
+3. Set quantified biodiversity targets with baseline assessment
+4. Create PV module and BESS end-of-life management plans`,
+      timestamp: new Date().toISOString(),
+    },
+  },
+  {
+    keywords: ["taxonomy", "dnsh", "do no significant harm", "eu taxonomy"],
+    projectId: "proj-sonnenberg",
+    response: {
+      id: "ai-sonnenberg-taxonomy",
+      role: "assistant",
+      content: `**EU Taxonomy Alignment — Sonnenberg Solar + Storage**
+
+**Activities:** Solar PV (§4.1) + Battery Storage (§4.10)
+
+**Substantial Contribution:** ✅ Met — lifecycle GHG < 100g CO2e/kWh
+
+**DNSH Assessment Status:**`,
+      gapItems: [
+        { standard: "Taxonomy CDA Appendix A", requirement: "Climate adaptation — full lifetime risk assessment", status: "fail", action: "Current assessment only covers development phase. Must extend to full 25-30 year expected lifetime with RCP 8.5 scenario." },
+        { standard: "Taxonomy CDA §4.1 DNSH(3)", requirement: "Water management plan", status: "pass", action: "Panel cleaning uses demineralized water, no chemical additives" },
+        { standard: "Taxonomy CDA §4.1 DNSH(4)", requirement: "Circular economy — WEEE registration", status: "fail", action: "PV module WEEE registration pending. No waste management plan for end-of-life recycling." },
+        { standard: "Taxonomy CDA §4.10 DNSH(4)", requirement: "Battery second-life assessment", status: "fail", action: "No assessment of second-life applications before recycling as required" },
+        { standard: "Taxonomy CDA §4.1 DNSH(5)", requirement: "SVHC/PFAS assessment", status: "warning", action: "No PFAS content assessment for PV module components" },
+        { standard: "Taxonomy CDA §4.1 DNSH(6)", requirement: "Biodiversity — ongoing monitoring", status: "warning", action: "EIA completed but ongoing monitoring not documented against EIA commitments" },
+      ],
+      timestamp: new Date().toISOString(),
+    },
+  },
+
+  // ── Sunridge G8-specific responses ──────────────────────────
+  {
+    keywords: ["feoc annual", "annual feoc", "feoc re-certification", "g8"],
+    projectId: "proj-sunridge",
+    response: {
+      id: "ai-sunridge-g8",
+      role: "assistant",
+      content: `**G8 Annual Compliance Review — Sunridge Solar + Storage**
+
+The G8 Annual Compliance Review for Sunridge covers US federal regulatory obligations. Here's the current status:
+
+**Overall: 5 of 11 requirements passed (45%)**
+
+Key compliance areas:`,
+      gapItems: [
+        { standard: "OBBBA FEOC", requirement: "Annual FEOC re-certification", status: "warning", action: "All 4 categories currently passing but critical minerals ratio (54.9%) is close to 50% threshold" },
+        { standard: "UFLPA", requirement: "Supply chain traceability", status: "warning", action: "Self-declarations on file but no third-party verification. Graphite processing chain incomplete." },
+        { standard: "ERCOT Protocols", requirement: "Grid compliance (12-month)", status: "pass", action: "Zero protocol violations" },
+        { standard: "NFPA 855", requirement: "Annual fire safety inspection", status: "pass", action: "Inspection completed August 2028" },
+        { standard: "UL 9540", requirement: "System recertification", status: "warning", action: "Recertification due — in progress" },
+        { standard: "ANSI/SEIA 101", requirement: "Traceability update", status: "pending", action: "Annual update not yet prepared" },
+        { standard: "EU 2020/852", requirement: "EU Taxonomy alignment", status: "not_applicable", action: "Not applicable — US project" },
+        { standard: "EU 2022/2464", requirement: "CSRD reporting", status: "not_applicable", action: "Not applicable — US project" },
+      ],
+      timestamp: new Date().toISOString(),
+    },
+  },
+
   // ── Global supply chain responses ─────────────────────────────
   {
     keywords: ["battery passport", "digital product passport", "dpp", "catena-x"],

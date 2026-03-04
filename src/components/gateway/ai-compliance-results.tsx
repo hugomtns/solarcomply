@@ -1,0 +1,207 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { AiFindingCard } from "./ai-finding-card";
+import { usePoc } from "@/contexts/poc-context";
+import { Sparkles, RefreshCw, Loader2, Clock } from "lucide-react";
+import type { ComplianceCheckResponse } from "@/lib/types";
+
+interface AiComplianceResultsProps {
+  projectId: string;
+  gatewayCode: string;
+  jurisdictions: string[];
+}
+
+export function AiComplianceResults({ projectId, gatewayCode, jurisdictions }: AiComplianceResultsProps) {
+  const poc = usePoc();
+  const result = poc.complianceResults[projectId];
+
+  const handleRunCheck = () => {
+    poc.runAllAiChecks(projectId, gatewayCode, jurisdictions);
+  };
+
+  if (poc.isChecking) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16">
+        <Loader2 className="h-8 w-8 animate-spin text-purple-600" />
+        <p className="mt-3 text-sm font-medium text-gray-700">Running AI Compliance Check...</p>
+        <p className="mt-1 text-xs text-gray-500">Analyzing report against {jurisdictions.includes("EU") || jurisdictions.includes("DE") ? "EU" : "US"} regulations</p>
+      </div>
+    );
+  }
+
+  if (!result) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16">
+        <div className="rounded-full bg-purple-100 p-4">
+          <Sparkles className="h-8 w-8 text-purple-600" />
+        </div>
+        <h3 className="mt-4 text-sm font-semibold text-gray-900">AI Compliance Analysis</h3>
+        <p className="mt-1 max-w-sm text-center text-xs text-gray-500">
+          Run an AI-powered compliance check against applicable regulations.
+          The AI will analyze the synthetic annual report and identify compliance gaps.
+        </p>
+        <Button
+          onClick={handleRunCheck}
+          className="mt-4 gap-2 bg-purple-600 hover:bg-purple-700"
+          size="sm"
+        >
+          <Sparkles className="h-4 w-4" />
+          Run AI Compliance Check
+        </Button>
+        {poc.checkError && (
+          <div className="mt-3 max-w-sm rounded-md bg-red-50 px-4 py-2 text-xs text-red-700">
+            {poc.checkError}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return <ResultsDisplay result={result} onRerun={handleRunCheck} />;
+}
+
+function ResultsDisplay({
+  result,
+  onRerun,
+}: {
+  result: ComplianceCheckResponse;
+  onRerun: () => void;
+}) {
+  const allFindings = result.results.flatMap((r) => r.findings);
+  const criticalCount = allFindings.filter((f) => f.severity === "critical").length;
+  const warningCount = allFindings.filter((f) => f.severity === "warning").length;
+  const infoCount = allFindings.filter((f) => f.severity === "info").length;
+
+  const failCount = result.results.filter((r) => r.status === "fail").length;
+  const passCount = result.results.filter((r) => r.status === "pass").length;
+  const warnCount = result.results.filter((r) => r.status === "warning").length;
+
+  const overallStatus = failCount > 0 ? "fail" : warnCount > 0 ? "warning" : "pass";
+  const avgConfidence = result.results.length > 0
+    ? result.results.reduce((sum, r) => sum + r.confidence, 0) / result.results.length
+    : 0;
+
+  return (
+    <div className="space-y-4">
+      {/* Summary header */}
+      <div className="flex items-start justify-between rounded-lg border bg-gray-50 p-4">
+        <div className="space-y-2">
+          <div className="flex items-center gap-3">
+            <OverallStatusBadge status={overallStatus} />
+            <span className="text-sm font-semibold text-gray-900">
+              AI Compliance Analysis Results
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-3 text-xs">
+            <span className="flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-full bg-red-500" />
+              {criticalCount} critical
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-full bg-amber-500" />
+              {warningCount} warning
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-full bg-blue-500" />
+              {infoCount} info
+            </span>
+            <span className="text-gray-300">|</span>
+            <span className="text-gray-500">
+              {passCount} pass / {warnCount} warn / {failCount} fail
+            </span>
+          </div>
+          <div className="flex items-center gap-3 text-[11px] text-gray-500">
+            <span>Confidence: {Math.round(avgConfidence * 100)}%</span>
+            <span className="flex items-center gap-1">
+              <Clock className="h-3 w-3" />
+              {new Date(result.metadata.timestamp).toLocaleString()}
+            </span>
+            <span>
+              {result.metadata.durationMs.toLocaleString()}ms
+            </span>
+            {result.metadata.totalTokens && (
+              <span>{result.metadata.totalTokens.toLocaleString()} tokens</span>
+            )}
+          </div>
+        </div>
+        <Button variant="outline" size="sm" className="gap-1.5 text-xs" onClick={onRerun}>
+          <RefreshCw className="h-3 w-3" />
+          Re-run
+        </Button>
+      </div>
+
+      {/* Results by requirement */}
+      <ScrollArea className="max-h-[600px]">
+        <div className="space-y-4">
+          {result.results.map((checkResult) => (
+            <div key={checkResult.requirementId} className="rounded-lg border">
+              {/* Check header */}
+              <div className="flex items-center justify-between border-b bg-gray-50 px-4 py-2">
+                <div className="flex items-center gap-2">
+                  <CheckStatusBadge status={checkResult.status} />
+                  <span className="text-sm font-medium text-gray-900">
+                    {checkResult.requirementId}
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    {Math.round(checkResult.confidence * 100)}% confidence
+                  </span>
+                </div>
+                <span className="text-xs text-gray-500">
+                  {checkResult.findings.length} finding{checkResult.findings.length !== 1 ? "s" : ""}
+                </span>
+              </div>
+
+              {/* Summary */}
+              <div className="px-4 py-2 text-xs text-gray-700">
+                {checkResult.summary}
+              </div>
+
+              {/* Findings */}
+              {checkResult.findings.length > 0 && (
+                <div className="space-y-2 px-4 pb-3">
+                  {checkResult.findings.map((finding) => (
+                    <AiFindingCard key={finding.id} finding={finding} />
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </ScrollArea>
+
+      {/* Model info */}
+      <div className="flex flex-wrap items-center gap-2 text-[11px] text-gray-400">
+        <span>Model: {result.metadata.model}</span>
+        <span>|</span>
+        <span>Regulations: {result.metadata.regulationsLoaded.length}</span>
+      </div>
+    </div>
+  );
+}
+
+function OverallStatusBadge({ status }: { status: string }) {
+  const config: Record<string, { label: string; className: string }> = {
+    pass: { label: "Compliant", className: "bg-green-100 text-green-800 border-green-200" },
+    warning: { label: "Issues Found", className: "bg-amber-100 text-amber-800 border-amber-200" },
+    fail: { label: "Non-Compliant", className: "bg-red-100 text-red-800 border-red-200" },
+  };
+  const cfg = config[status] ?? config.warning;
+  return <Badge variant="outline" className={cfg.className}>{cfg.label}</Badge>;
+}
+
+function CheckStatusBadge({ status }: { status: string }) {
+  const config: Record<string, string> = {
+    pass: "bg-green-100 text-green-700 border-green-200",
+    warning: "bg-amber-100 text-amber-700 border-amber-200",
+    fail: "bg-red-100 text-red-700 border-red-200",
+    not_applicable: "bg-gray-100 text-gray-500 border-gray-200",
+  };
+  return (
+    <Badge variant="outline" className={`text-[10px] ${config[status] ?? config.warning}`}>
+      {status.toUpperCase().replace("_", " ")}
+    </Badge>
+  );
+}

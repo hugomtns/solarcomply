@@ -4,7 +4,9 @@ import "./globals.css";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Topbar } from "@/components/layout/topbar";
 import { AppProvider } from "@/contexts/app-context";
+import { PocProvider } from "@/contexts/poc-context";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { PocDevPanel } from "@/components/dev-tools/poc-dev-panel";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,15 +32,18 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AppProvider>
-          <TooltipProvider>
-            <div className="flex min-h-screen">
-              <Sidebar />
-              <div className="flex-1 pl-64">
-                <Topbar />
-                <main className="mx-auto max-w-[1440px] p-6">{children}</main>
+          <PocProvider>
+            <TooltipProvider>
+              <div className="flex min-h-screen">
+                <Sidebar />
+                <div className="flex-1 pl-64">
+                  <Topbar />
+                  <main className="mx-auto max-w-[1440px] p-6">{children}</main>
+                </div>
               </div>
-            </div>
-          </TooltipProvider>
+              <PocDevPanel />
+            </TooltipProvider>
+          </PocProvider>
         </AppProvider>
       </body>
     </html>

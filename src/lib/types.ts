@@ -320,6 +320,58 @@ export interface GatewayCoverageItem {
 
 // ─── Supply Chain & Regulatory ──────────────────────────────────
 
+// ─── AI Compliance Checking ─────────────────────────────────────
+
+export type AiCheckStatus = 'pass' | 'fail' | 'warning' | 'not_applicable';
+export type AiFindingSeverity = 'critical' | 'warning' | 'info';
+
+export interface RegulationCitation {
+  regulationName: string;
+  article: string;
+  excerpt?: string;
+}
+
+export interface ComplianceFinding {
+  id: string;
+  severity: AiFindingSeverity;
+  title: string;
+  description: string;
+  documentSection?: string;
+  citations: RegulationCitation[];
+  recommendation: string;
+}
+
+export interface ComplianceCheckResult {
+  requirementId: string;
+  status: AiCheckStatus;
+  confidence: number;
+  findings: ComplianceFinding[];
+  summary: string;
+}
+
+export interface ComplianceCheckRequest {
+  projectId: string;
+  gatewayCode: string;
+  requirementIds?: string[];
+  jurisdictions: string[];
+}
+
+export interface ComplianceCheckResponse {
+  requestId: string;
+  projectId: string;
+  gatewayCode: string;
+  results: ComplianceCheckResult[];
+  metadata: {
+    model: string;
+    regulationsLoaded: string[];
+    totalTokens?: number;
+    durationMs: number;
+    timestamp: string;
+  };
+}
+
+// ─── Supply Chain & Regulatory ──────────────────────────────────
+
 export type FEOCCategory = 'solar_modules' | 'inverters' | 'energy_storage' | 'critical_minerals' | 'other';
 export type CoveredNation = 'CN' | 'RU' | 'KP' | 'IR';
 

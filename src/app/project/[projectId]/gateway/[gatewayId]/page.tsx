@@ -1,18 +1,20 @@
 "use client";
 
 import { use, useState } from "react";
-import { PageHeader } from "@/components/layout/page-header";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { ComplianceScoreRing } from "@/components/shared/compliance-score-ring";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import { RequirementsChecklist } from "@/components/gateway/requirements-checklist";
 import { ApprovalPanel } from "@/components/gateway/approval-panel";
 import { DocumentUpload } from "@/components/gateway/document-upload";
-import { ComplianceScore } from "@/components/gateway/compliance-score";
-import { WaiverDialog } from "@/components/gateway/waiver-dialog";
+import { AiComplianceResults } from "@/components/gateway/ai-compliance-results";
 import { gateways } from "@/data/gateways";
-import { ClipboardCheck, Users, FolderOpen } from "lucide-react";
+import { projects } from "@/data/projects";
+import { usePoc } from "@/contexts/poc-context";
+import { ClipboardCheck, Users, FolderOpen, Sparkles } from "lucide-react";
 import type { GatewayRequirement } from "@/lib/types";
+import { WaiverDialog } from "@/components/gateway/waiver-dialog";
 
 interface GatewayPageProps {
   params: Promise<{ projectId: string; gatewayId: string }>;
@@ -23,8 +25,11 @@ export default function GatewayPage({ params }: GatewayPageProps) {
   const gateway = gateways.find(
     (g) => g.id === gatewayId && g.projectId === projectId
   );
+  const project = projects.find((p) => p.id === projectId);
 
   const [waiverReq, setWaiverReq] = useState<GatewayRequirement | null>(null);
+  const [activeTab, setActiveTab] = useState("requirements");
+  const poc = usePoc();
 
   if (!gateway) {
     return (
@@ -39,6 +44,9 @@ export default function GatewayPage({ params }: GatewayPageProps) {
       </div>
     );
   }
+
+  const isG8 = gateway.code === "G8";
+  const hasAiResults = !!poc.complianceResults[projectId];
 
   return (
     <>
@@ -85,10 +93,28 @@ export default function GatewayPage({ params }: GatewayPageProps) {
             </div>
           </div>
         </div>
+
+        {/* AI Check button in header (G8 only) */}
+        {isG8 && project && (
+          <Button
+            onClick={() => {
+              setActiveTab("ai-analysis");
+              if (!hasAiResults) {
+                poc.runAllAiChecks(projectId, "G8", project.jurisdictions);
+              }
+            }}
+            className="gap-2 bg-purple-600 hover:bg-purple-700"
+            size="sm"
+            disabled={poc.isChecking}
+          >
+            <Sparkles className="h-4 w-4" />
+            {poc.isChecking ? "Running..." : hasAiResults ? "View AI Analysis" : "Run AI Check"}
+          </Button>
+        )}
       </div>
 
       {/* Tabs */}
-      <Tabs defaultValue="requirements">
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList>
           <TabsTrigger value="requirements" className="gap-1.5">
             <ClipboardCheck className="h-4 w-4" />
@@ -102,12 +128,23 @@ export default function GatewayPage({ params }: GatewayPageProps) {
             <FolderOpen className="h-4 w-4" />
             Documents
           </TabsTrigger>
+          {isG8 && (
+            <TabsTrigger value="ai-analysis" className="gap-1.5">
+              <Sparkles className="h-4 w-4" />
+              AI Analysis
+              {hasAiResults && (
+                <span className="ml-1 h-2 w-2 rounded-full bg-purple-500" />
+              )}
+            </TabsTrigger>
+          )}
         </TabsList>
 
         <TabsContent value="requirements" className="mt-4">
           <RequirementsChecklist
             requirements={gateway.requirements}
+            projectId={projectId}
             onRequestWaiver={(req) => setWaiverReq(req)}
+            onViewAiAnalysis={() => setActiveTab("ai-analysis")}
           />
         </TabsContent>
 
@@ -118,6 +155,16 @@ export default function GatewayPage({ params }: GatewayPageProps) {
         <TabsContent value="documents" className="mt-4">
           <DocumentUpload gatewayId={gatewayId} projectId={projectId} />
         </TabsContent>
+
+        {isG8 && project && (
+          <TabsContent value="ai-analysis" className="mt-4">
+            <AiComplianceResults
+              projectId={projectId}
+              gatewayCode="G8"
+              jurisdictions={project.jurisdictions}
+            />
+          </TabsContent>
+        )}
       </Tabs>
 
       {/* Waiver dialog */}
