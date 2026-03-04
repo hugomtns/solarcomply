@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Upload, FileText, CheckCircle, AlertTriangle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/shared/status-badge";
+import { DocumentViewer } from "@/components/documents/document-viewer";
 import { documents } from "@/data/documents";
 import { projects } from "@/data/projects";
 import { DOCUMENT_CATEGORY_LABELS } from "@/lib/constants";
@@ -51,6 +53,7 @@ export function DocumentUpload({ gatewayId, projectId }: DocumentUploadProps) {
   const mockFiles = getMockFiles(projectId);
   const [uploads, setUploads] = useState<MockUpload[]>([]);
   const [mockIndex, setMockIndex] = useState(0);
+  const [viewerDoc, setViewerDoc] = useState<Document | null>(null);
 
   const gatewayDocs = documents.filter(
     (d) => d.gatewayId === gatewayId && d.projectId === projectId
@@ -141,49 +144,74 @@ export function DocumentUpload({ gatewayId, projectId }: DocumentUploadProps) {
           </p>
         ) : (
           <div className="rounded-lg border divide-y">
-            {gatewayDocs.map((doc) => (
-              <div
-                key={doc.id}
-                className="flex items-center justify-between px-4 py-3"
-              >
-                <div className="flex items-center gap-3 min-w-0">
-                  <FileText className="h-4 w-4 shrink-0 text-gray-400" />
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      {doc.name}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {DOCUMENT_CATEGORY_LABELS[doc.category] ?? doc.category}
-                      {" \u00B7 "}v{doc.version}
-                      {" \u00B7 "}{doc.fileSizeMB} MB
-                      {" \u00B7 "}
-                      {new Date(doc.uploadedAt).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </p>
+            {gatewayDocs.map((doc) => {
+              const isSynthetic = doc.id.startsWith("doc-g8-annual-");
+              const rowContent = (
+                <>
+                  <div className="flex items-center gap-3 min-w-0">
+                    <FileText className="h-4 w-4 shrink-0 text-gray-400" />
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        {doc.name}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {DOCUMENT_CATEGORY_LABELS[doc.category] ?? doc.category}
+                        {" \u00B7 "}v{doc.version}
+                        {" \u00B7 "}{doc.fileSizeMB} MB
+                        {" \u00B7 "}
+                        {new Date(doc.uploadedAt).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <Badge variant="outline" className="text-xs">
-                    {doc.fileType.toUpperCase()}
-                  </Badge>
-                  <StatusBadge status={doc.status} />
-                  {!doc.formatValid && (
-                    <Badge
-                      variant="outline"
-                      className="text-xs bg-red-50 text-red-700 border-red-200"
-                    >
-                      Format Invalid
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Badge variant="outline" className="text-xs">
+                      {doc.fileType.toUpperCase()}
                     </Badge>
-                  )}
-                </div>
-              </div>
-            ))}
+                    <StatusBadge status={doc.status} />
+                    {!doc.formatValid && (
+                      <Badge
+                        variant="outline"
+                        className="text-xs bg-red-50 text-red-700 border-red-200"
+                      >
+                        Format Invalid
+                      </Badge>
+                    )}
+                  </div>
+                </>
+              );
+
+              return isSynthetic ? (
+                <Link
+                  key={doc.id}
+                  href={`/project/${projectId}/documents/${doc.id}`}
+                  className="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-gray-50"
+                >
+                  {rowContent}
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  key={doc.id}
+                  onClick={() => setViewerDoc(doc)}
+                  className="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-gray-50"
+                >
+                  {rowContent}
+                </button>
+              );
+            })}
           </div>
         )}
       </div>
+
+      <DocumentViewer
+        document={viewerDoc}
+        open={!!viewerDoc}
+        onOpenChange={(open) => { if (!open) setViewerDoc(null); }}
+      />
     </div>
   );
 }

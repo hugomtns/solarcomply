@@ -46,6 +46,19 @@ export async function POST(request: NextRequest) {
     const regulationContext = buildRegulationContext(regulationTexts, regulations);
     const userPrompt = buildUserPrompt(reportMarkdown, body);
 
+    console.log("[compliance-check] Request:", {
+      projectId,
+      gatewayCode,
+      jurisdictions,
+      regulationsLoaded: regulations.map((r) => r.name),
+      promptLengths: {
+        system: systemPrompt.length,
+        regulations: regulationContext.length,
+        user: userPrompt.length,
+        totalChars: systemPrompt.length + regulationContext.length + userPrompt.length,
+      },
+    });
+
     // 5. Call Gemini API
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
@@ -72,7 +85,7 @@ export async function POST(request: NextRequest) {
         generationConfig: {
           temperature: 0.2,
           topP: 0.8,
-          maxOutputTokens: 8192,
+          maxOutputTokens: 32768,
           responseMimeType: "application/json",
         },
       }),
@@ -92,9 +105,25 @@ export async function POST(request: NextRequest) {
 
     // 6. Parse response
     const rawText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
+    const finishReason = geminiData.candidates?.[0]?.finishReason;
+    const totalTokens = geminiData.usageMetadata?.totalTokenCount;
+    const inputTokens = geminiData.usageMetadata?.promptTokenCount;
+    const outputTokens = geminiData.usageMetadata?.candidatesTokenCount;
+
+    console.log("[compliance-check] Gemini response metadata:", {
+      durationMs,
+      finishReason,
+      inputTokens,
+      outputTokens,
+      totalTokens,
+      rawTextLength: rawText?.length ?? 0,
+      rawTextPreview: rawText?.slice(0, 200),
+    });
+
     if (!rawText) {
+      console.error("[compliance-check] Empty response. Full geminiData:", JSON.stringify(geminiData, null, 2));
       return NextResponse.json(
-        { error: "Empty response from Gemini" },
+        { error: "Empty response from Gemini", finishReason },
         { status: 502 }
       );
     }
@@ -103,21 +132,28 @@ export async function POST(request: NextRequest) {
     try {
       const parsed = JSON.parse(rawText);
       parsedResults = Array.isArray(parsed) ? parsed : parsed.results ?? [];
-    } catch {
-      // Try to extract JSON from the response
-      const jsonMatch = rawText.match(/\[[\s\S]*\]/);
-      if (jsonMatch) {
-        parsedResults = JSON.parse(jsonMatch[0]);
+    } catch (firstError) {
+      console.warn("[compliance-check] Direct JSON.parse failed:", (firstError as Error).message);
+      console.warn("[compliance-check] finishReason:", finishReason, "— attempting truncated JSON recovery");
+
+      // The response was likely truncated (hit token limit).
+      // Find the last complete top-level object in the array and close it.
+      const recovered = recoverTruncatedJsonArray(rawText);
+      if (recovered) {
+        parsedResults = recovered;
+        console.log("[compliance-check] Recovered", parsedResults.length, "results from truncated response");
       } else {
+        console.error("[compliance-check] Recovery failed. Raw text (first 2000 chars):", rawText.slice(0, 2000));
         return NextResponse.json(
-          { error: "Could not parse Gemini response as JSON", raw: rawText },
+          { error: "Could not parse Gemini response as JSON (truncated)", raw: rawText.slice(0, 3000) },
           { status: 502 }
         );
       }
     }
 
+    console.log("[compliance-check] Parsed", parsedResults.length, "results");
+
     // 7. Build response
-    const totalTokens = geminiData.usageMetadata?.totalTokenCount;
 
     const response: ComplianceCheckResponse = {
       requestId: `chk-${Date.now()}`,
@@ -250,5 +286,51 @@ Identify all gaps, missing disclosures, incomplete information, and non-complian
 Generate one ComplianceCheckResult per major compliance area (CSRD, ESRS E1, ESRS E2, ESRS E4, ESRS E5, Battery Passport, Taxonomy, Nature Restoration, F-Gas).
 Use requirement IDs that match the gateway requirements where possible (e.g., "g8-son-r2" for CSRD, "g8-son-r3" for ESRS E1, etc.).
 
-Respond with ONLY the JSON array — no markdown, no explanation, no code blocks.`;
+Respond with ONLY the JSON array — no markdown, no explanation, no code blocks.
+Keep each result concise — limit findings to the top 3 most important per area. Keep descriptions under 2 sentences and recommendations under 1 sentence.`;
+}
+
+/**
+ * Recover a truncated JSON array by finding the last complete top-level object.
+ * Works by trying to parse progressively shorter substrings ending at each `}`.
+ */
+function recoverTruncatedJsonArray(raw: string): ComplianceCheckResult[] | null {
+  // Find the opening bracket
+  const startIdx = raw.indexOf("[");
+  if (startIdx === -1) return null;
+
+  // Find all positions where a top-level object might end ("},")
+  // by looking for the pattern `}\s*,` or `}\s*]`
+  const closingPositions: number[] = [];
+  let depth = 0;
+  let inString = false;
+  let escape = false;
+
+  for (let i = startIdx + 1; i < raw.length; i++) {
+    const ch = raw[i];
+    if (escape) { escape = false; continue; }
+    if (ch === "\\") { escape = true; continue; }
+    if (ch === '"') { inString = !inString; continue; }
+    if (inString) continue;
+    if (ch === "{" || ch === "[") depth++;
+    if (ch === "}" || ch === "]") {
+      depth--;
+      // depth 0 means we closed a top-level object inside the root array
+      if (depth === 0 && ch === "}") {
+        closingPositions.push(i);
+      }
+    }
+  }
+
+  // Try from the last complete object backwards
+  for (let i = closingPositions.length - 1; i >= 0; i--) {
+    const candidate = raw.slice(startIdx, closingPositions[i] + 1) + "]";
+    try {
+      const parsed = JSON.parse(candidate);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    } catch {
+      // try shorter
+    }
+  }
+  return null;
 }

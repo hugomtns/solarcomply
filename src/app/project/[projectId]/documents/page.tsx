@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { use } from "react";
+import { useRouter } from "next/navigation";
 import { Upload, FolderOpen, Search } from "lucide-react";
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
@@ -74,10 +75,16 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
     });
   }, [projectDocs, search, categoryFilter, statusFilter, fileTypeFilter]);
 
-  function handleSelect(doc: Document) {
+  const router = useRouter();
+
+  const handleSelect = useCallback((doc: Document) => {
+    if (doc.id.startsWith("doc-g8-annual-")) {
+      router.push(`/project/${projectId}/documents/${doc.id}`);
+      return;
+    }
     setSelectedDoc(doc);
     setViewerOpen(true);
-  }
+  }, [projectId, router]);
 
   return (
     <>

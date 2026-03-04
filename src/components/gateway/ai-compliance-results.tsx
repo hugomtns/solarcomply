@@ -5,7 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AiFindingCard } from "./ai-finding-card";
 import { usePoc } from "@/contexts/poc-context";
-import { Sparkles, RefreshCw, Loader2, Clock } from "lucide-react";
+import { Sparkles, RefreshCw, Loader2, Clock, Download } from "lucide-react";
+import { exportCompliancePdf } from "@/lib/export-compliance-pdf";
+import { projects } from "@/data/projects";
 import type { ComplianceCheckResponse } from "@/lib/types";
 
 interface AiComplianceResultsProps {
@@ -127,10 +129,24 @@ function ResultsDisplay({
             )}
           </div>
         </div>
-        <Button variant="outline" size="sm" className="gap-1.5 text-xs" onClick={onRerun}>
-          <RefreshCw className="h-3 w-3" />
-          Re-run
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-1.5 text-xs"
+            onClick={() => {
+              const project = projects.find((p) => p.id === result.projectId);
+              exportCompliancePdf(result, project?.name ?? result.projectId);
+            }}
+          >
+            <Download className="h-3 w-3" />
+            Download PDF
+          </Button>
+          <Button variant="outline" size="sm" className="gap-1.5 text-xs" onClick={onRerun}>
+            <RefreshCw className="h-3 w-3" />
+            Re-run
+          </Button>
+        </div>
       </div>
 
       {/* Results by requirement */}

@@ -27,11 +27,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { StatusBadge } from "@/components/shared/status-badge";
-import { SimpleMarkdown } from "@/components/shared/simple-markdown";
 import { DOCUMENT_CATEGORY_LABELS, DOCUMENT_STATUS_LABELS } from "@/lib/constants";
-import { generateG8AnnualReport, renderG8AnnualReportMarkdown } from "@/data/synthetic-docs/g8-annual-report";
 import { users } from "@/data/stakeholders";
 import { gateways } from "@/data/gateways";
 import { getApprovalsForDocument } from "@/data/document-approvals";
@@ -118,20 +115,10 @@ export function DocumentViewer({ document: doc, open, onOpenChange }: DocumentVi
           </SheetHeader>
 
           {/* Preview Area */}
-          {doc.id.startsWith("doc-g8-annual-") ? (
-            <ScrollArea className="mx-4 h-[400px] rounded-lg border border-gray-200 bg-white p-4">
-              <SimpleMarkdown
-                content={renderG8AnnualReportMarkdown(
-                  generateG8AnnualReport(doc.projectId)
-                )}
-              />
-            </ScrollArea>
-          ) : (
-            <div className="mx-4 flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-12">
-              <Icon className="h-12 w-12 text-gray-300 mb-3" />
-              <p className="text-sm text-gray-400">Preview not available in prototype</p>
-            </div>
-          )}
+          <div className="mx-4 flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-12">
+            <Icon className="h-12 w-12 text-gray-300 mb-3" />
+            <p className="text-sm text-gray-400">Preview not available in prototype</p>
+          </div>
 
           {/* Action Buttons */}
           <div className="flex gap-2 px-4">

@@ -38,18 +38,30 @@ export function PocProvider({ children }: { children: ReactNode }) {
     setCheckError(null);
 
     try {
+      console.log("[poc] Starting compliance check:", request);
+      const t0 = performance.now();
+
       const res = await fetch("/api/compliance-check", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(request),
       });
 
+      const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
+
       if (!res.ok) {
         const errorData = await res.json();
+        console.error(`[poc] Compliance check failed (${elapsed}s):`, errorData);
         throw new Error(errorData.error || `HTTP ${res.status}`);
       }
 
       const response: ComplianceCheckResponse = await res.json();
+      console.log(`[poc] Compliance check completed (${elapsed}s):`, {
+        results: response.results.length,
+        model: response.metadata.model,
+        tokens: response.metadata.totalTokens,
+        durationMs: response.metadata.durationMs,
+      });
 
       setComplianceResults((prev) => ({
         ...prev,
@@ -64,6 +76,7 @@ export function PocProvider({ children }: { children: ReactNode }) {
       return response;
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unknown error";
+      console.error("[poc] Compliance check error:", message);
       setCheckError(message);
       return null;
     } finally {
