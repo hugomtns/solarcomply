@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpx create-next-app@latest:*)",
+      "Bash(npm ls:*)",
+      "Bash(corepack:*)",
+      "Bash(npm install:*)",
+      "Bash(pnpm:*)",
+      "Bash(pnpx shadcn@latest:*)",
+      "Bash(mkdir:*)",
+      "Bash(npx next:*)",
+      "Bash(taskkill:*)",
+      "Bash(curl:*)",
+      "Bash(npx tsc:*)",
+      "Bash(echo:*)",
+      "Bash(cp:*)",
+      "Bash(rm:*)",
+      "Bash(paste:*)",
+      "Bash(xargs grep:*)"
+    ]
+  }
+}
