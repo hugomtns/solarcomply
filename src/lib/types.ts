@@ -11,7 +11,7 @@ export type DocumentStatus = 'approved' | 'pending_review' | 'rejected' | 'draft
 export type ApprovalStatus = 'approved' | 'pending' | 'rejected' | 'not_required';
 export type CheckType = 'automated' | 'manual' | 'ai_assisted';
 export type CheckStatus = 'pass' | 'fail' | 'warning' | 'pending' | 'not_applicable';
-export type StakeholderRole = 'execute' | 'review' | 'approve' | 'witness' | 'sign_off' | 'shadow' | 'input' | 'none';
+export type StakeholderRole = 'execute' | 'review' | 'approve' | 'witness' | 'sign_off' | 'shadow' | 'input' | 'recommend' | 'confirm' | 'acknowledge' | 'support' | 'none';
 export type PermissionLevel = 'none' | 'view' | 'download' | 'upload' | 'approve' | 'admin';
 export type AlertSeverity = 'critical' | 'warning' | 'info';
 
@@ -181,6 +181,81 @@ export interface ComplianceAlert {
   standardRef?: string;
   timestamp: string;
   acknowledged: boolean;
+}
+
+// ─── Gateway Configuration ──────────────────────────────────────
+
+export type StakeholderAbbreviation =
+  | 'DEV' | 'EPC' | 'TA' | 'O&M' | 'LEN' | 'GRID'
+  | 'OEM-M' | 'OEM-I' | 'OEM-B' | 'REG' | 'INS' | 'IE'
+  | 'LEGAL' | 'ENV' | 'LAND' | '3P-QA';
+
+export interface GatewayReferenceRequirement {
+  id: string;
+  gatewayCode: string;
+  label: string;
+  description: string;
+  format: string;
+  provider: StakeholderAbbreviation[];
+  reviewerApprover: StakeholderAbbreviation[];
+  standardRef: string;
+  applicableProjectTypes: ProjectType[];
+  jurisdictions: string[];
+  isBessOnly: boolean;
+}
+
+export interface GatewayReferenceApproval {
+  stakeholder: StakeholderAbbreviation;
+  role: StakeholderRole;
+  description: string;
+}
+
+export interface GatewayReferenceDefinition {
+  code: string;
+  name: string;
+  lifecycleStage: LifecycleStage;
+  trigger: string;
+  duration: string;
+  isSolarComplyExtension: boolean;
+  speGatewayRef?: string;
+  requirements: GatewayReferenceRequirement[];
+  approvalMatrix: GatewayReferenceApproval[];
+}
+
+export interface MarketProfile {
+  id: string;
+  name: string;
+  code: string;
+}
+
+export type RequirementConfigStatus = 'enabled' | 'disabled' | 'not_applicable';
+
+export interface RequirementConfig {
+  requirementId: string;
+  status: RequirementConfigStatus;
+  naReason?: string;
+}
+
+export interface CustomRequirement {
+  id: string;
+  gatewayCode: string;
+  label: string;
+  description: string;
+  format: string;
+  provider: string;
+  reviewerApprover: string;
+}
+
+export interface GatewayConfiguration {
+  id: string;
+  name: string;
+  market: string;
+  projectType: ProjectType;
+  requirementConfigs: RequirementConfig[];
+  approvalConfigs: Record<string, { stakeholder: StakeholderAbbreviation; role: StakeholderRole }[]>;
+  customRequirements: CustomRequirement[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface AuditEntry {

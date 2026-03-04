@@ -59,6 +59,10 @@ export const STAKEHOLDER_ROLE_LABELS: Record<string, string> = {
   sign_off: 'Sign-off',
   shadow: 'Shadow',
   input: 'Input',
+  recommend: 'Recommend',
+  confirm: 'Confirm',
+  acknowledge: 'Acknowledge',
+  support: 'Support',
   none: 'None',
 };
 
@@ -122,6 +126,31 @@ export const ORG_TYPE_LABELS: Record<string, string> = {
   oem: 'OEM',
   insurer: 'Insurer',
   regulator: 'Regulator',
+};
+
+export const STAKEHOLDER_ABBREV_LABELS: Record<string, string> = {
+  DEV: 'Developer / IPP',
+  EPC: 'EPC Contractor',
+  TA: 'Technical Advisor',
+  'O&M': 'O&M Provider',
+  LEN: 'Lender / Investor',
+  GRID: 'Grid Operator',
+  'OEM-M': 'Module OEM',
+  'OEM-I': 'Inverter OEM',
+  'OEM-B': 'BESS OEM',
+  REG: 'Regulatory Authority',
+  INS: 'Insurance Underwriter',
+  IE: 'Independent Engineer',
+  LEGAL: 'Legal Counsel',
+  ENV: 'Environmental Consultant',
+  LAND: 'Landowner',
+  '3P-QA': 'Third-Party QA',
+};
+
+export const REQUIREMENT_CONFIG_STATUS_LABELS: Record<string, string> = {
+  enabled: 'Enabled',
+  disabled: 'Disabled',
+  not_applicable: 'N/A',
 };
 
 export const LIFECYCLE_STAGE_ORDER: string[] = [

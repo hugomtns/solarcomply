@@ -14,6 +14,7 @@ import {
   Activity,
   Bot,
   GitBranch,
+  Workflow,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { projects } from "@/data/projects";
@@ -123,6 +124,18 @@ export function Sidebar() {
         >
           <BookOpen className="h-5 w-5 shrink-0" />
           Standards Library
+        </Link>
+
+        {/* Gateway Configuration */}
+        <Link
+          href="/gateway-configuration"
+          className={cn(
+            "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-white/10",
+            pathname === "/gateway-configuration" && "bg-white/10 border-l-2 border-orange-400"
+          )}
+        >
+          <Workflow className="h-5 w-5 shrink-0" />
+          Gateway Config
         </Link>
 
         {/* Settings */}
