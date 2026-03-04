@@ -276,3 +276,41 @@ export interface AIMessage {
   gapItems?: { standard: string; requirement: string; status: CheckStatus; action: string }[];
   timestamp: string;
 }
+
+// ─── Document Intelligence ──────────────────────────────────────
+
+export type FindingType = 'missing_document' | 'inconsistency' | 'outdated' | 'format_error' | 'cross_reference' | 'coverage_gap';
+export type FindingSeverity = 'critical' | 'high' | 'medium' | 'low';
+
+export interface DocIntelligenceFinding {
+  id: string;
+  projectId: string;
+  type: FindingType;
+  severity: FindingSeverity;
+  title: string;
+  description: string;
+  gatewayCode: string;
+  affectedDocumentIds?: string[];
+  standardRef?: string;
+  recommendation: string;
+  autoFixable: boolean;
+}
+
+export interface ProjectDocHealthScore {
+  projectId: string;
+  overallScore: number;
+  completenessScore: number;
+  consistencyScore: number;
+  formatComplianceScore: number;
+  lastScanTimestamp: string;
+  findingCounts: Record<FindingSeverity, number>;
+}
+
+export interface GatewayCoverageItem {
+  gatewayCode: string;
+  gatewayName: string;
+  requiredCount: number;
+  presentCount: number;
+  missingCount: number;
+  issueCount: number;
+}

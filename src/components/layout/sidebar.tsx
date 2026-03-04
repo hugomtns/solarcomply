@@ -15,6 +15,7 @@ import {
   Bot,
   GitBranch,
   Workflow,
+  ScanSearch,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { projects } from "@/data/projects";
@@ -25,6 +26,7 @@ import { useState } from "react";
 const projectSubPages = [
   { label: "Overview", href: "", icon: GitBranch },
   { label: "Documents", href: "/documents", icon: FileText },
+  { label: "Doc Intelligence", href: "/document-intelligence", icon: ScanSearch },
   { label: "Access Control", href: "/permissions", icon: Shield },
   { label: "Monitoring", href: "/monitoring", icon: Activity },
   { label: "AI Assistant", href: "/compliance-ai", icon: Bot },

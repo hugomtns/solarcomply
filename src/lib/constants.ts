@@ -159,6 +159,31 @@ export const LIFECYCLE_STAGE_ORDER: string[] = [
   'operations', 'decommissioning',
 ];
 
+export const FINDING_TYPE_LABELS: Record<string, string> = {
+  missing_document: 'Missing Document',
+  inconsistency: 'Inconsistency',
+  outdated: 'Outdated',
+  format_error: 'Format Error',
+  cross_reference: 'Cross-Reference',
+  coverage_gap: 'Coverage Gap',
+};
+
+export const FINDING_SEVERITY_LABELS: Record<string, string> = {
+  critical: 'Critical',
+  high: 'High',
+  medium: 'Medium',
+  low: 'Low',
+};
+
+export const FINDING_TYPE_ICONS: Record<string, string> = {
+  missing_document: 'FileX',
+  inconsistency: 'GitCompare',
+  outdated: 'CalendarClock',
+  format_error: 'FileWarning',
+  cross_reference: 'Link2Off',
+  coverage_gap: 'ShieldAlert',
+};
+
 export const LIFECYCLE_STAGE_LABELS: Record<string, string> = {
   feasibility: 'Feasibility',
   development: 'Development',
