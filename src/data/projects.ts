@@ -72,4 +72,21 @@ export const projects: Project[] = [
     currentGatewayId: "gw-aldhafra-g1",
     organizationIds: ["org-greenfield", "org-dnv", "org-jinko"],
   },
+  {
+    id: "proj-sunridge",
+    name: "Sunridge Solar + Storage",
+    type: "hybrid",
+    capacityMW: 150,
+    capacityMWh: 150,
+    location: { country: "United States", region: "Pecos County, Texas", lat: 31.38, lng: -103.49 },
+    jurisdictions: ["US"],
+    currentStage: "engineering",
+    complianceScore: 72,
+    expectedCOD: "2027-09-15",
+    currentGatewayId: "gw-sunridge-g3",
+    organizationIds: [
+      "org-sunridge-energy", "org-blueoak-construction", "org-ercot",
+      "org-jpmorgan-energy", "org-dnv", "org-jinko", "org-byd",
+    ],
+  },
 ];

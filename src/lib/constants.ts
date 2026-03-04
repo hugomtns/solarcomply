@@ -108,6 +108,15 @@ export const DOCUMENT_CATEGORY_LABELS: Record<string, string> = {
   insurance_policy: 'Insurance Policy',
   ie_report: 'IE Report',
   grid_compliance_cert: 'Grid Compliance Cert',
+  feoc_assessment: 'FEOC Assessment',
+  feoc_supplier_certification: 'FEOC Supplier Certification',
+  forced_labour_due_diligence: 'Forced Labour Due Diligence',
+  forced_labour_audit: 'Forced Labour Audit',
+  battery_passport_data: 'Battery Passport Data',
+  carbon_footprint_declaration: 'Carbon Footprint Declaration',
+  cbam_emissions_report: 'CBAM Emissions Report',
+  pfas_declaration: 'PFAS Declaration',
+  mineral_traceability: 'Mineral Traceability',
 };
 
 export const PROJECT_TYPE_LABELS: Record<string, string> = {

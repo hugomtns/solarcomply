@@ -362,6 +362,47 @@ const aldhafraGateways: Gateway[] = [
   buildUpcomingGateway("aldhafra", "proj-aldhafra", 10, "2053-03-15"),
 ];
 
+// ─── Sunridge Solar + Storage (hybrid, G3 current, engineering) ──
+
+const sunridgeGateways: Gateway[] = [
+  buildPassedGateway("sunridge", "proj-sunridge", 0, "2025-02-15", "2025-02-15"),
+  buildPassedGateway("sunridge", "proj-sunridge", 1, "2025-07-10", "2025-07-15"),
+  buildPassedGateway("sunridge", "proj-sunridge", 2, "2025-11-20", "2025-11-30"),
+  // G3 — current gateway (Design Freeze, in_review)
+  {
+    id: "gw-sunridge-g3", projectId: "proj-sunridge", code: "G3", name: "Design Freeze",
+    description: "Detailed engineering complete, design drawings approved, procurement specifications finalized.",
+    status: "in_review", complianceScore: 72, stage: "engineering",
+    targetDate: "2026-04-15",
+    requirements: [
+      { id: "sun-g3-r1", category: "document", label: "Single Line Diagram", description: "Approved SLD per IEC 62548-1", status: "pass", checkType: "automated", standardRef: "IEC 62548-1" },
+      { id: "sun-g3-r2", category: "document", label: "Design Drawings Package", description: "Complete design drawings set", status: "pass", checkType: "manual" },
+      { id: "sun-g3-r3", category: "document", label: "Structural Calculations", description: "Foundation and mounting structure calculations", status: "pass", checkType: "manual" },
+      { id: "sun-g3-r4", category: "standard", label: "IEC 62548-1 Compliance", description: "PV array design per IEC 62548-1", status: "pass", checkType: "ai_assisted", standardRef: "IEC 62548-1", aiConfidence: 0.93 },
+      { id: "sun-g3-r5", category: "document", label: "FEOC Compliance Package", description: "FEOC cost-origin analysis with supplier certifications per OBBBA final rule", status: "warning", checkType: "manual", standardRef: "OBBBA FEOC" },
+      { id: "sun-g3-r6", category: "standard", label: "BESS Mineral Traceability", description: "Cell-level lithium and graphite traceability per UFLPA requirements", status: "fail", checkType: "manual", standardRef: "UFLPA" },
+      { id: "sun-g3-r7", category: "standard", label: "ANSI/SEIA 101 Module Traceability", description: "Polysilicon supply chain traceability per ANSI/SEIA 101", status: "pending", checkType: "manual", standardRef: "ANSI/SEIA 101" },
+      { id: "sun-g3-r8", category: "document", label: "Cable Schedule", description: "Complete cable schedule and sizing calculations", status: "pass", checkType: "manual" },
+      { id: "sun-g3-r9", category: "standard", label: "UL 9540A Pre-Assessment", description: "BESS thermal runaway test methodology review", status: "pass", checkType: "manual", standardRef: "UL 9540A" },
+      { id: "sun-g3-r10", category: "standard", label: "NFPA 855 Design Compliance", description: "BESS fire safety design review", status: "pass", checkType: "ai_assisted", standardRef: "NFPA 855", aiConfidence: 0.88 },
+      { id: "sun-g3-r11", category: "approval", label: "ERCOT Interconnection Study", description: "ERCOT interconnection agreement and study completion", status: "pending", checkType: "manual" },
+    ],
+    approvals: [
+      { stakeholderOrgId: "org-blueoak-construction", requiredRole: "execute", status: "approved", approverUserId: "user-derek", timestamp: "2026-02-20T09:00:00Z" },
+      { stakeholderOrgId: "org-dnv", requiredRole: "review", status: "pending" },
+      { stakeholderOrgId: "org-sunridge-energy", requiredRole: "approve", status: "pending" },
+      { stakeholderOrgId: "org-jpmorgan-energy", requiredRole: "review", status: "pending" },
+    ],
+  },
+  buildUpcomingGateway("sunridge", "proj-sunridge", 4, "2026-10-01"),
+  buildUpcomingGateway("sunridge", "proj-sunridge", 5, "2027-03-01"),
+  buildUpcomingGateway("sunridge", "proj-sunridge", 6, "2027-05-01"),
+  buildUpcomingGateway("sunridge", "proj-sunridge", 7, "2027-09-15"),
+  buildUpcomingGateway("sunridge", "proj-sunridge", 8, "2028-09-15"),
+  buildUpcomingGateway("sunridge", "proj-sunridge", 9, "2029-09-15"),
+  buildUpcomingGateway("sunridge", "proj-sunridge", 10, "2052-09-15"),
+];
+
 // ─── Combined export ─────────────────────────────────────────────
 
 export const gateways: Gateway[] = [
@@ -370,6 +411,7 @@ export const gateways: Gateway[] = [
   ...yorkshireGateways,
   ...atacamaGateways,
   ...aldhafraGateways,
+  ...sunridgeGateways,
 ];
 
 export function getGatewaysForProject(projectId: string): Gateway[] {

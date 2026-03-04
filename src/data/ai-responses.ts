@@ -393,6 +393,155 @@ The Environmental Impact Assessment is currently in draft stage, submitted to th
     },
   },
 
+  // ── Sunridge-specific responses ────────────────────────────────
+  {
+    keywords: ["feoc", "foreign entity", "chinese", "material assistance", "obbba"],
+    projectId: "proj-sunridge",
+    response: {
+      id: "ai-feoc",
+      role: "assistant",
+      content: `**FEOC Compliance Assessment — Sunridge Solar + Storage**
+
+The OBBBA Final Rule establishes Foreign Entity of Concern (FEOC) restrictions for IRA clean energy tax credits. Projects using components from FEOC entities face reduced or eliminated ITC eligibility.
+
+**Current FEOC Status: NON-COMPLIANT (2 of 4 categories failing)**
+
+| Category | Non-FEOC Ratio | Threshold | Status |
+|----------|---------------|-----------|--------|
+| Solar Modules | 43% | ≥75% | ❌ Fail |
+| Inverters | 90% | ≥75% | ✅ Pass |
+| Energy Storage | 55% | ≥40% | ✅ Pass |
+| Critical Minerals | 40% | ≥50% | ❌ Fail |
+
+**ITC at Risk: $18.2M**
+
+**Flagged Suppliers:**
+- Tongwei Solar (polysilicon) — CN manufacturing
+- LONGi Green Energy (wafers) — CN manufacturing
+- Shanshan Technology (graphite anode) — CN manufacturing, UFLPA flag
+- Ganfeng Lithium (lithium carbonate) — CN manufacturing
+
+**Recommended Actions:**
+1. Substitute Tongwei/LONGi with non-FEOC polysilicon suppliers (Wacker, REC Silicon, Hemlock)
+2. Request BYD alternative graphite sourcing (Syrah Resources, Nouveau Monde)
+3. Evaluate safe harbor provisions based on BOC date (Nov 20, 2025)
+4. Engage tax counsel for ITC eligibility restructuring`,
+      timestamp: new Date().toISOString(),
+    },
+  },
+
+  // ── Sonnenberg supply chain responses ─────────────────────────
+  {
+    keywords: ["forced labour", "forced labor", "eu 2024/3015"],
+    projectId: "proj-sonnenberg",
+    response: {
+      id: "ai-forced-labour",
+      role: "assistant",
+      content: `**EU Forced Labour Regulation (2024/3015) — Sonnenberg Assessment**
+
+The EU Forced Labour Regulation prohibits products made with forced labour from being placed on or exported from the EU market.
+
+**Enforcement Timeline:**
+- Dec 2024: Regulation entered into force
+- Jun 2025: Commission published investigation guidelines
+- Dec 2027: Full enforcement begins (competent authority investigations)
+- Ongoing: Product withdrawal decisions possible
+
+**Sonnenberg Supplier Due Diligence Status:**
+
+| Supplier | Component | Audit Status | Risk Level |
+|----------|-----------|-------------|------------|
+| JinkoSolar | PV Modules | SA8000 / SSI Certified | Low |
+| SMA Solar | Inverters | Self-declaration on file | Medium |
+| BYD | BESS | RBA membership — audit pending | Medium |
+
+**Evidence Package:**
+- Forced labour due diligence policy: ✅ Approved
+- JinkoSolar SA8000 audit report: ✅ On file
+- SMA supplier declaration: ✅ On file
+- BYD RBA audit: ⏳ Scheduled Q2 2026
+- Polysilicon traceability: ✅ Malaysian production verified
+
+**Recommended Actions:**
+1. Complete BYD RBA third-party audit before Dec 2027 enforcement
+2. Obtain SMA third-party social compliance audit
+3. Document full polysilicon traceability chain for all module batches`,
+      timestamp: new Date().toISOString(),
+    },
+  },
+
+  // ── Global supply chain responses ─────────────────────────────
+  {
+    keywords: ["battery passport", "digital product passport", "dpp", "catena-x"],
+    response: {
+      id: "ai-battery-passport-global",
+      role: "assistant",
+      content: `**EU Battery Passport — Regulation Overview (EU 2023/1542)**
+
+The EU Battery Regulation requires a digital "battery passport" for all industrial batteries (>2 kWh) placed on the EU market. This is a staggered rollout:
+
+**Timeline:**
+- Feb 2025: Carbon footprint declaration required
+- Aug 2026: Performance class labels
+- Feb 2027: QR code + full digital battery passport
+- Aug 2027: Supply chain due diligence obligations
+- Aug 2028: Recycled content targets
+
+**Required Data Fields (Article 77):**
+- Manufacturer identification & contact
+- Battery model, batch, and serial numbers
+- Manufacturing date and location
+- Battery chemistry and materials
+- Rated capacity, voltage, and energy
+- Carbon footprint per kWh (lifecycle)
+- Recycled content share (Co, Li, Ni, Pb)
+- Expected lifetime (years and cycles)
+- State of Health tracking methodology
+- Collection and recycling information
+- Supply chain due diligence records
+- QR code linking to digital passport
+
+**Platform:** EU Battery Passport platform (Catena-X / Battery Pass consortium)
+
+**Impact on SolarComply Projects:**
+- EU BESS/hybrid projects must populate all data fields
+- Carbon footprint declaration is already overdue for new installations
+- QR code requirement applies from Feb 2027`,
+      timestamp: new Date().toISOString(),
+    },
+  },
+  {
+    keywords: ["cbam", "carbon border", "carbon adjustment", "embedded emissions"],
+    response: {
+      id: "ai-cbam-global",
+      role: "assistant",
+      content: `**EU CBAM — Carbon Border Adjustment Mechanism (EU 2023/956)**
+
+CBAM requires importers of covered goods into the EU to declare embedded emissions and purchase CBAM certificates at the EU ETS carbon price.
+
+**Materials in Scope for Solar/BESS Projects:**
+- **Steel** (structural steel, tracker components, mounting structures)
+- **Aluminium** (module frames, cable trays, enclosures)
+- **Cement** (foundations — if imported)
+- Hydrogen and fertilisers (not typically relevant)
+
+**Timeline:**
+- Oct 2023 – Dec 2025: Transitional reporting period (quarterly reports, no certificates)
+- Jan 2026: Definitive regime — CBAM certificates required for imports
+- 2026–2034: Phased reduction of free EU ETS allowances
+
+**Cost Impact Estimate:**
+At current EU ETS prices (~€65/tonne CO2), structural steel from non-EU sources adds approximately €15–25/tonne to material costs. For a 100 MW solar project, this could represent €200K–500K in additional costs.
+
+**Recommended Actions:**
+1. Identify all CBAM-relevant materials in project BOM
+2. Request embedded emissions data from steel and aluminium suppliers
+3. Evaluate EU-sourced alternatives to reduce CBAM exposure
+4. Factor CBAM certificate costs into financial model`,
+      timestamp: new Date().toISOString(),
+    },
+  },
+
   // ── Global responses (match any project) ────────────────────────
   {
     keywords: ["fire", "safety", "bess", "nfpa", "battery fire"],

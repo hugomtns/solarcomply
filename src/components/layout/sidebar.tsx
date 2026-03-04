@@ -16,6 +16,7 @@ import {
   GitBranch,
   Workflow,
   ScanSearch,
+  Link2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { projects } from "@/data/projects";
@@ -29,6 +30,7 @@ const projectSubPages = [
   { label: "Doc Intelligence", href: "/document-intelligence", icon: ScanSearch },
   { label: "Access Control", href: "/permissions", icon: Shield },
   { label: "Monitoring", href: "/monitoring", icon: Activity },
+  { label: "Supply Chain", href: "/supply-chain", icon: Link2 },
   { label: "AI Assistant", href: "/compliance-ai", icon: Bot },
 ];
 

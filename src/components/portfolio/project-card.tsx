@@ -28,9 +28,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <div className="flex items-start justify-between">
           <div className="min-w-0 flex-1">
             <h3 className="truncate text-[15px] font-medium text-gray-900">{project.name}</h3>
-            <Badge variant="outline" className={`mt-1.5 ${typeColors[project.type]}`}>
-              {PROJECT_TYPE_LABELS[project.type]}
-            </Badge>
+            <div className="mt-1.5 flex flex-wrap gap-1">
+              <Badge variant="outline" className={typeColors[project.type]}>
+                {PROJECT_TYPE_LABELS[project.type]}
+              </Badge>
+              {project.jurisdictions.includes("US") && (
+                <Badge variant="outline" className="bg-blue-100 text-blue-800 border-blue-200">
+                  Safe Harbor
+                </Badge>
+              )}
+            </div>
           </div>
           <ComplianceScoreRing score={project.complianceScore} size="sm" />
         </div>

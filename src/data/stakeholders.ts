@@ -10,6 +10,10 @@ export const organizations: Organization[] = [
   { id: "org-jinko", name: "JinkoSolar", type: "oem", logo: "JK" },
   { id: "org-sma", name: "SMA Solar Technology AG", type: "oem", logo: "SM" },
   { id: "org-byd", name: "BYD Company Ltd.", type: "oem", logo: "BY" },
+  { id: "org-sunridge-energy", name: "Sunridge Energy LLC", type: "ipp", logo: "SR" },
+  { id: "org-blueoak-construction", name: "BlueOak Construction Inc.", type: "epc", logo: "BO" },
+  { id: "org-ercot", name: "ERCOT (Electric Reliability Council of Texas)", type: "grid_operator", logo: "ER" },
+  { id: "org-jpmorgan-energy", name: "JPMorgan Energy Finance", type: "lender", logo: "JP" },
 ];
 
 export const users: User[] = [
@@ -43,6 +47,16 @@ export const users: User[] = [
   // Extra GreenField
   { id: "user-felix", name: "Felix Hartmann", email: "f.hartmann@greenfield.de", organizationId: "org-greenfield", role: "Environmental Lead", avatar: "FH" },
   { id: "user-laura", name: "Laura Becker", email: "l.becker@greenfield.de", organizationId: "org-greenfield", role: "Legal Counsel", avatar: "LB" },
+  // Sunridge Energy
+  { id: "user-sarah", name: "Sarah Chen", email: "s.chen@sunridge.com", organizationId: "org-sunridge-energy", role: "VP Development", avatar: "SC" },
+  { id: "user-mike", name: "Mike Rodriguez", email: "m.rodriguez@sunridge.com", organizationId: "org-sunridge-energy", role: "Compliance Director", avatar: "MR" },
+  // BlueOak Construction
+  { id: "user-derek", name: "Derek Johnson", email: "d.johnson@blueoak.com", organizationId: "org-blueoak-construction", role: "Project Manager", avatar: "DJ" },
+  { id: "user-rachel", name: "Rachel Kim", email: "r.kim@blueoak.com", organizationId: "org-blueoak-construction", role: "QA Lead", avatar: "RK" },
+  // JPMorgan Energy Finance
+  { id: "user-david", name: "David Park", email: "d.park@jpmorgan.com", organizationId: "org-jpmorgan-energy", role: "Senior Investment Officer", avatar: "DP" },
+  // DNV (US office)
+  { id: "user-karen", name: "Karen Thompson", email: "k.thompson@dnv.com", organizationId: "org-dnv", role: "US Technical Advisor", avatar: "KT" },
 ];
 
 export const currentUser = users.find((u) => u.id === "user-maria")!;

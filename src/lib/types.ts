@@ -143,7 +143,10 @@ export type DocumentCategory =
   | 'as_built_drawings' | 'om_manual' | 'scada_documentation' | 'warranty_certificate'
   | 'performance_report' | 'maintenance_log' | 'drone_inspection'
   | 'bess_test_report' | 'ul9540a_report' | 'battery_passport'
-  | 'insurance_policy' | 'ie_report' | 'grid_compliance_cert';
+  | 'insurance_policy' | 'ie_report' | 'grid_compliance_cert'
+  | 'feoc_assessment' | 'feoc_supplier_certification' | 'forced_labour_due_diligence'
+  | 'forced_labour_audit' | 'battery_passport_data' | 'carbon_footprint_declaration'
+  | 'cbam_emissions_report' | 'pfas_declaration' | 'mineral_traceability';
 
 export interface Standard {
   id: string;
@@ -313,4 +316,81 @@ export interface GatewayCoverageItem {
   presentCount: number;
   missingCount: number;
   issueCount: number;
+}
+
+// ─── Supply Chain & Regulatory ──────────────────────────────────
+
+export type FEOCCategory = 'solar_modules' | 'inverters' | 'energy_storage' | 'critical_minerals' | 'other';
+export type CoveredNation = 'CN' | 'RU' | 'KP' | 'IR';
+
+export interface FlaggedSupplier {
+  name: string;
+  component: string;
+  reason: 'entity_list' | 'covered_nation_manufacturing' | 'material_assistance' | 'ownership';
+  coveredNation: CoveredNation;
+  tier: number;
+}
+
+export interface FEOCCategoryAssessment {
+  category: FEOCCategory;
+  label: string;
+  totalCostUSD: number;
+  nonFEOCCostUSD: number;
+  feocRatio: number;
+  threshold: number;
+  passing: boolean;
+  flaggedSuppliers: FlaggedSupplier[];
+}
+
+export interface FEOCAssessment {
+  projectId: string;
+  assessmentDate: string;
+  categoryAssessments: FEOCCategoryAssessment[];
+  overallEligible: boolean;
+  safeHarborApplies: boolean;
+  bocDate?: string;
+  itcAtRisk: string;
+}
+
+export interface BatteryPassport {
+  projectId: string;
+  batteryModel: string;
+  manufacturer: string;
+  chemistryType: string;
+  capacityMWh: number;
+  manufacturingDate: string;
+  manufacturingLocation: string;
+  carbonFootprint?: {
+    totalKgCO2PerKWh: number;
+    manufacturing: number;
+    rawMaterials: number;
+    transport: number;
+    status: 'declared' | 'calculating' | 'pending';
+  };
+  performance?: {
+    ratedCapacity: number;
+    ratedVoltage: number;
+    expectedLifetimeYears: number;
+    expectedCycles: number;
+  };
+  stateOfHealth?: {
+    currentSoH: number;
+    lastUpdated: string;
+    methodology: string;
+  };
+  recycledContent?: {
+    cobalt: number;
+    lithium: number;
+    nickel: number;
+    lead: number;
+    status: 'declared' | 'pending';
+  };
+  dueDiligence?: {
+    supplyChainPolicy: boolean;
+    riskAssessment: boolean;
+    thirdPartyAudit: boolean;
+    status: 'complete' | 'in_progress' | 'pending';
+  };
+  qrCodeUrl?: string;
+  accessLevel: 'public' | 'restricted' | 'notified_body';
 }
