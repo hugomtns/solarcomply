@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
@@ -45,9 +45,8 @@ export function RequirementsReferenceTable({ requirements }: RequirementsReferen
         </TableHeader>
         <TableBody>
           {requirements.map((req) => (
-            <>
+            <Fragment key={req.id}>
               <TableRow
-                key={req.id}
                 className="cursor-pointer hover:bg-gray-50"
                 onClick={() => toggleRow(req.id)}
               >
@@ -136,7 +135,7 @@ export function RequirementsReferenceTable({ requirements }: RequirementsReferen
                   </TableCell>
                 </TableRow>
               )}
-            </>
+            </Fragment>
           ))}
         </TableBody>
       </Table>
