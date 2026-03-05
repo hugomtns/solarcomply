@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
@@ -12,10 +11,10 @@ interface MetricCardProps {
 
 export function MetricCard({ label, value, trend, icon }: MetricCardProps) {
   return (
-    <Card className="px-5 py-4 shadow-card transition-all duration-200 hover:shadow-card-hover">
+    <div className="rounded-2xl border border-gray-200/80 bg-white px-5 py-4 shadow-[0_1px_3px_0_rgb(0_0_0/0.04),0_1px_2px_-1px_rgb(0_0_0/0.04)] transition-shadow duration-200 hover:shadow-[0_4px_6px_-1px_rgb(0_0_0/0.07),0_2px_4px_-2px_rgb(0_0_0/0.05)]">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-gray-400">{label}</p>
+          <p className="text-[11px] font-medium uppercase tracking-wider text-gray-400">{label}</p>
           <p className="mt-1 text-3xl font-bold text-[#1B2A4A]">{value}</p>
           {trend && (
             <div className="mt-1 flex items-center gap-1">
@@ -39,6 +38,6 @@ export function MetricCard({ label, value, trend, icon }: MetricCardProps) {
         </div>
         {icon && <div className="rounded-lg bg-gray-50 p-2 text-gray-400">{icon}</div>}
       </div>
-    </Card>
+    </div>
   );
 }

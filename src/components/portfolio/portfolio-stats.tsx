@@ -13,23 +13,23 @@ export function PortfolioStats() {
       <MetricCard
         label="Total Projects"
         value={projects.length}
-        icon={<Briefcase className="h-8 w-8" />}
+        icon={<Briefcase className="h-5 w-5" />}
       />
       <MetricCard
         label="Total Capacity"
         value={`${totalCapacity} MW`}
-        icon={<Zap className="h-8 w-8" />}
+        icon={<Zap className="h-5 w-5" />}
       />
       <MetricCard
         label="Avg Compliance Score"
         value={`${avgScore}%`}
         trend={{ value: 2.3, label: "vs last month" }}
-        icon={<ShieldCheck className="h-8 w-8" />}
+        icon={<ShieldCheck className="h-5 w-5" />}
       />
       <MetricCard
         label="Active Alerts"
         value={activeAlerts}
-        icon={<AlertTriangle className="h-8 w-8" />}
+        icon={<AlertTriangle className="h-5 w-5" />}
       />
     </div>
   );

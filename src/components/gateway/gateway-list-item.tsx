@@ -41,7 +41,7 @@ export function GatewayListItem({ gateway, isCurrent }: GatewayListItemProps) {
       href={`/project/${gateway.projectId}/gateway/${gateway.id}`}
       className="group block"
     >
-      <div className={`flex items-center gap-4 rounded-xl border bg-white p-4 shadow-card transition-all duration-200 hover:shadow-card-hover ${isCurrent ? "ring-2 ring-orange-400/50 border-orange-200" : "border-gray-200"}`}>
+      <div className={`flex items-center gap-4 rounded-2xl border bg-white p-4 shadow-[0_1px_3px_0_rgb(0_0_0/0.04),0_1px_2px_-1px_rgb(0_0_0/0.04)] transition-all duration-200 hover:shadow-[0_4px_6px_-1px_rgb(0_0_0/0.07),0_2px_4px_-2px_rgb(0_0_0/0.05)] ${isCurrent ? "ring-2 ring-orange-400/50 border-orange-200" : "border-gray-200/80 hover:border-gray-300/80"}`}>
         {/* Score ring */}
         <ComplianceScoreRing score={gateway.complianceScore} size="sm" />
 

@@ -33,9 +33,9 @@ export function GatewayPipeline({ projectId }: GatewayPipelineProps) {
   }
 
   return (
-    <Card>
+    <Card className="rounded-2xl">
       <CardHeader>
-        <CardTitle className="text-base">Gateway Pipeline</CardTitle>
+        <CardTitle className="text-sm font-semibold text-[#1B2A4A]">Gateway Pipeline</CardTitle>
       </CardHeader>
       <CardContent>
         <div

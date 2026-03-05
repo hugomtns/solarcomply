@@ -47,7 +47,7 @@ export function Topbar() {
   const breadcrumbs = useBreadcrumbs(pathname);
 
   return (
-    <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-gray-200 bg-white px-6">
+    <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-gray-200/80 bg-white/80 backdrop-blur-md px-8">
       <nav className="flex items-center gap-1.5 text-sm">
         {breadcrumbs.map((crumb, i) => (
           <span key={crumb.href} className="flex items-center gap-1.5">

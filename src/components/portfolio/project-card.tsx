@@ -24,7 +24,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <Link href={`/project/${project.id}`}>
-      <Card className="cursor-pointer p-5 transition-shadow hover:shadow-md">
+      <Card className="cursor-pointer rounded-2xl p-5 transition-all duration-200 hover:shadow-[0_4px_6px_-1px_rgb(0_0_0/0.07),0_2px_4px_-2px_rgb(0_0_0/0.05)] hover:border-gray-300/80">
         <div className="flex items-start justify-between">
           <div className="min-w-0 flex-1">
             <h3 className="truncate text-[15px] font-medium text-gray-900">{project.name}</h3>
