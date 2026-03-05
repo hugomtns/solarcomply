@@ -12,6 +12,8 @@ import { ChatInterface } from "@/components/compliance-ai/chat-interface";
 import { GapReportPreview } from "@/components/compliance-ai/gap-report-preview";
 import { getProjectFindings, getProjectHealthScore, getGatewayCoverage } from "@/data/doc-intelligence";
 import { useApp } from "@/contexts/app-context";
+import { usePoc } from "@/contexts/poc-context";
+import { projects } from "@/data/projects";
 import { Sparkles, BarChart3, MessageSquare, FileBarChart, Clock, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -43,6 +45,9 @@ export default function AIHubPage({
 }) {
   const { projectId } = use(params);
   const { aiContext } = useApp();
+  const poc = usePoc();
+  const project = projects.find((p) => p.id === projectId);
+  const complianceResult = poc.complianceResults[projectId] ?? null;
 
   // Determine initial tab from AI context
   const initialTab = aiContext?.type === "chat" ? "chat" : "dashboard";
@@ -169,7 +174,11 @@ export default function AIHubPage({
         {/* Reports Tab */}
         <TabsContent value="reports" className="flex-1 overflow-y-auto mt-4">
           <div className="space-y-6">
-            <GapReportPreview gapItems={mockGapItems} />
+            <GapReportPreview
+              gapItems={mockGapItems}
+              complianceResult={complianceResult}
+              projectName={project?.name}
+            />
           </div>
         </TabsContent>
       </Tabs>
