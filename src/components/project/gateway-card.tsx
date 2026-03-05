@@ -5,6 +5,11 @@ import { motion } from "framer-motion";
 import { CheckCircle, XCircle, Clock, ShieldOff } from "lucide-react";
 import { Gateway } from "@/lib/types";
 import { COLORS } from "@/lib/constants";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface GatewayCardProps {
   gateway: Gateway;
@@ -60,65 +65,83 @@ function formatDate(dateStr?: string): string {
 export function GatewayCard({ gateway, isCurrent, isLast }: GatewayCardProps) {
   const config = statusConfig[gateway.status] || statusConfig.upcoming;
   const Icon = config.icon;
-  const circleSize = isCurrent ? 56 : 40;
+  const circleSize = isCurrent ? 64 : 48;
   const isUpcoming = gateway.status === "upcoming";
+  const isPassed = gateway.status === "passed";
 
-  // Every node occupies the same fixed box so circles always center-align
-  const nodeBox = 56;
+  const nodeBox = 64;
+
+  const passCount = gateway.requirements.filter((r) => r.status === "pass").length;
+  const totalReqs = gateway.requirements.length;
 
   return (
     <div className="flex items-start">
-      {/* Circle column — label centers under the circle only */}
+      {/* Circle column */}
       <div
         className="flex flex-shrink-0 flex-col items-center"
         style={{ width: nodeBox }}
       >
-        {/* Circle */}
         <div
           className="flex items-center justify-center flex-shrink-0"
           style={{ width: nodeBox, height: nodeBox }}
         >
-          <Link
-            href={`/project/${gateway.projectId}/gateway/${gateway.id}`}
-            className="group relative"
-          >
-            {isCurrent ? (
-              <motion.div
-                className={`relative flex items-center justify-center rounded-full ${config.fillClass} ${config.ringClass}`}
-                style={{ width: circleSize, height: circleSize }}
-                animate={{
-                  boxShadow: [
-                    `0 0 0 0px ${config.color}40`,
-                    `0 0 0 8px ${config.color}00`,
-                  ],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeOut",
-                }}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link
+                href={`/project/${gateway.projectId}/gateway/${gateway.id}`}
+                className="group relative"
               >
-                <Icon className="h-6 w-6 text-white" />
-              </motion.div>
-            ) : (
-              <div
-                className={`flex items-center justify-center rounded-full transition-transform group-hover:scale-110 ${
-                  isUpcoming
-                    ? "border-2 border-[#D1D5DB] bg-white"
-                    : config.fillClass
-                }`}
-                style={{ width: circleSize, height: circleSize }}
-              >
-                {isUpcoming ? (
-                  <span className="text-xs font-semibold text-gray-400">
-                    {gateway.code}
-                  </span>
+                {isCurrent ? (
+                  <motion.div
+                    className={`relative flex items-center justify-center rounded-full ${config.fillClass} ${config.ringClass}`}
+                    style={{ width: circleSize, height: circleSize }}
+                    animate={{
+                      boxShadow: [
+                        `0 0 0 0px ${config.color}40`,
+                        `0 0 0 10px ${config.color}00`,
+                      ],
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeOut",
+                    }}
+                  >
+                    <Icon className="h-7 w-7 text-white" />
+                  </motion.div>
                 ) : (
-                  <Icon className="h-4 w-4 text-white" />
+                  <div
+                    className={`flex items-center justify-center rounded-full transition-all duration-200 group-hover:scale-110 ${
+                      isUpcoming
+                        ? "border-2 border-[#D1D5DB] bg-white"
+                        : config.fillClass
+                    }`}
+                    style={{ width: circleSize, height: circleSize }}
+                  >
+                    {isUpcoming ? (
+                      <span className="text-xs font-semibold text-gray-400">
+                        {gateway.code}
+                      </span>
+                    ) : (
+                      <Icon className="h-5 w-5 text-white" />
+                    )}
+                  </div>
                 )}
-              </div>
-            )}
-          </Link>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-[200px]">
+              <p className="font-semibold">{gateway.code}: {gateway.name}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                {passCount}/{totalReqs} requirements passed
+              </p>
+              {gateway.complianceScore > 0 && (
+                <p className="text-xs mt-0.5">Score: {gateway.complianceScore}%</p>
+              )}
+              {gateway.targetDate && (
+                <p className="text-xs text-muted-foreground">Target: {formatDate(gateway.targetDate)}</p>
+              )}
+            </TooltipContent>
+          </Tooltip>
         </div>
 
         {/* Label below node */}
@@ -152,13 +175,16 @@ export function GatewayCard({ gateway, isCurrent, isLast }: GatewayCardProps) {
         </div>
       </div>
 
-      {/* Connecting line — outside the column so it doesn't affect label centering */}
+      {/* Gradient connecting line */}
       {!isLast && (
         <div
-          className={`h-0.5 w-12 flex-shrink-0 ${
-            gateway.status === "passed" ? "bg-[#00B0A0]" : "bg-gray-200"
-          }`}
-          style={{ marginTop: nodeBox / 2 }}
+          className="h-0.5 w-12 flex-shrink-0 rounded-full"
+          style={{
+            marginTop: nodeBox / 2,
+            background: isPassed
+              ? `linear-gradient(to right, ${COLORS.status.passed}, ${COLORS.status.passed}80)`
+              : "linear-gradient(to right, #E5E7EB, #E5E7EB80)",
+          }}
         />
       )}
     </div>
