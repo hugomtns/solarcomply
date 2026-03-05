@@ -26,14 +26,16 @@ function useBreadcrumbs(pathname: string) {
         label: gw ? `${gw.code} — ${gw.name}` : parts[3],
         href: `/project/${parts[1]}/gateway/${parts[3]}`,
       });
+    } else if (parts[2] === "gateways") {
+      crumbs.push({ label: "Gateways", href: `/project/${parts[1]}/gateways` });
     } else if (parts[2] === "documents") {
       crumbs.push({ label: "Documents", href: `/project/${parts[1]}/documents` });
     } else if (parts[2] === "permissions") {
       crumbs.push({ label: "Access Control", href: `/project/${parts[1]}/permissions` });
-    } else if (parts[2] === "monitoring") {
-      crumbs.push({ label: "Monitoring", href: `/project/${parts[1]}/monitoring` });
-    } else if (parts[2] === "compliance-ai") {
-      crumbs.push({ label: "AI Assistant", href: `/project/${parts[1]}/compliance-ai` });
+    } else if (parts[2] === "ai") {
+      crumbs.push({ label: "AI Hub", href: `/project/${parts[1]}/ai` });
+    } else if (parts[2] === "supply-chain") {
+      crumbs.push({ label: "Supply Chain", href: `/project/${parts[1]}/supply-chain` });
     }
   }
 
@@ -53,7 +55,7 @@ export function Topbar() {
             {i === breadcrumbs.length - 1 ? (
               <span className="font-medium text-gray-900">{crumb.label}</span>
             ) : (
-              <Link href={crumb.href} className="text-gray-500 hover:text-blue-600">
+              <Link href={crumb.href} className="text-gray-500 hover:text-blue-600 transition-colors">
                 {crumb.label}
               </Link>
             )}

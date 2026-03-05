@@ -11,12 +11,11 @@ import {
   Sun,
   FileText,
   Shield,
-  Activity,
   Bot,
   GitBranch,
   Workflow,
-  ScanSearch,
   Link2,
+  Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { projects } from "@/data/projects";
@@ -24,14 +23,16 @@ import { currentUser } from "@/data/stakeholders";
 import { organizations } from "@/data/stakeholders";
 import { useState } from "react";
 
-const projectSubPages = [
+const coreSubPages = [
   { label: "Overview", href: "", icon: GitBranch },
+  { label: "Gateways", href: "/gateways", icon: Layers },
   { label: "Documents", href: "/documents", icon: FileText },
-  { label: "Doc Intelligence", href: "/document-intelligence", icon: ScanSearch },
+  { label: "AI Hub", href: "/ai", icon: Bot },
+];
+
+const enterpriseSubPages = [
   { label: "Access Control", href: "/permissions", icon: Shield },
-  { label: "Monitoring", href: "/monitoring", icon: Activity },
   { label: "Supply Chain", href: "/supply-chain", icon: Link2 },
-  { label: "AI Assistant", href: "/compliance-ai", icon: Bot },
 ];
 
 export function Sidebar() {
@@ -42,7 +43,7 @@ export function Sidebar() {
   const activeProjectId = projects.find((p) => pathname.includes(p.id))?.id;
 
   return (
-    <aside className="fixed left-0 top-0 z-30 flex h-screen w-64 flex-col bg-[#1B2A4A] text-white">
+    <aside className="fixed left-0 top-0 z-30 flex h-screen w-64 flex-col bg-gradient-to-b from-[#1B2A4A] to-[#152238] text-white">
       <div className="flex items-center gap-2 px-5 py-5">
         <Sun className="h-7 w-7 text-amber-400" />
         <span className="text-xl font-bold tracking-tight">SolarComply</span>
@@ -53,28 +54,34 @@ export function Sidebar() {
         <Link
           href="/portfolio"
           className={cn(
-            "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-white/10",
-            pathname === "/portfolio" && "bg-white/10 border-l-2 border-orange-400"
+            "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 hover:bg-white/10",
+            pathname === "/portfolio" && "bg-white/10 text-orange-300 shadow-sm"
           )}
         >
           <LayoutDashboard className="h-5 w-5 shrink-0" />
           Portfolio
+          {pathname === "/portfolio" && (
+            <span className="absolute left-0 h-8 w-1 rounded-r-full bg-orange-400" />
+          )}
         </Link>
 
         {/* Projects */}
-        <div>
+        <div className="relative">
           <button
             onClick={() => setProjectsOpen(!projectsOpen)}
             className={cn(
-              "flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-white/10",
-              pathname.startsWith("/project") && "bg-white/10 border-l-2 border-orange-400"
+              "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 hover:bg-white/10",
+              pathname.startsWith("/project") && "bg-white/10 text-orange-300"
             )}
           >
             <FolderKanban className="h-5 w-5 shrink-0" />
             <span className="flex-1 text-left">Projects</span>
             <ChevronDown
-              className={cn("h-4 w-4 transition-transform", projectsOpen && "rotate-180")}
+              className={cn("h-4 w-4 transition-transform duration-200", projectsOpen && "rotate-180")}
             />
+            {pathname.startsWith("/project") && (
+              <span className="absolute left-0 h-8 w-1 rounded-r-full bg-orange-400" />
+            )}
           </button>
           {projectsOpen && (
             <div className="ml-4 mt-1 space-y-0.5 border-l border-white/20 pl-3">
@@ -90,8 +97,12 @@ export function Sidebar() {
                     {p.name}
                   </Link>
                   {activeProjectId === p.id && (
-                    <div className="ml-3 mt-0.5 space-y-0.5 border-l border-white/10 pl-3">
-                      {projectSubPages.map((sub) => {
+                    <div className="ml-3 mt-1 space-y-0.5">
+                      {/* Core section */}
+                      <p className="px-2 pt-1 pb-0.5 text-[9px] font-semibold uppercase tracking-wider text-white/40">
+                        Core
+                      </p>
+                      {coreSubPages.map((sub) => {
                         const subHref = `/project/${p.id}${sub.href}`;
                         const isActive = sub.href === ""
                           ? pathname === `/project/${p.id}`
@@ -101,8 +112,37 @@ export function Sidebar() {
                             key={sub.label}
                             href={subHref}
                             className={cn(
-                              "flex items-center gap-2 rounded-md px-2 py-1 text-[11px] transition-colors hover:bg-white/10",
-                              isActive ? "text-orange-300 bg-white/5" : "text-white/70"
+                              "flex items-center gap-2 rounded-md px-2 py-1 text-[11px] transition-all duration-200 hover:bg-white/10",
+                              isActive
+                                ? "bg-white/10 text-orange-300 font-medium"
+                                : "text-white/70"
+                            )}
+                          >
+                            <sub.icon className="h-3.5 w-3.5 shrink-0" />
+                            {sub.label}
+                          </Link>
+                        );
+                      })}
+
+                      {/* Divider */}
+                      <div className="mx-2 my-1 border-t border-white/10" />
+
+                      {/* Enterprise section */}
+                      <p className="px-2 pt-0.5 pb-0.5 text-[9px] font-semibold uppercase tracking-wider text-white/40">
+                        Enterprise
+                      </p>
+                      {enterpriseSubPages.map((sub) => {
+                        const subHref = `/project/${p.id}${sub.href}`;
+                        const isActive = pathname.startsWith(subHref);
+                        return (
+                          <Link
+                            key={sub.label}
+                            href={subHref}
+                            className={cn(
+                              "flex items-center gap-2 rounded-md px-2 py-1 text-[11px] transition-all duration-200 hover:bg-white/10",
+                              isActive
+                                ? "bg-white/10 text-orange-300 font-medium"
+                                : "text-white/70"
                             )}
                           >
                             <sub.icon className="h-3.5 w-3.5 shrink-0" />
@@ -118,40 +158,52 @@ export function Sidebar() {
           )}
         </div>
 
+        {/* Divider */}
+        <div className="mx-3 my-3 border-t border-white/10" />
+
         {/* Standards Library */}
         <Link
           href="/standards"
           className={cn(
-            "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-white/10",
-            pathname === "/standards" && "bg-white/10 border-l-2 border-orange-400"
+            "relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 hover:bg-white/10",
+            pathname === "/standards" && "bg-white/10 text-orange-300"
           )}
         >
           <BookOpen className="h-5 w-5 shrink-0" />
           Standards Library
+          {pathname === "/standards" && (
+            <span className="absolute left-0 h-8 w-1 rounded-r-full bg-orange-400" />
+          )}
         </Link>
 
         {/* Gateway Configuration */}
         <Link
           href="/gateway-configuration"
           className={cn(
-            "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-white/10",
-            pathname === "/gateway-configuration" && "bg-white/10 border-l-2 border-orange-400"
+            "relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 hover:bg-white/10",
+            pathname === "/gateway-configuration" && "bg-white/10 text-orange-300"
           )}
         >
           <Workflow className="h-5 w-5 shrink-0" />
           Gateway Config
+          {pathname === "/gateway-configuration" && (
+            <span className="absolute left-0 h-8 w-1 rounded-r-full bg-orange-400" />
+          )}
         </Link>
 
         {/* Settings */}
         <Link
           href="/settings"
           className={cn(
-            "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors hover:bg-white/10",
-            pathname === "/settings" && "bg-white/10 border-l-2 border-orange-400"
+            "relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 hover:bg-white/10",
+            pathname === "/settings" && "bg-white/10 text-orange-300"
           )}
         >
           <Settings className="h-5 w-5 shrink-0" />
           Settings
+          {pathname === "/settings" && (
+            <span className="absolute left-0 h-8 w-1 rounded-r-full bg-orange-400" />
+          )}
         </Link>
       </nav>
 

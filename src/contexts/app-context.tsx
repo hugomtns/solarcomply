@@ -5,12 +5,19 @@ import { User, ComplianceAlert } from "@/lib/types";
 import { currentUser as defaultUser } from "@/data/stakeholders";
 import { alerts as defaultAlerts } from "@/data/alerts";
 
+interface AIContext {
+  type: "document" | "requirement" | "gateway" | "chat";
+  id: string;
+}
+
 interface AppContextType {
   selectedProjectId: string;
   setSelectedProjectId: (id: string) => void;
   currentUser: User;
   notifications: ComplianceAlert[];
   acknowledgeAlert: (id: string) => void;
+  aiContext: AIContext | null;
+  setAiContext: (ctx: AIContext | null) => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -18,6 +25,7 @@ const AppContext = createContext<AppContextType | null>(null);
 export function AppProvider({ children }: { children: ReactNode }) {
   const [selectedProjectId, setSelectedProjectId] = useState("proj-sonnenberg");
   const [notifications, setNotifications] = useState<ComplianceAlert[]>(defaultAlerts);
+  const [aiContext, setAiContext] = useState<AIContext | null>(null);
 
   const acknowledgeAlert = (id: string) => {
     setNotifications((prev) =>
@@ -33,6 +41,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         currentUser: defaultUser,
         notifications,
         acknowledgeAlert,
+        aiContext,
+        setAiContext,
       }}
     >
       {children}
