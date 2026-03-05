@@ -47,13 +47,13 @@ export function RequirementsReferenceTable({ requirements }: RequirementsReferen
           {requirements.map((req) => (
             <Fragment key={req.id}>
               <TableRow
-                className="cursor-pointer hover:bg-gray-50"
+                className="cursor-pointer hover:bg-white/[0.04]"
                 onClick={() => toggleRow(req.id)}
               >
                 <TableCell className="font-medium text-[#2E75B6] text-xs">
                   <div className="flex items-center gap-1">
                     <ChevronRight
-                      className={`h-3.5 w-3.5 shrink-0 text-gray-400 transition-transform ${
+                      className={`h-3.5 w-3.5 shrink-0 text-slate-500 transition-transform ${
                         expanded.has(req.id) ? "rotate-90" : ""
                       }`}
                     />
@@ -62,7 +62,7 @@ export function RequirementsReferenceTable({ requirements }: RequirementsReferen
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs text-gray-700">{req.label}</span>
+                    <span className="text-xs text-slate-300">{req.label}</span>
                     {req.isBessOnly && (
                       <Badge variant="outline" className="text-[9px] px-1 py-0 bg-blue-50 text-blue-700 border-blue-200 shrink-0">
                         BESS
@@ -88,7 +88,7 @@ export function RequirementsReferenceTable({ requirements }: RequirementsReferen
                     ))}
                   </div>
                 </TableCell>
-                <TableCell className="text-[10px] text-gray-500 max-w-[100px] truncate">
+                <TableCell className="text-[10px] text-slate-400 max-w-[100px] truncate">
                   {req.standardRef || "—"}
                 </TableCell>
               </TableRow>
@@ -96,9 +96,9 @@ export function RequirementsReferenceTable({ requirements }: RequirementsReferen
                 <TableRow key={`${req.id}-detail`}>
                   <TableCell colSpan={5} className="p-0">
                     <div className="px-4 pb-4 pt-2">
-                      <div className="rounded-lg bg-gray-50 p-4 space-y-3">
-                        <p className="text-sm text-gray-600 leading-relaxed">{req.description}</p>
-                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+                      <div className="rounded-lg bg-white/[0.04] p-4 space-y-3">
+                        <p className="text-sm text-slate-400 leading-relaxed">{req.description}</p>
+                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-400">
                           <span><strong>Format:</strong> {req.format}</span>
                           <span>
                             <strong>Provider:</strong>{" "}
@@ -111,15 +111,15 @@ export function RequirementsReferenceTable({ requirements }: RequirementsReferen
                           {req.standardRef && <span><strong>Standard:</strong> {req.standardRef}</span>}
                         </div>
                         <div className="flex flex-wrap items-center gap-2 text-xs">
-                          <span className="text-gray-500"><strong>Types:</strong></span>
+                          <span className="text-slate-400"><strong>Types:</strong></span>
                           {req.applicableProjectTypes.map((t) => (
                             <Badge key={t} variant="outline" className={`text-[9px] px-1.5 py-0 ${typeColors[t]}`}>
                               {PROJECT_TYPE_LABELS[t]}
                             </Badge>
                           ))}
-                          <span className="text-gray-300">|</span>
+                          <span className="text-slate-600">|</span>
                           {req.jurisdictions.length === 0 ? (
-                            <span className="flex items-center gap-1 text-gray-400">
+                            <span className="flex items-center gap-1 text-slate-500">
                               <Globe className="h-3 w-3" /> Global
                             </span>
                           ) : (

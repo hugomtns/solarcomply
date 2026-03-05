@@ -15,7 +15,7 @@ const textMap = { sm: "text-xs", md: "text-lg", lg: "text-2xl" };
 function getColor(score: number) {
   if (score < 60) return "#EF4444";
   if (score < 80) return "#F59E0B";
-  return "#00B0A0";
+  return "#06D6A0";
 }
 
 export function ComplianceScoreRing({ score, size = "md", label }: ComplianceScoreRingProps) {
@@ -40,8 +40,12 @@ export function ComplianceScoreRing({ score, size = "md", label }: ComplianceSco
       >
         {/* Glow effect */}
         <div
-          className="absolute inset-0 rounded-full opacity-20 blur-md transition-opacity duration-700"
-          style={{ backgroundColor: color, opacity: animatedScore > 0 ? 0.15 : 0 }}
+          className="absolute inset-0 rounded-full transition-opacity duration-700"
+          style={{
+            backgroundColor: color,
+            opacity: animatedScore > 0 ? 0.15 : 0,
+            filter: 'blur(10px)',
+          }}
         />
         <svg width={dim} height={dim} className="-rotate-90">
           <circle
@@ -49,7 +53,7 @@ export function ComplianceScoreRing({ score, size = "md", label }: ComplianceSco
             cy={dim / 2}
             r={radius}
             fill="none"
-            stroke="#E5E7EB"
+            stroke="rgba(148, 163, 184, 0.12)"
             strokeWidth={stroke}
           />
           <circle
@@ -63,14 +67,17 @@ export function ComplianceScoreRing({ score, size = "md", label }: ComplianceSco
             strokeDashoffset={offset}
             strokeLinecap="round"
             className="transition-all duration-700 ease-out"
+            style={{
+              filter: `drop-shadow(0 0 4px ${color}60)`,
+            }}
           />
         </svg>
-        <span className={`absolute font-bold ${textMap[size]}`} style={{ color }}>
+        <span className={`absolute font-bold ${textMap[size]}`} style={{ color, fontFamily: 'var(--font-heading)' }}>
           {score}
         </span>
       </div>
       {label && (
-        <span className="text-[10px] font-medium text-gray-500">{label}</span>
+        <span className="text-[10px] font-medium text-slate-500">{label}</span>
       )}
     </div>
   );

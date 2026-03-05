@@ -26,10 +26,10 @@ export default function DocumentPage({ params }: DocumentPageProps) {
   if (!doc) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
-        <h1 className="text-2xl font-semibold text-gray-900">
+        <h1 className="text-2xl font-semibold text-slate-200">
           Document Not Found
         </h1>
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 text-sm text-slate-400">
           The requested document does not exist.
         </p>
         <Link
@@ -59,8 +59,8 @@ export default function DocumentPage({ params }: DocumentPageProps) {
       {/* Compact header */}
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-1">
-          <h1 className="text-xl font-semibold text-[#1B2A4A]">{doc.name}</h1>
-          <div className="flex items-center gap-2 text-sm text-gray-500 flex-wrap">
+          <h1 className="text-xl font-semibold text-white">{doc.name}</h1>
+          <div className="flex items-center gap-2 text-sm text-slate-400 flex-wrap">
             <StatusBadge status={doc.status} />
             <span>{DOCUMENT_CATEGORY_LABELS[doc.category] ?? doc.category}</span>
             <span>&middot;</span>
@@ -81,7 +81,7 @@ export default function DocumentPage({ params }: DocumentPageProps) {
 
       {/* Content area */}
       {isSynthetic ? (
-        <div className="rounded-lg border border-gray-200 bg-white p-6 md:p-8">
+        <div className="rounded-lg border border-white/[0.08] bg-white/[0.05] p-6 md:p-8">
           <SimpleMarkdown
             content={renderG8AnnualReportMarkdown(
               generateG8AnnualReport(doc.projectId)
@@ -89,9 +89,9 @@ export default function DocumentPage({ params }: DocumentPageProps) {
           />
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-20">
+        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-white/[0.04] py-20">
           <FileText className="h-12 w-12 text-gray-300 mb-3" />
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-slate-500">
             Preview not available in prototype
           </p>
         </div>

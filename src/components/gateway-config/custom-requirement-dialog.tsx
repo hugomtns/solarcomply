@@ -85,15 +85,15 @@ export function CustomRequirementDialog({
           </div>
           <div className="grid grid-cols-3 gap-3">
             <div className="space-y-2">
-              <Label className="text-xs text-gray-500">Format</Label>
+              <Label className="text-xs text-slate-400">Format</Label>
               <Input placeholder="PDF" value={format} onChange={(e) => setFormat(e.target.value)} />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs text-gray-500">Provider</Label>
+              <Label className="text-xs text-slate-400">Provider</Label>
               <Input placeholder="EPC" value={provider} onChange={(e) => setProvider(e.target.value)} />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs text-gray-500">Reviewer</Label>
+              <Label className="text-xs text-slate-400">Reviewer</Label>
               <Input placeholder="TA, DEV" value={reviewer} onChange={(e) => setReviewer(e.target.value)} />
             </div>
           </div>

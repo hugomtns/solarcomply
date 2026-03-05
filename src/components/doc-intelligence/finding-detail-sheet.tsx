@@ -71,12 +71,12 @@ export function FindingDetailSheet({ finding, onClose }: FindingDetailSheetProps
             >
               {FINDING_SEVERITY_LABELS[finding.severity]}
             </Badge>
-            <Badge variant="outline" className="gap-1 text-[10px] text-gray-600">
+            <Badge variant="outline" className="gap-1 text-[10px] text-slate-400">
               <TypeIcon className="h-3 w-3" />
               {FINDING_TYPE_LABELS[finding.type]}
             </Badge>
           </div>
-          <SheetTitle className="text-[#1B2A4A]">{finding.title}</SheetTitle>
+          <SheetTitle className="text-white">{finding.title}</SheetTitle>
           <SheetDescription>
             Gateway {finding.gatewayCode}
             {finding.standardRef && ` · ${finding.standardRef}`}
@@ -85,10 +85,10 @@ export function FindingDetailSheet({ finding, onClose }: FindingDetailSheetProps
 
         <div className="mt-4 space-y-5 px-4 pb-6">
           <div>
-            <h3 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-gray-400">
+            <h3 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
               Description
             </h3>
-            <p className="text-sm leading-relaxed text-gray-700">
+            <p className="text-sm leading-relaxed text-slate-300">
               {finding.description}
             </p>
           </div>
@@ -98,21 +98,21 @@ export function FindingDetailSheet({ finding, onClose }: FindingDetailSheetProps
           {affectedDocs.length > 0 && (
             <>
               <div>
-                <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-400">
+                <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
                   Affected Documents
                 </h3>
                 <div className="space-y-1.5">
                   {affectedDocs.map((doc) => (
                     <div
                       key={doc!.id}
-                      className="flex items-center gap-2 rounded-md border border-gray-200 px-3 py-2"
+                      className="flex items-center gap-2 rounded-md border border-white/[0.08] px-3 py-2"
                     >
                       <FileText className="h-4 w-4 shrink-0 text-[#2E75B6]" />
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-gray-700">
+                        <p className="truncate text-sm font-medium text-slate-300">
                           {doc!.name}
                         </p>
-                        <p className="text-[11px] text-gray-400">
+                        <p className="text-[11px] text-slate-500">
                           {doc!.fileName} · v{doc!.version}
                         </p>
                       </div>
@@ -127,12 +127,12 @@ export function FindingDetailSheet({ finding, onClose }: FindingDetailSheetProps
           {finding.standardRef && (
             <>
               <div>
-                <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-400">
+                <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
                   Standard Reference
                 </h3>
-                <div className="flex items-center gap-2 rounded-md border border-gray-200 px-3 py-2">
+                <div className="flex items-center gap-2 rounded-md border border-white/[0.08] px-3 py-2">
                   <BookOpen className="h-4 w-4 shrink-0 text-[#2E75B6]" />
-                  <p className="text-sm font-medium text-gray-700">
+                  <p className="text-sm font-medium text-slate-300">
                     {finding.standardRef}
                   </p>
                 </div>
@@ -142,7 +142,7 @@ export function FindingDetailSheet({ finding, onClose }: FindingDetailSheetProps
           )}
 
           <div>
-            <h3 className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-gray-400">
+            <h3 className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
               <Lightbulb className="h-3.5 w-3.5" />
               Recommendation
             </h3>

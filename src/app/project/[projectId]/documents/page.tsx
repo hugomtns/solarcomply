@@ -110,7 +110,7 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
       {/* Filter Bar */}
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-[200px] max-w-sm">
-          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
           <Input
             placeholder="Search documents..."
             value={search}
@@ -177,12 +177,12 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
       </div>
 
       {/* Result count */}
-      <p className="mb-2 text-xs text-gray-500">
+      <p className="mb-2 text-xs text-slate-400">
         Showing {filteredDocs.length} of {projectDocs.length} documents
       </p>
 
       {/* Document Table */}
-      <div className="rounded-lg border bg-white">
+      <div className="rounded-lg border bg-white/[0.05]">
         <DocumentTable documents={filteredDocs} onSelect={handleSelect} />
       </div>
 

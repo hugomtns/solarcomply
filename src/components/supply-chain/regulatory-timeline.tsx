@@ -37,14 +37,14 @@ export function RegulatoryTimeline({ project }: RegulatoryTimelineProps) {
 
   return (
     <div className="space-y-1">
-      <div className="relative ml-4 border-l-2 border-gray-200 pl-6">
+      <div className="relative ml-4 border-l-2 border-white/[0.08] pl-6">
         {filtered.map((d, i) => {
           const deadlineDate = new Date(d.date);
           const daysUntil = Math.floor((deadlineDate.getTime() - now) / (1000 * 60 * 60 * 24));
           const isPast = daysUntil < 0;
 
           let dotColor: string = COLORS.gray400;
-          let badgeClass = "bg-gray-100 text-gray-600";
+          let badgeClass = "bg-white/[0.06] text-slate-400";
           if (isPast) {
             dotColor = COLORS.teal;
             badgeClass = "bg-emerald-50 text-emerald-700";
@@ -66,15 +66,15 @@ export function RegulatoryTimeline({ project }: RegulatoryTimelineProps) {
 
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-sm font-semibold text-gray-900">{d.regulation}</span>
+                  <span className="text-sm font-semibold text-slate-200">{d.regulation}</span>
                   {d.jurisdictions.map((j) => (
                     <Badge key={j} variant="outline" className="text-[10px]">{j}</Badge>
                   ))}
                 </div>
-                <p className="mt-0.5 text-xs text-gray-500">
+                <p className="mt-0.5 text-xs text-slate-400">
                   {deadlineDate.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
                 </p>
-                <p className="mt-1 text-sm text-gray-600">{d.description}</p>
+                <p className="mt-1 text-sm text-slate-400">{d.description}</p>
                 <Badge variant="outline" className={`mt-2 text-xs ${badgeClass}`}>
                   {isPast ? "Effective" : `${daysUntil} days remaining`}
                 </Badge>
@@ -85,7 +85,7 @@ export function RegulatoryTimeline({ project }: RegulatoryTimelineProps) {
       </div>
 
       {filtered.length === 0 && (
-        <p className="py-8 text-center text-sm text-gray-400">
+        <p className="py-8 text-center text-sm text-slate-500">
           No upcoming regulatory deadlines for this project&apos;s jurisdictions.
         </p>
       )}

@@ -48,7 +48,7 @@ const statusConfig: Record<
   upcoming: {
     color: COLORS.status.upcoming,
     icon: Clock,
-    fillClass: "bg-white",
+    fillClass: "bg-slate-800",
     ringClass: "",
   },
 };
@@ -113,13 +113,13 @@ export function GatewayCard({ gateway, isCurrent, isLast }: GatewayCardProps) {
                   <div
                     className={`flex items-center justify-center rounded-full transition-all duration-200 group-hover:scale-110 ${
                       isUpcoming
-                        ? "border-2 border-[#D1D5DB] bg-white"
+                        ? "border-2 border-slate-600 bg-slate-800"
                         : config.fillClass
                     }`}
                     style={{ width: circleSize, height: circleSize }}
                   >
                     {isUpcoming ? (
-                      <span className="text-xs font-semibold text-gray-400">
+                      <span className="text-xs font-semibold text-slate-500">
                         {gateway.code}
                       </span>
                     ) : (
@@ -146,14 +146,14 @@ export function GatewayCard({ gateway, isCurrent, isLast }: GatewayCardProps) {
 
         {/* Label below node */}
         <div className="mt-2 flex w-20 flex-col items-center text-center">
-          <span className="text-[11px] font-semibold text-gray-700">
+          <span className="text-[11px] font-semibold text-slate-300" style={{ fontFamily: 'var(--font-heading)' }}>
             {gateway.code}
           </span>
-          <span className="line-clamp-2 text-[10px] leading-tight text-gray-500">
+          <span className="line-clamp-2 text-[10px] leading-tight text-slate-500">
             {gateway.name}
           </span>
           {gateway.completedDate && (
-            <span className="mt-0.5 text-[9px] text-gray-400">
+            <span className="mt-0.5 text-[9px] text-slate-600">
               {formatDate(gateway.completedDate)}
             </span>
           )}
@@ -183,7 +183,7 @@ export function GatewayCard({ gateway, isCurrent, isLast }: GatewayCardProps) {
             marginTop: nodeBox / 2,
             background: isPassed
               ? `linear-gradient(to right, ${COLORS.status.passed}, ${COLORS.status.passed}80)`
-              : "linear-gradient(to right, #E5E7EB, #E5E7EB80)",
+              : "linear-gradient(to right, rgba(148,163,184,0.15), rgba(148,163,184,0.05))",
           }}
         />
       )}

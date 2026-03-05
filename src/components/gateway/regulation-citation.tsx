@@ -15,12 +15,12 @@ export function RegulationCitation({ citation }: RegulationCitationProps) {
 
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger className="flex w-full items-center gap-2 rounded px-2 py-1 text-left text-xs hover:bg-gray-100">
-        <ChevronRight className={`h-3 w-3 shrink-0 text-gray-400 transition-transform ${isOpen ? "rotate-90" : ""}`} />
+      <CollapsibleTrigger className="flex w-full items-center gap-2 rounded px-2 py-1 text-left text-xs hover:bg-white/[0.06]">
+        <ChevronRight className={`h-3 w-3 shrink-0 text-slate-500 transition-transform ${isOpen ? "rotate-90" : ""}`} />
         <Badge variant="outline" className="shrink-0 text-[10px] bg-sky-50 text-sky-700 border-sky-200">
           {citation.article}
         </Badge>
-        <span className="truncate text-gray-700">{citation.regulationName}</span>
+        <span className="truncate text-slate-300">{citation.regulationName}</span>
       </CollapsibleTrigger>
       {citation.excerpt && (
         <CollapsibleContent>

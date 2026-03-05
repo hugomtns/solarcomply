@@ -16,12 +16,12 @@ export function GatewayRefCard({ gateway, isSelected, onClick }: GatewayRefCardP
     <button
       onClick={onClick}
       className={cn(
-        "w-full text-left rounded-lg border p-3 transition-colors hover:bg-gray-50",
-        isSelected ? "border-[#2E75B6] bg-blue-50/50 ring-1 ring-[#2E75B6]" : "border-gray-200"
+        "w-full text-left rounded-lg border p-3 transition-colors hover:bg-white/[0.04]",
+        isSelected ? "border-[#2E75B6] bg-blue-50/20 ring-1 ring-[#2E75B6]" : "border-white/[0.08]"
       )}
     >
       <div className="flex items-center justify-between mb-1">
-        <span className="text-sm font-semibold text-[#1B2A4A]">{gateway.code}</span>
+        <span className="text-sm font-semibold text-white">{gateway.code}</span>
         <div className="flex items-center gap-1.5">
           {gateway.isSolarComplyExtension && (
             <Badge variant="outline" className="text-[9px] px-1.5 py-0 bg-purple-50 text-purple-700 border-purple-200">
@@ -33,7 +33,7 @@ export function GatewayRefCard({ gateway, isSelected, onClick }: GatewayRefCardP
           </Badge>
         </div>
       </div>
-      <p className="text-xs font-medium text-gray-700 leading-tight">{gateway.name}</p>
+      <p className="text-xs font-medium text-slate-300 leading-tight">{gateway.name}</p>
       <p className="text-[10px] text-gray-400 mt-1">
         {LIFECYCLE_STAGE_LABELS[gateway.lifecycleStage]} &middot; {gateway.duration}
       </p>

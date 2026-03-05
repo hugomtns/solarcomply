@@ -80,9 +80,9 @@ export function FindingsList({ findings, onSelectFinding }: FindingsListProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-[#1B2A4A]">Findings</h2>
+        <h2 className="text-lg font-semibold text-white">Findings</h2>
         <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-gray-400" />
+          <Filter className="h-4 w-4 text-slate-500" />
           <Select value={severityFilter} onValueChange={setSeverityFilter}>
             <SelectTrigger className="h-8 w-[130px] text-xs">
               <SelectValue placeholder="Severity" />
@@ -120,7 +120,7 @@ export function FindingsList({ findings, onSelectFinding }: FindingsListProps) {
         </div>
       </div>
 
-      <p className="text-xs text-gray-500">
+      <p className="text-xs text-slate-400">
         Showing {filtered.length} of {findings.length} findings
       </p>
 
@@ -139,9 +139,9 @@ export function FindingsList({ findings, onSelectFinding }: FindingsListProps) {
                 className="flex w-full items-start gap-3 px-4 py-3 text-left"
               >
                 {isExpanded ? (
-                  <ChevronDown className="mt-0.5 h-4 w-4 shrink-0 text-gray-400" />
+                  <ChevronDown className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
                 ) : (
-                  <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-gray-400" />
+                  <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
                 )}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -151,11 +151,11 @@ export function FindingsList({ findings, onSelectFinding }: FindingsListProps) {
                     >
                       {FINDING_SEVERITY_LABELS[finding.severity]}
                     </Badge>
-                    <Badge variant="outline" className="gap-1 text-[10px] text-gray-600">
+                    <Badge variant="outline" className="gap-1 text-[10px] text-slate-400">
                       <TypeIcon className="h-3 w-3" />
                       {FINDING_TYPE_LABELS[finding.type]}
                     </Badge>
-                    <Badge variant="outline" className="text-[10px] text-gray-500">
+                    <Badge variant="outline" className="text-[10px] text-slate-400">
                       {finding.gatewayCode}
                     </Badge>
                     {finding.autoFixable && (
@@ -165,19 +165,19 @@ export function FindingsList({ findings, onSelectFinding }: FindingsListProps) {
                       </Badge>
                     )}
                   </div>
-                  <p className="mt-1.5 text-sm font-medium text-[#1B2A4A]">
+                  <p className="mt-1.5 text-sm font-medium text-white">
                     {finding.title}
                   </p>
                 </div>
               </button>
 
               {isExpanded && (
-                <div className="border-t border-gray-100 bg-gray-50/50 px-4 py-3 pl-11">
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                <div className="border-t border-white/[0.04] bg-white/[0.03] px-4 py-3 pl-11">
+                  <p className="text-sm text-slate-400 leading-relaxed">
                     {finding.description}
                   </p>
                   {finding.standardRef && (
-                    <p className="mt-2 text-xs text-gray-500">
+                    <p className="mt-2 text-xs text-slate-400">
                       <span className="font-medium">Standard:</span> {finding.standardRef}
                     </p>
                   )}

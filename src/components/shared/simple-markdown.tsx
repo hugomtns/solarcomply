@@ -154,31 +154,31 @@ function MarkdownBlock({ block }: { block: Block }) {
   switch (block.type) {
     case "h1":
       return (
-        <h1 className="text-xl font-bold text-[#1B2A4A] mt-6 mb-3 first:mt-0">
+        <h1 className="text-xl font-bold text-white mt-6 mb-3 first:mt-0">
           <InlineText text={block.text} />
         </h1>
       );
     case "h2":
       return (
-        <h2 className="text-lg font-semibold text-[#1B2A4A] mt-5 mb-2 border-b border-gray-200 pb-1">
+        <h2 className="text-lg font-semibold text-white mt-5 mb-2 border-b border-white/[0.08] pb-1">
           <InlineText text={block.text} />
         </h2>
       );
     case "h3":
       return (
-        <h3 className="text-base font-semibold text-gray-800 mt-4 mb-1.5">
+        <h3 className="text-base font-semibold text-slate-200 mt-4 mb-1.5">
           <InlineText text={block.text} />
         </h3>
       );
     case "paragraph":
       return (
-        <p className="text-sm text-gray-700 leading-relaxed mb-3">
+        <p className="text-sm text-slate-300 leading-relaxed mb-3">
           <InlineText text={block.text} />
         </p>
       );
     case "ul":
       return (
-        <ul className="list-disc list-inside space-y-1 mb-3 text-sm text-gray-700">
+        <ul className="list-disc list-inside space-y-1 mb-3 text-sm text-slate-300">
           {block.items.map((item, i) => (
             <li key={i}>
               <InlineText text={item} />
@@ -189,13 +189,13 @@ function MarkdownBlock({ block }: { block: Block }) {
     case "table":
       return (
         <div className="overflow-x-auto mb-4">
-          <table className="w-full text-sm border-collapse border border-gray-200 rounded">
+          <table className="w-full text-sm border-collapse border border-white/[0.08] rounded">
             <thead>
-              <tr className="bg-gray-50">
+              <tr className="bg-white/[0.04]">
                 {block.headers.map((h, i) => (
                   <th
                     key={i}
-                    className="border border-gray-200 px-3 py-1.5 text-left font-medium text-gray-700"
+                    className="border border-white/[0.08] px-3 py-1.5 text-left font-medium text-slate-300"
                   >
                     <InlineText text={h} />
                   </th>
@@ -204,11 +204,11 @@ function MarkdownBlock({ block }: { block: Block }) {
             </thead>
             <tbody>
               {block.rows.map((row, ri) => (
-                <tr key={ri} className="even:bg-gray-50/50">
+                <tr key={ri} className="even:bg-white/[0.04]/50">
                   {row.map((cell, ci) => (
                     <td
                       key={ci}
-                      className="border border-gray-200 px-3 py-1.5 text-gray-600"
+                      className="border border-white/[0.08] px-3 py-1.5 text-slate-400"
                     >
                       <InlineText text={cell} />
                     </td>

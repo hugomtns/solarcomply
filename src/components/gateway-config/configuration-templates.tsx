@@ -43,10 +43,10 @@ export function ConfigurationTemplates() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm text-gray-700">
+          <p className="text-sm text-slate-300">
             Save and reuse gateway configurations across projects.
           </p>
-          <p className="text-xs text-gray-500 mt-0.5">
+          <p className="text-xs text-slate-400 mt-0.5">
             {templates.length} saved templates
           </p>
         </div>
@@ -69,7 +69,7 @@ export function ConfigurationTemplates() {
             <Card key={config.id} className="p-4 flex flex-col">
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h4 className="text-sm font-semibold text-[#1B2A4A]">{config.name}</h4>
+                  <h4 className="text-sm font-semibold text-white">{config.name}</h4>
                   <div className="flex items-center gap-1.5 mt-1">
                     <Badge variant="outline" className="text-[10px] px-1.5 py-0">
                       {config.market}
@@ -88,25 +88,25 @@ export function ConfigurationTemplates() {
               </div>
 
               <div className="grid grid-cols-3 gap-2 mb-3">
-                <div className="rounded bg-gray-50 p-2 text-center">
-                  <p className="text-lg font-semibold text-[#1B2A4A]">
+                <div className="rounded bg-white/[0.04] p-2 text-center">
+                  <p className="text-lg font-semibold text-white">
                     {config.requirementConfigs.length}
                   </p>
-                  <p className="text-[10px] text-gray-500">Configured</p>
+                  <p className="text-[10px] text-slate-400">Configured</p>
                 </div>
-                <div className="rounded bg-gray-50 p-2 text-center">
-                  <p className="text-lg font-semibold text-gray-500">{naCount}</p>
-                  <p className="text-[10px] text-gray-500">N/A</p>
+                <div className="rounded bg-white/[0.04] p-2 text-center">
+                  <p className="text-lg font-semibold text-slate-400">{naCount}</p>
+                  <p className="text-[10px] text-slate-400">N/A</p>
                 </div>
-                <div className="rounded bg-gray-50 p-2 text-center">
+                <div className="rounded bg-white/[0.04] p-2 text-center">
                   <p className="text-lg font-semibold text-orange-600">
                     {config.customRequirements.length}
                   </p>
-                  <p className="text-[10px] text-gray-500">Custom</p>
+                  <p className="text-[10px] text-slate-400">Custom</p>
                 </div>
               </div>
 
-              <p className="text-[10px] text-gray-400 mb-3">
+              <p className="text-[10px] text-slate-500 mb-3">
                 Updated {new Date(config.updatedAt).toLocaleDateString("en-GB", {
                   day: "numeric",
                   month: "short",
@@ -146,7 +146,7 @@ export function ConfigurationTemplates() {
 
         {templates.length === 0 && (
           <div className="col-span-full text-center py-12">
-            <p className="text-sm text-gray-400">No templates yet. Create one to get started.</p>
+            <p className="text-sm text-slate-500">No templates yet. Create one to get started.</p>
           </div>
         )}
       </div>

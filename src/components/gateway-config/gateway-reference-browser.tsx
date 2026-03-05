@@ -47,7 +47,7 @@ export function GatewayReferenceBrowser() {
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-[200px] max-w-sm">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
           <Input
             placeholder="Search gateways or requirements..."
             value={search}
@@ -82,14 +82,14 @@ export function GatewayReferenceBrowser() {
         {(search || stageFilter !== "all" || typeFilter !== "all") && (
           <button
             onClick={() => { setSearch(""); setStageFilter("all"); setTypeFilter("all"); }}
-            className="text-xs text-gray-500 hover:text-gray-700 underline"
+            className="text-xs text-slate-400 hover:text-slate-300 underline"
           >
             Clear filters
           </button>
         )}
       </div>
 
-      <p className="text-xs text-gray-500">
+      <p className="text-xs text-slate-400">
         Showing {filtered.length} of {gatewayReference.length} gateways &middot;{" "}
         {gatewayReference.reduce((acc, g) => acc + g.requirements.length, 0)} total requirements
       </p>
@@ -109,7 +109,7 @@ export function GatewayReferenceBrowser() {
                 />
               ))}
               {filtered.length === 0 && (
-                <p className="text-sm text-gray-400 text-center py-8">No gateways match your filters</p>
+                <p className="text-sm text-slate-500 text-center py-8">No gateways match your filters</p>
               )}
             </div>
           </ScrollArea>

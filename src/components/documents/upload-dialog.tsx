@@ -128,16 +128,16 @@ export function UploadDialog({ open, onOpenChange, projectId }: UploadDialogProp
                 className={`flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-semibold transition-colors ${
                   i <= stepIndex
                     ? "bg-[#2E75B6] text-white"
-                    : "bg-gray-100 text-gray-400"
+                    : "bg-white/[0.06] text-slate-500"
                 }`}
               >
                 {i + 1}
               </div>
-              <span className={`text-[11px] ${i <= stepIndex ? "text-gray-900 font-medium" : "text-gray-400"}`}>
+              <span className={`text-[11px] ${i <= stepIndex ? "text-slate-200 font-medium" : "text-slate-500"}`}>
                 {step.label}
               </span>
               {i < steps.length - 1 && (
-                <div className={`flex-1 h-px ${i < stepIndex ? "bg-[#2E75B6]" : "bg-gray-200"}`} />
+                <div className={`flex-1 h-px ${i < stepIndex ? "bg-[#2E75B6]" : "bg-white/[0.08]"}`} />
               )}
             </div>
           ))}
@@ -152,7 +152,7 @@ export function UploadDialog({ open, onOpenChange, projectId }: UploadDialogProp
                   ? "border-[#2E75B6] bg-blue-50"
                   : file
                     ? "border-emerald-300 bg-emerald-50/50"
-                    : "border-gray-300 bg-gray-50"
+                    : "border-gray-300 bg-white/[0.04]"
               }`}
               onDragEnter={handleDrag}
               onDragLeave={handleDrag}
@@ -162,14 +162,14 @@ export function UploadDialog({ open, onOpenChange, projectId }: UploadDialogProp
               {file ? (
                 <div className="flex flex-col items-center gap-2">
                   <FileText className="h-10 w-10 text-emerald-500" />
-                  <p className="text-sm font-medium text-gray-900">{file.name}</p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-sm font-medium text-slate-200">{file.name}</p>
+                  <p className="text-xs text-slate-400">
                     {(file.size / 1024 / 1024).toFixed(2)} MB
                   </p>
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-xs text-gray-500"
+                    className="text-xs text-slate-400"
                     onClick={() => setFile(null)}
                   >
                     <X className="h-3 w-3 mr-1" />
@@ -178,11 +178,11 @@ export function UploadDialog({ open, onOpenChange, projectId }: UploadDialogProp
                 </div>
               ) : (
                 <div className="flex flex-col items-center gap-2">
-                  <Upload className="h-10 w-10 text-gray-400" />
-                  <p className="text-sm font-medium text-gray-700">
+                  <Upload className="h-10 w-10 text-slate-500" />
+                  <p className="text-sm font-medium text-slate-300">
                     Drag & drop a file here
                   </p>
-                  <p className="text-xs text-gray-500">or click to browse</p>
+                  <p className="text-xs text-slate-400">or click to browse</p>
                   <label>
                     <input
                       type="file"
@@ -246,14 +246,14 @@ export function UploadDialog({ open, onOpenChange, projectId }: UploadDialogProp
             <div className="flex flex-col items-center gap-4 py-6">
               {validating ? (
                 <>
-                  <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-200 border-t-[#2E75B6]" />
-                  <p className="text-sm font-medium text-gray-700">Validating document...</p>
+                  <div className="h-12 w-12 animate-spin rounded-full border-4 border-white/[0.08] border-t-[#2E75B6]" />
+                  <p className="text-sm font-medium text-slate-300">Validating document...</p>
                   <Progress value={65} className="w-48" />
                 </>
               ) : (
                 <>
                   <CheckCircle className="h-12 w-12 text-emerald-500" />
-                  <p className="text-sm font-medium text-gray-900">Validation Complete</p>
+                  <p className="text-sm font-medium text-slate-200">Validation Complete</p>
                   <div className="space-y-1.5 text-center">
                     <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200">Format Valid</Badge>
                     <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 ml-1.5">Size OK</Badge>
@@ -277,18 +277,18 @@ export function UploadDialog({ open, onOpenChange, projectId }: UploadDialogProp
                   </p>
                 </div>
               </div>
-              <div className="rounded-lg border bg-gray-50 p-3 space-y-2">
+              <div className="rounded-lg border bg-white/[0.04] p-3 space-y-2">
                 <div className="flex justify-between text-xs">
-                  <span className="text-gray-500">File</span>
+                  <span className="text-slate-400">File</span>
                   <span className="font-medium">{file?.name}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-gray-500">Category</span>
+                  <span className="text-slate-400">Category</span>
                   <span className="font-medium">{DOCUMENT_CATEGORY_LABELS[category as DocumentCategory] || category}</span>
                 </div>
                 {gateway && gateway !== "none" && (
                   <div className="flex justify-between text-xs">
-                    <span className="text-gray-500">Gateway</span>
+                    <span className="text-slate-400">Gateway</span>
                     <span className="font-medium">{gateway}</span>
                   </div>
                 )}

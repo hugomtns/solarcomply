@@ -35,10 +35,10 @@ export default function GatewayPage({ params }: GatewayPageProps) {
   if (!gateway) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
-        <h1 className="text-2xl font-semibold text-gray-900">
+        <h1 className="text-2xl font-semibold text-slate-200">
           Gateway Not Found
         </h1>
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 text-sm text-slate-400">
           The gateway you are looking for does not exist or you do not have
           access to it.
         </p>
@@ -62,15 +62,15 @@ export default function GatewayPage({ params }: GatewayPageProps) {
           <ComplianceScoreRing score={gateway.complianceScore} size="lg" />
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-semibold text-[#1B2A4A]">
+              <h1 className="text-2xl font-semibold text-white">
                 {gateway.code}: {gateway.name}
               </h1>
               <StatusBadge status={gateway.status} />
             </div>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-slate-400">
               {gateway.description}
             </p>
-            <div className="mt-2 flex items-center gap-4 text-xs text-gray-400">
+            <div className="mt-2 flex items-center gap-4 text-xs text-slate-500">
               {gateway.targetDate && (
                 <span>
                   Target:{" "}
@@ -134,7 +134,7 @@ export default function GatewayPage({ params }: GatewayPageProps) {
 
       {/* Requirements section */}
       <div>
-        <h2 className="mb-3 text-lg font-semibold text-[#1B2A4A]">Requirements</h2>
+        <h2 className="mb-3 text-lg font-semibold text-white">Requirements</h2>
         <RequirementsChecklist
           requirements={gateway.requirements}
           projectId={projectId}
@@ -146,7 +146,7 @@ export default function GatewayPage({ params }: GatewayPageProps) {
       {/* AI Compliance Results (G8 only) */}
       {isG8 && project && (hasAiResults || poc.isChecking) && (
         <div>
-          <h2 className="mb-3 text-lg font-semibold text-[#1B2A4A]">AI Compliance Analysis</h2>
+          <h2 className="mb-3 text-lg font-semibold text-white">AI Compliance Analysis</h2>
           <AiComplianceResults
             projectId={projectId}
             gatewayCode="G8"
@@ -158,7 +158,7 @@ export default function GatewayPage({ params }: GatewayPageProps) {
       {/* Approvals section */}
       {gateway.approvals.length > 0 && (
         <div>
-          <h2 className="mb-3 text-lg font-semibold text-[#1B2A4A]">Approvals</h2>
+          <h2 className="mb-3 text-lg font-semibold text-white">Approvals</h2>
           <ApprovalPanel approvals={gateway.approvals} />
         </div>
       )}

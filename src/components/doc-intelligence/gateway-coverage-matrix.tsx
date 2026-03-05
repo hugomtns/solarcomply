@@ -18,11 +18,11 @@ interface GatewayCoverageMatrixProps {
 export function GatewayCoverageMatrix({ coverage }: GatewayCoverageMatrixProps) {
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold text-[#1B2A4A]">Gateway Coverage</h2>
-      <div className="rounded-lg border border-gray-200 bg-white overflow-hidden">
+      <h2 className="text-lg font-semibold text-white">Gateway Coverage</h2>
+      <div className="rounded-lg border border-white/[0.08] bg-white/[0.05]overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-gray-50">
+            <TableRow className="bg-white/[0.04]">
               <TableHead className="w-[100px] text-xs">Gateway</TableHead>
               <TableHead className="text-xs">Name</TableHead>
               <TableHead className="w-[90px] text-center text-xs">Required</TableHead>
@@ -45,7 +45,7 @@ export function GatewayCoverageMatrix({ coverage }: GatewayCoverageMatrixProps) 
                   <TableCell className="font-mono text-sm font-semibold text-[#2E75B6]">
                     {item.gatewayCode}
                   </TableCell>
-                  <TableCell className="text-sm text-gray-700">
+                  <TableCell className="text-sm text-slate-300">
                     {item.gatewayName}
                   </TableCell>
                   <TableCell className="text-center text-sm">{item.requiredCount}</TableCell>
@@ -55,7 +55,7 @@ export function GatewayCoverageMatrix({ coverage }: GatewayCoverageMatrixProps) 
                   <TableCell className="text-center text-sm">
                     <span className={cn(
                       "font-medium",
-                      item.missingCount > 0 ? "text-red-600" : "text-gray-400"
+                      item.missingCount > 0 ? "text-red-600" : "text-slate-500"
                     )}>
                       {item.missingCount}
                     </span>
@@ -63,20 +63,20 @@ export function GatewayCoverageMatrix({ coverage }: GatewayCoverageMatrixProps) 
                   <TableCell className="text-center text-sm">
                     <span className={cn(
                       "font-medium",
-                      item.issueCount > 0 ? "text-amber-600" : "text-gray-400"
+                      item.issueCount > 0 ? "text-amber-600" : "text-slate-500"
                     )}>
                       {item.issueCount}
                     </span>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <div className="h-2 flex-1 overflow-hidden rounded-full bg-gray-100">
+                      <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/[0.06]">
                         <div
                           className="h-full rounded-full transition-all duration-500"
                           style={{ width: `${pct}%`, backgroundColor: barColor }}
                         />
                       </div>
-                      <span className="w-9 text-right text-xs font-medium tabular-nums text-gray-600">
+                      <span className="w-9 text-right text-xs font-medium tabular-nums text-slate-400">
                         {pct}%
                       </span>
                     </div>

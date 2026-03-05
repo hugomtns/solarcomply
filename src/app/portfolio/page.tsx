@@ -5,17 +5,17 @@ import { projects } from "@/data/projects";
 
 export default function PortfolioPage() {
   return (
-    <>
+    <div className="animate-fade-in">
       <PageHeader
         title="Portfolio"
         description="Overview of all solar PV and BESS projects"
       />
       <PortfolioStats />
-      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
       </div>
-    </>
+    </div>
   );
 }

@@ -22,7 +22,7 @@ const statusIcons: Record<CheckStatus, { icon: typeof CheckCircle; className: st
   fail: { icon: XCircle, className: "text-red-600" },
   warning: { icon: AlertTriangle, className: "text-amber-500" },
   pending: { icon: Clock, className: "text-amber-500" },
-  not_applicable: { icon: Minus, className: "text-gray-400" },
+  not_applicable: { icon: Minus, className: "text-slate-500" },
 };
 
 const categoryLabels: Record<string, string> = {
@@ -36,7 +36,7 @@ const categoryOrder: string[] = ["document", "standard", "data_quality", "approv
 
 const checkTypeBadge: Record<string, { label: string; className: string }> = {
   automated: { label: "Automated", className: "bg-blue-100 text-blue-700 border-blue-200" },
-  manual: { label: "Manual", className: "bg-gray-100 text-gray-700 border-gray-200" },
+  manual: { label: "Manual", className: "bg-white/[0.06] text-slate-300 border-gray-200" },
   ai_assisted: { label: "AI", className: "bg-purple-100 text-purple-700 border-purple-200" },
 };
 
@@ -61,33 +61,33 @@ export function RequirementsChecklist({ requirements, projectId, onRequestWaiver
   return (
     <div className="space-y-4">
       {/* Summary bar */}
-      <div className="flex flex-wrap items-center gap-3 rounded-lg border bg-gray-50 px-4 py-3 text-sm">
-        <span className="font-medium text-gray-900">
+      <div className="flex flex-wrap items-center gap-3 rounded-lg border bg-white/[0.04] px-4 py-3 text-sm">
+        <span className="font-medium text-slate-200">
           {passCount} of {total} requirements passed
         </span>
-        <span className="text-gray-300">|</span>
+        <span className="text-slate-600">|</span>
         {pendingCount > 0 && (
           <>
             <span className="text-amber-600">{pendingCount} in review</span>
-            <span className="text-gray-300">|</span>
+            <span className="text-slate-600">|</span>
           </>
         )}
         {failCount > 0 && (
           <>
             <span className="text-red-600">{failCount} failed</span>
-            <span className="text-gray-300">|</span>
+            <span className="text-slate-600">|</span>
           </>
         )}
         {naCount > 0 && (
-          <span className="text-gray-500">{naCount} not applicable</span>
+          <span className="text-slate-400">{naCount} not applicable</span>
         )}
       </div>
 
       {/* Grouped requirements */}
       {grouped.map((group) => (
         <div key={group.category} className="rounded-lg border">
-          <div className="flex items-center gap-2 border-b bg-gray-50 px-4 py-2.5">
-            <h3 className="text-sm font-semibold text-[#1B2A4A]">{group.label}</h3>
+          <div className="flex items-center gap-2 border-b bg-white/[0.04] px-4 py-2.5">
+            <h3 className="text-sm font-semibold text-white">{group.label}</h3>
             <Badge variant="outline" className="text-xs">
               {group.items.filter((i) => i.status === "pass").length}/{group.items.length}
             </Badge>
@@ -117,10 +117,10 @@ export function RequirementsChecklist({ requirements, projectId, onRequestWaiver
                     <div className="flex flex-1 items-center gap-3">
                       <Icon className={`h-4 w-4 shrink-0 ${statusCfg.className}`} />
                       <div className="flex-1 text-left">
-                        <span className="text-sm font-medium text-gray-900">
+                        <span className="text-sm font-medium text-slate-200">
                           {req.label}
                         </span>
-                        <span className="ml-2 text-xs text-gray-500">
+                        <span className="ml-2 text-xs text-slate-400">
                           {req.description}
                         </span>
                       </div>
@@ -143,7 +143,7 @@ export function RequirementsChecklist({ requirements, projectId, onRequestWaiver
                               value={req.aiConfidence * 100}
                               className="h-1.5 w-12"
                             />
-                            <span className="text-xs text-gray-500">
+                            <span className="text-xs text-slate-400">
                               {Math.round(req.aiConfidence * 100)}%
                             </span>
                           </div>
@@ -152,18 +152,18 @@ export function RequirementsChecklist({ requirements, projectId, onRequestWaiver
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="px-4">
-                    <div className="space-y-3 rounded-md bg-gray-50 p-3">
+                    <div className="space-y-3 rounded-md bg-white/[0.04] p-3">
                       {/* Linked documents */}
                       {linkedDocs.length > 0 && (
                         <div>
-                          <p className="mb-1.5 text-xs font-medium text-gray-600">
+                          <p className="mb-1.5 text-xs font-medium text-slate-400">
                             Linked Documents
                           </p>
                           <ul className="space-y-1">
                             {linkedDocs.map((doc) => (
                               <li key={doc!.id} className="flex items-center gap-2 text-xs">
-                                <FileText className="h-3 w-3 text-gray-400" />
-                                <span className="text-gray-700">{doc!.name}</span>
+                                <FileText className="h-3 w-3 text-slate-500" />
+                                <span className="text-slate-300">{doc!.name}</span>
                                 <Badge variant="outline" className="text-[10px] px-1.5 py-0">
                                   {doc!.fileType.toUpperCase()}
                                 </Badge>
@@ -187,10 +187,10 @@ export function RequirementsChecklist({ requirements, projectId, onRequestWaiver
 
                       {/* Check result detail */}
                       <div>
-                        <p className="mb-1 text-xs font-medium text-gray-600">
+                        <p className="mb-1 text-xs font-medium text-slate-400">
                           Check Result
                         </p>
-                        <p className="text-xs text-gray-700">
+                        <p className="text-xs text-slate-300">
                           {req.status === "pass" && "Requirement satisfied. All criteria met."}
                           {req.status === "fail" && "Requirement not met. Corrective action needed."}
                           {req.status === "warning" && "Partial compliance detected. Review recommended."}
