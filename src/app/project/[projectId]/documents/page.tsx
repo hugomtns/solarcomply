@@ -17,6 +17,7 @@ import {
 import { DocumentTable } from "@/components/documents/document-table";
 import { DocumentViewer } from "@/components/documents/document-viewer";
 import { DataRoomBuilder } from "@/components/documents/data-room-builder";
+import { UploadDialog } from "@/components/documents/upload-dialog";
 import { documents } from "@/data/documents";
 import { projects } from "@/data/projects";
 import { DOCUMENT_CATEGORY_LABELS, DOCUMENT_STATUS_LABELS } from "@/lib/constants";
@@ -47,6 +48,7 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
   const [viewerOpen, setViewerOpen] = useState(false);
   const [dataRoomOpen, setDataRoomOpen] = useState(false);
+  const [uploadOpen, setUploadOpen] = useState(false);
 
   const projectDocs = useMemo(
     () => documents.filter((d) => d.projectId === projectId),
@@ -99,7 +101,7 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
           <FolderOpen className="h-4 w-4" />
           Build Data Room
         </Button>
-        <Button onClick={() => alert("Upload dialog (mock)")}>
+        <Button onClick={() => setUploadOpen(true)}>
           <Upload className="h-4 w-4" />
           Upload
         </Button>
@@ -197,6 +199,13 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
         open={dataRoomOpen}
         onOpenChange={setDataRoomOpen}
         projectName={project?.name}
+      />
+
+      {/* Upload Dialog */}
+      <UploadDialog
+        open={uploadOpen}
+        onOpenChange={setUploadOpen}
+        projectId={projectId}
       />
     </>
   );

@@ -8,6 +8,7 @@ import {
   Download,
   Share2,
   Trash2,
+  Sparkles,
 } from "lucide-react";
 import {
   Sheet,
@@ -118,6 +119,26 @@ export function DocumentViewer({ document: doc, open, onOpenChange }: DocumentVi
           <div className="mx-4 flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-12">
             <Icon className="h-12 w-12 text-gray-300 mb-3" />
             <p className="text-sm text-gray-400">Preview not available in prototype</p>
+          </div>
+
+          {/* AI Analysis Banner */}
+          <div className="mx-4 flex items-center gap-3 rounded-lg border border-purple-200 bg-purple-50 px-4 py-3">
+            <Sparkles className="h-4 w-4 text-purple-600 shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-semibold text-purple-900">AI Document Analysis</p>
+              <p className="text-[11px] text-purple-700 mt-0.5">
+                Analyze this document for compliance gaps, cross-reference findings, and standard alignment.
+              </p>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              className="shrink-0 gap-1.5 text-xs border-purple-200 text-purple-700 hover:bg-purple-100"
+              onClick={() => alert("Navigate to AI Hub with document context (mock)")}
+            >
+              <Sparkles className="h-3 w-3" />
+              Analyze
+            </Button>
           </div>
 
           {/* Action Buttons */}
