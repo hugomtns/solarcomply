@@ -1,14 +1,15 @@
 "use client";
 
 import { use, useState } from "react";
-import Link from "next/link";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { ComplianceScoreRing } from "@/components/shared/compliance-score-ring";
 import { Button } from "@/components/ui/button";
 import { RequirementsChecklist } from "@/components/gateway/requirements-checklist";
 import { ApprovalPanel } from "@/components/gateway/approval-panel";
+import { AiComplianceResults } from "@/components/gateway/ai-compliance-results";
 import { gateways } from "@/data/gateways";
 import { projects } from "@/data/projects";
+import { usePoc } from "@/contexts/poc-context";
 import { Sparkles, ArrowRight } from "lucide-react";
 import type { GatewayRequirement } from "@/lib/types";
 import { WaiverDialog } from "@/components/gateway/waiver-dialog";
@@ -27,6 +28,7 @@ export default function GatewayPage({ params }: GatewayPageProps) {
   const project = projects.find((p) => p.id === projectId);
   const { setAiContext } = useApp();
   const router = useRouter();
+  const poc = usePoc();
 
   const [waiverReq, setWaiverReq] = useState<GatewayRequirement | null>(null);
 
@@ -43,6 +45,9 @@ export default function GatewayPage({ params }: GatewayPageProps) {
       </div>
     );
   }
+
+  const isG8 = gateway.code === "G8";
+  const hasAiResults = !!poc.complianceResults[projectId];
 
   const handleAnalyzeWithAI = () => {
     setAiContext({ type: "gateway", id: gatewayId });
@@ -95,17 +100,36 @@ export default function GatewayPage({ params }: GatewayPageProps) {
           </div>
         </div>
 
-        {/* Analyze with AI button */}
-        <Button
-          onClick={handleAnalyzeWithAI}
-          variant="outline"
-          size="sm"
-          className="gap-2 border-purple-200 text-purple-700 hover:bg-purple-50"
-        >
-          <Sparkles className="h-4 w-4" />
-          Analyze with AI
-          <ArrowRight className="h-3.5 w-3.5" />
-        </Button>
+        <div className="flex items-center gap-2">
+          {/* G8 AI Check button */}
+          {isG8 && project && (
+            <Button
+              onClick={() => {
+                if (!hasAiResults) {
+                  poc.runAllAiChecks(projectId, "G8", project.jurisdictions);
+                }
+              }}
+              className="gap-2 bg-purple-600 hover:bg-purple-700"
+              size="sm"
+              disabled={poc.isChecking}
+            >
+              <Sparkles className="h-4 w-4" />
+              {poc.isChecking ? "Running..." : hasAiResults ? "View AI Analysis" : "Run AI Check"}
+            </Button>
+          )}
+
+          {/* Analyze with AI Hub button */}
+          <Button
+            onClick={handleAnalyzeWithAI}
+            variant="outline"
+            size="sm"
+            className="gap-2 border-purple-200 text-purple-700 hover:bg-purple-50"
+          >
+            <Sparkles className="h-4 w-4" />
+            AI Hub
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Button>
+        </div>
       </div>
 
       {/* Requirements section */}
@@ -118,6 +142,18 @@ export default function GatewayPage({ params }: GatewayPageProps) {
           onViewAiAnalysis={handleAnalyzeWithAI}
         />
       </div>
+
+      {/* AI Compliance Results (G8 only) */}
+      {isG8 && project && (hasAiResults || poc.isChecking) && (
+        <div>
+          <h2 className="mb-3 text-lg font-semibold text-[#1B2A4A]">AI Compliance Analysis</h2>
+          <AiComplianceResults
+            projectId={projectId}
+            gatewayCode="G8"
+            jurisdictions={project.jurisdictions}
+          />
+        </div>
+      )}
 
       {/* Approvals section */}
       {gateway.approvals.length > 0 && (
