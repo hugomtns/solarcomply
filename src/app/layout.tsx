@@ -38,7 +38,7 @@ export default function RootLayout({
                 <Sidebar />
                 <div className="flex-1 pl-64">
                   <Topbar />
-                  <main className="mx-auto max-w-[1440px] p-6">{children}</main>
+                  <main className="mx-auto max-w-[1440px] p-8">{children}</main>
                 </div>
               </div>
               <PocDevPanel />

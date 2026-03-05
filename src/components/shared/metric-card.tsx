@@ -12,7 +12,7 @@ interface MetricCardProps {
 
 export function MetricCard({ label, value, trend, icon }: MetricCardProps) {
   return (
-    <Card className="px-5 py-4">
+    <Card className="px-5 py-4 shadow-card transition-all duration-200 hover:shadow-card-hover">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-xs font-medium uppercase tracking-wide text-gray-400">{label}</p>
@@ -37,7 +37,7 @@ export function MetricCard({ label, value, trend, icon }: MetricCardProps) {
             </div>
           )}
         </div>
-        {icon && <div className="text-gray-300">{icon}</div>}
+        {icon && <div className="rounded-lg bg-gray-50 p-2 text-gray-400">{icon}</div>}
       </div>
     </Card>
   );
