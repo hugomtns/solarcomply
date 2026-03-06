@@ -10,6 +10,7 @@ import { GatewayCoverageMatrix } from "@/components/doc-intelligence/gateway-cov
 import { FindingDetailSheet } from "@/components/doc-intelligence/finding-detail-sheet";
 import { ChatInterface } from "@/components/compliance-ai/chat-interface";
 import { GapReportPreview } from "@/components/compliance-ai/gap-report-preview";
+import { GapReportDetail } from "@/components/compliance-ai/gap-report-detail";
 import { getProjectFindings, getProjectHealthScore, getGatewayCoverage } from "@/data/doc-intelligence";
 import { useApp } from "@/contexts/app-context";
 import { usePoc } from "@/contexts/poc-context";
@@ -56,6 +57,7 @@ export default function AIHubPage({
   // Dashboard state
   const [scanComplete, setScanComplete] = useState(false);
   const [selectedFinding, setSelectedFinding] = useState<DocIntelligenceFinding | null>(null);
+  const [viewingReport, setViewingReport] = useState<"compliance" | "gap" | null>(null);
 
   const findings = getProjectFindings(projectId);
   const healthScore = getProjectHealthScore(projectId);
@@ -173,13 +175,25 @@ export default function AIHubPage({
 
         {/* Reports Tab */}
         <TabsContent value="reports" className="flex-1 overflow-y-auto mt-4">
-          <div className="space-y-6">
-            <GapReportPreview
+          {viewingReport ? (
+            <GapReportDetail
+              kind={viewingReport}
+              projectId={projectId}
               gapItems={mockGapItems}
               complianceResult={complianceResult}
               projectName={project?.name}
+              onBack={() => setViewingReport(null)}
             />
-          </div>
+          ) : (
+            <div className="space-y-6">
+              <GapReportPreview
+                gapItems={mockGapItems}
+                complianceResult={complianceResult}
+                projectName={project?.name}
+                onViewReport={setViewingReport}
+              />
+            </div>
+          )}
         </TabsContent>
       </Tabs>
     </div>

@@ -3,7 +3,7 @@
 import { CheckStatus, ComplianceCheckResponse } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Download, CheckCircle, XCircle, AlertTriangle, Minus, Sparkles } from "lucide-react";
+import { FileText, Download, CheckCircle, XCircle, AlertTriangle, Minus, Sparkles, Eye } from "lucide-react";
 import { exportCompliancePdf } from "@/lib/export-compliance-pdf";
 
 interface GapItem {
@@ -17,9 +17,10 @@ interface GapReportPreviewProps {
   gapItems: GapItem[];
   complianceResult?: ComplianceCheckResponse | null;
   projectName?: string;
+  onViewReport?: (kind: "compliance" | "gap") => void;
 }
 
-export function GapReportPreview({ gapItems, complianceResult, projectName }: GapReportPreviewProps) {
+export function GapReportPreview({ gapItems, complianceResult, projectName, onViewReport }: GapReportPreviewProps) {
   const compliant = gapItems.filter((i) => i.status === "pass").length;
   const gaps = gapItems.filter((i) => i.status === "fail").length;
   const warnings = gapItems.filter((i) => i.status === "warning").length;
@@ -92,15 +93,26 @@ export function GapReportPreview({ gapItems, complianceResult, projectName }: Ga
             <div className="mb-3 text-[11px] text-text-tertiary">
               Regulations: {complianceResult.metadata.regulationsLoaded.join(", ")}
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1.5 text-xs"
-              onClick={handleDownloadCompliancePdf}
-            >
-              <Download className="h-3 w-3" />
-              Download PDF
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5 text-xs"
+                onClick={() => onViewReport?.("compliance")}
+              >
+                <Eye className="h-3 w-3" />
+                View Report
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5 text-xs"
+                onClick={handleDownloadCompliancePdf}
+              >
+                <Download className="h-3 w-3" />
+                Download PDF
+              </Button>
+            </div>
           </CardContent>
         </Card>
       )}
@@ -158,15 +170,26 @@ export function GapReportPreview({ gapItems, complianceResult, projectName }: Ga
               </>
             )}
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            className="gap-1.5 text-xs"
-            onClick={handleDownloadGapPdf}
-          >
-            <Download className="h-3 w-3" />
-            Download PDF
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5 text-xs"
+              onClick={() => onViewReport?.("gap")}
+            >
+              <Eye className="h-3 w-3" />
+              View Report
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5 text-xs"
+              onClick={handleDownloadGapPdf}
+            >
+              <Download className="h-3 w-3" />
+              Download PDF
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>
