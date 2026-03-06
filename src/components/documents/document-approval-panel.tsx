@@ -25,7 +25,7 @@ import { organizations, users, currentUser } from "@/data/stakeholders";
 import { getApprovalsForDocument } from "@/data/document-approvals";
 import { STAKEHOLDER_ROLE_LABELS } from "@/lib/constants";
 import { StatusBadge } from "@/components/shared/status-badge";
-import { Info, Send, CheckCircle, FileSearch } from "lucide-react";
+import { Info, Send, CheckCircle, FileSearch, Mail } from "lucide-react";
 import type { StakeholderRole } from "@/lib/types";
 
 interface DocumentApprovalPanelProps {
@@ -78,6 +78,16 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
     }))
   );
 
+  const [confirmDialog, setConfirmDialog] = useState<{
+    type: "approve" | "request" | "remind";
+    orgName?: string;
+  } | null>(null);
+  const [successDialog, setSuccessDialog] = useState<{
+    type: "approve" | "request" | "remind" | "submitted";
+    orgName?: string;
+    detail?: string;
+  } | null>(null);
+
   const currentUserOrg = currentUser.organizationId;
   const approvedCount = approvals.filter((a) => a.status === "approved").length;
   const requiredCount = approvals.filter((a) => a.status !== "not_required").length;
@@ -106,9 +116,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
       .join(", ");
     setDialogOpen(false);
     setSubmitted(true);
-    alert(
-      `Document submitted for review. Approval requests sent to:\n\n${names}\n\nAll stakeholders will be notified via email.`
-    );
+    setSuccessDialog({ type: "submitted", detail: names });
   };
 
   // Empty state with submit action
@@ -129,7 +137,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
         </div>
 
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogContent className="sm:max-w-md">
+          <DialogContent className="sm:max-w-lg">
             <DialogHeader>
               <DialogTitle>Submit for Review</DialogTitle>
               <DialogDescription>
@@ -137,7 +145,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
               </DialogDescription>
             </DialogHeader>
 
-            <div className="space-y-3 py-2">
+            <div className="space-y-3 py-2 max-h-[60vh] overflow-y-auto">
               {stakeholders.map((s) => {
                 const org = organizations.find((o) => o.id === s.orgId);
                 return (
@@ -256,7 +264,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                           size="sm"
                           className="gap-1.5 text-xs"
                           onClick={() =>
-                            alert(`Reminder sent to ${org?.name ?? "organization"}.`)
+                            setSuccessDialog({ type: "remind", orgName: org?.name ?? "organization" })
                           }
                         >
                           <Send className="h-3 w-3" />
@@ -394,7 +402,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                         <Button
                           size="sm"
                           className="gap-1.5 bg-primary hover:bg-palette-teal-600 text-white"
-                          onClick={() => alert("Document approved (mock). All stakeholders will be notified.")}
+                          onClick={() => setConfirmDialog({ type: "approve" })}
                         >
                           <CheckCircle className="h-3.5 w-3.5" />
                           Approve
@@ -406,7 +414,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                           size="sm"
                           className="gap-1.5 text-xs"
                           onClick={() =>
-                            alert(`Approval request sent to ${org?.name ?? "organization"}. They will be notified via email.`)
+                            setConfirmDialog({ type: "request", orgName: org?.name ?? "organization" })
                           }
                         >
                           <Send className="h-3 w-3" />
@@ -421,6 +429,82 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
           </Table>
         </div>
       </div>
+
+      {/* Confirmation dialog */}
+      <Dialog open={confirmDialog !== null} onOpenChange={(open) => !open && setConfirmDialog(null)}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>
+              {confirmDialog?.type === "approve" ? "Approve Document" : "Request Approval"}
+            </DialogTitle>
+            <DialogDescription>
+              {confirmDialog?.type === "approve"
+                ? "This will record your formal approval for this document. All stakeholders will be notified."
+                : `This will send an approval request to ${confirmDialog?.orgName}. They will be notified via email.`}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmDialog(null)}>
+              Cancel
+            </Button>
+            <Button
+              className={
+                confirmDialog?.type === "approve"
+                  ? "gap-1.5 bg-primary hover:bg-palette-teal-600 text-white"
+                  : "gap-1.5 bg-brand-blue hover:bg-brand-blue-hover text-white"
+              }
+              onClick={() => {
+                if (confirmDialog) {
+                  setSuccessDialog(confirmDialog);
+                  setConfirmDialog(null);
+                }
+              }}
+            >
+              {confirmDialog?.type === "approve" ? (
+                <><CheckCircle className="h-3.5 w-3.5" />Confirm Approval</>
+              ) : (
+                <><Send className="h-3.5 w-3.5" />Send Request</>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Success dialog */}
+      <Dialog open={successDialog !== null} onOpenChange={(open) => !open && setSuccessDialog(null)}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/15">
+              {successDialog?.type === "approve" ? (
+                <CheckCircle className="h-6 w-6 text-primary" />
+              ) : (
+                <Mail className="h-6 w-6 text-palette-blue-500" />
+              )}
+            </div>
+            <DialogTitle className="text-center">
+              {successDialog?.type === "approve" && "Document Approved"}
+              {successDialog?.type === "request" && "Request Sent"}
+              {successDialog?.type === "remind" && "Reminder Sent"}
+              {successDialog?.type === "submitted" && "Submitted for Review"}
+            </DialogTitle>
+            <DialogDescription className="text-center">
+              {successDialog?.type === "approve" &&
+                "Your approval has been recorded. All stakeholders have been notified."}
+              {successDialog?.type === "request" &&
+                `Approval request sent to ${successDialog.orgName}. They will be notified via email.`}
+              {successDialog?.type === "remind" &&
+                `Reminder sent to ${successDialog.orgName}.`}
+              {successDialog?.type === "submitted" &&
+                `Approval requests sent to: ${successDialog.detail}. All stakeholders will be notified via email.`}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="sm:justify-center">
+            <Button variant="outline" onClick={() => setSuccessDialog(null)}>
+              Done
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </TooltipProvider>
   );
 }

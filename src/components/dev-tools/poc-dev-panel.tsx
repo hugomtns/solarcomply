@@ -7,7 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { usePoc } from "@/contexts/poc-context";
 import { useApp } from "@/contexts/app-context";
 import { projects } from "@/data/projects";
-import { Wrench, ChevronDown, FileText, Zap, Trash2, Eye } from "lucide-react";
+import { Wrench, ChevronDown, FileText, Zap, Trash2, Eye, Package, CheckCircle, XCircle, Loader2 } from "lucide-react";
 
 export function PocDevPanel() {
   const [isOpen, setIsOpen] = useState(false);
@@ -66,24 +66,36 @@ export function PocDevPanel() {
               )}
             </div>
 
-            {/* Synthetic doc */}
+            {/* Document package */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-text-secondary">Synthetic Report</span>
-                <Badge variant="outline" className={`text-xs ${poc.syntheticDoc ? "bg-primary/15 text-primary" : "bg-surface-glass text-text-tertiary"}`}>
-                  {poc.syntheticDoc ? "Generated" : "Not generated"}
+                <span className="text-xs font-medium text-text-secondary">Document Package</span>
+                <Badge variant="outline" className={`text-xs ${poc.documentPackage ? "bg-primary/15 text-primary" : "bg-surface-glass text-text-tertiary"}`}>
+                  {poc.documentPackage ? `${poc.documentPackage.documents.length} documents` : "Not generated"}
                 </Badge>
               </div>
               <Button
                 variant="outline"
                 size="sm"
                 className="w-full gap-1.5 text-xs"
-                onClick={() => project && poc.generateSyntheticDoc(project.id)}
+                onClick={() => project && poc.generateDocumentPackage(project.id)}
                 disabled={!project}
               >
-                <FileText className="h-3 w-3" />
-                Generate Report
+                <Package className="h-3 w-3" />
+                Generate Document Package
               </Button>
+
+              {/* Document list */}
+              {poc.documentPackage && (
+                <div className="rounded-md border border-white/[0.06] bg-surface-glass p-2 space-y-1">
+                  {poc.documentPackage.documents.map((doc) => (
+                    <div key={doc.id} className="flex items-center gap-1.5 text-[10px] text-text-tertiary">
+                      <FileText className="h-3 w-3 shrink-0" />
+                      <span className="truncate">{doc.title.split(" -- ")[0]}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* AI Check */}
@@ -119,6 +131,23 @@ export function PocDevPanel() {
                   <Trash2 className="h-3 w-3" />
                 </Button>
               </div>
+
+              {/* Batch progress */}
+              {poc.batchStatuses.length > 0 && (
+                <div className="rounded-md border border-white/[0.06] bg-surface-glass p-2 space-y-1">
+                  {poc.batchStatuses.map((batch) => (
+                    <div key={batch.id} className="flex items-center gap-1.5 text-[10px]">
+                      {batch.status === "pending" && <span className="h-2 w-2 rounded-full bg-white/20 shrink-0" />}
+                      {batch.status === "running" && <Loader2 className="h-3 w-3 animate-spin text-palette-purple-400 shrink-0" />}
+                      {batch.status === "done" && <CheckCircle className="h-3 w-3 text-primary shrink-0" />}
+                      {batch.status === "error" && <XCircle className="h-3 w-3 text-status-error shrink-0" />}
+                      <span className={batch.status === "running" ? "text-text-heading" : "text-text-tertiary"}>
+                        {batch.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Error */}
@@ -171,6 +200,13 @@ export function PocDevPanel() {
                     {currentResult.results.filter((r) => r.status === "pass").length} pass
                   </span>
                 </div>
+
+                {/* Documents analyzed */}
+                {currentResult.metadata.documentsAnalyzed && (
+                  <div className="text-[10px] text-text-muted">
+                    Documents: {currentResult.metadata.documentsAnalyzed.length} analyzed
+                  </div>
+                )}
 
                 {showJson && (
                   <ScrollArea className="h-48 rounded border border-white/[0.08] bg-surface-page p-2">

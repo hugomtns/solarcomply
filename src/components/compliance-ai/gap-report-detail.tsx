@@ -26,6 +26,7 @@ import type {
   ComplianceFinding,
 } from "@/lib/types";
 import { documents } from "@/data/documents";
+import { exportCompliancePdf } from "@/lib/export-compliance-pdf";
 
 /* ─── Types ─── */
 
@@ -222,7 +223,18 @@ export function GapReportDetail({
           </div>
         </div>
 
-        <Button variant="outline" size="sm" className="gap-1.5 shrink-0">
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-1.5 shrink-0"
+          onClick={() => {
+            if (isCompliance && complianceResult && projectName) {
+              exportCompliancePdf(complianceResult, projectName);
+            } else {
+              alert("Gap Analysis PDF export (mock) — standards-based gap report");
+            }
+          }}
+        >
           <Download className="h-4 w-4" />
           Download PDF
         </Button>

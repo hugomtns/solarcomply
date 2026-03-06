@@ -1,14 +1,23 @@
 "use client";
 
+import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { organizations, users, currentUser } from "@/data/stakeholders";
 import { STAKEHOLDER_ROLE_LABELS } from "@/lib/constants";
 import { StatusBadge } from "@/components/shared/status-badge";
 import type { GatewayApproval } from "@/lib/types";
-import { Info, Send, CheckCircle } from "lucide-react";
+import { Info, Send, CheckCircle, Mail } from "lucide-react";
 
 interface ApprovalPanelProps {
   approvals: GatewayApproval[];
@@ -27,13 +36,20 @@ const roleDescriptions: Record<string, string> = {
 
 export function ApprovalPanel({ approvals }: ApprovalPanelProps) {
   const currentUserOrg = currentUser.organizationId;
+  const [confirmDialog, setConfirmDialog] = useState<{
+    type: "request" | "approve";
+    orgName?: string;
+  } | null>(null);
+  const [successDialog, setSuccessDialog] = useState<{
+    type: "request" | "approve";
+    orgName?: string;
+  } | null>(null);
 
-  const handleRequestApproval = (orgName: string) => {
-    alert(`Approval request sent to ${orgName}. They will be notified via email.`);
-  };
-
-  const handleApproveGateway = () => {
-    alert("Gateway approved successfully. All stakeholders will be notified.");
+  const handleConfirm = () => {
+    if (confirmDialog) {
+      setSuccessDialog(confirmDialog);
+      setConfirmDialog(null);
+    }
   };
 
   return (
@@ -150,7 +166,7 @@ export function ApprovalPanel({ approvals }: ApprovalPanelProps) {
                         <Button
                           size="sm"
                           className="gap-1.5 bg-primary hover:bg-palette-teal-600 text-white"
-                          onClick={handleApproveGateway}
+                          onClick={() => setConfirmDialog({ type: "approve" })}
                         >
                           <CheckCircle className="h-3.5 w-3.5" />
                           Approve Gateway
@@ -161,7 +177,7 @@ export function ApprovalPanel({ approvals }: ApprovalPanelProps) {
                           variant="outline"
                           size="sm"
                           className="gap-1.5 text-xs"
-                          onClick={() => handleRequestApproval(org?.name ?? "organization")}
+                          onClick={() => setConfirmDialog({ type: "request", orgName: org?.name ?? "organization" })}
                         >
                           <Send className="h-3 w-3" />
                           Request Approval
@@ -175,6 +191,69 @@ export function ApprovalPanel({ approvals }: ApprovalPanelProps) {
           </Table>
         </div>
       </div>
+
+      {/* Confirmation dialog */}
+      <Dialog open={confirmDialog !== null} onOpenChange={(open) => !open && setConfirmDialog(null)}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>
+              {confirmDialog?.type === "approve" ? "Approve Gateway" : "Request Approval"}
+            </DialogTitle>
+            <DialogDescription>
+              {confirmDialog?.type === "approve"
+                ? "This will record your formal approval for this gateway. All stakeholders will be notified."
+                : `This will send an approval request to ${confirmDialog?.orgName}. They will be notified via email.`}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmDialog(null)}>
+              Cancel
+            </Button>
+            <Button
+              className={
+                confirmDialog?.type === "approve"
+                  ? "gap-1.5 bg-primary hover:bg-palette-teal-600 text-white"
+                  : "gap-1.5 bg-brand-blue hover:bg-brand-blue-hover text-white"
+              }
+              onClick={handleConfirm}
+            >
+              {confirmDialog?.type === "approve" ? (
+                <><CheckCircle className="h-3.5 w-3.5" />Confirm Approval</>
+              ) : (
+                <><Send className="h-3.5 w-3.5" />Send Request</>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Success dialog */}
+      <Dialog open={successDialog !== null} onOpenChange={(open) => !open && setSuccessDialog(null)}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/15">
+              {successDialog?.type === "approve" ? (
+                <CheckCircle className="h-6 w-6 text-primary" />
+              ) : (
+                <Mail className="h-6 w-6 text-palette-blue-500" />
+              )}
+            </div>
+            <DialogTitle className="text-center">
+              {successDialog?.type === "approve" ? "Gateway Approved" : "Request Sent"}
+            </DialogTitle>
+            <DialogDescription className="text-center">
+              {successDialog?.type === "approve"
+                ? "Your approval has been recorded. All stakeholders have been notified."
+                : `Approval request sent to ${successDialog?.orgName}. They will be notified via email.`}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="sm:justify-center">
+            <Button variant="outline" onClick={() => setSuccessDialog(null)}>
+              Done
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </TooltipProvider>
   );
 }

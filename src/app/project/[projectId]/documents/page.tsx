@@ -19,6 +19,7 @@ import { DataRoomBuilder } from "@/components/documents/data-room-builder";
 import { UploadDialog } from "@/components/documents/upload-dialog";
 import { documents } from "@/data/documents";
 import { projects } from "@/data/projects";
+import { gateways } from "@/data/gateways";
 import { DOCUMENT_CATEGORY_LABELS, DOCUMENT_STATUS_LABELS } from "@/lib/constants";
 import type { Document } from "@/lib/types";
 
@@ -44,6 +45,7 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [fileTypeFilter, setFileTypeFilter] = useState("all");
+  const [gatewayFilter, setGatewayFilter] = useState("all");
   const [dataRoomOpen, setDataRoomOpen] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
 
@@ -58,6 +60,18 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
     return Array.from(cats).sort();
   }, [projectDocs]);
 
+  // Collect gateways that have documents in this project
+  const projectGateways = useMemo(() => {
+    const gwIds = new Set(projectDocs.map((d) => d.gatewayId).filter(Boolean));
+    return gateways
+      .filter((g) => gwIds.has(g.id))
+      .sort((a, b) => {
+        const numA = parseInt(a.code.replace("G", ""), 10);
+        const numB = parseInt(b.code.replace("G", ""), 10);
+        return numA - numB;
+      });
+  }, [projectDocs]);
+
   const filteredDocs = useMemo(() => {
     return projectDocs.filter((doc) => {
       if (search) {
@@ -70,9 +84,10 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
       if (categoryFilter !== "all" && doc.category !== categoryFilter) return false;
       if (statusFilter !== "all" && doc.status !== statusFilter) return false;
       if (fileTypeFilter !== "all" && doc.fileType !== fileTypeFilter) return false;
+      if (gatewayFilter !== "all" && doc.gatewayId !== gatewayFilter) return false;
       return true;
     });
-  }, [projectDocs, search, categoryFilter, statusFilter, fileTypeFilter]);
+  }, [projectDocs, search, categoryFilter, statusFilter, fileTypeFilter, gatewayFilter]);
 
   const router = useRouter();
 
@@ -152,7 +167,21 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
           </SelectContent>
         </Select>
 
-        {(search || categoryFilter !== "all" || statusFilter !== "all" || fileTypeFilter !== "all") && (
+        <Select value={gatewayFilter} onValueChange={setGatewayFilter}>
+          <SelectTrigger className="w-[160px]">
+            <SelectValue placeholder="Gateway" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Gateways</SelectItem>
+            {projectGateways.map((gw) => (
+              <SelectItem key={gw.id} value={gw.id}>
+                {gw.code} — {gw.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {(search || categoryFilter !== "all" || statusFilter !== "all" || fileTypeFilter !== "all" || gatewayFilter !== "all") && (
           <Button
             variant="ghost"
             size="sm"
@@ -161,6 +190,7 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
               setCategoryFilter("all");
               setStatusFilter("all");
               setFileTypeFilter("all");
+              setGatewayFilter("all");
             }}
           >
             Clear filters

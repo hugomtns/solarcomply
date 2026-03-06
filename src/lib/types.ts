@@ -347,6 +347,8 @@ export interface ComplianceCheckResult {
   confidence: number;
   findings: ComplianceFinding[];
   summary: string;
+  sourceDocumentId?: string;
+  sourceDocumentTitle?: string;
 }
 
 export interface ComplianceCheckRequest {
@@ -354,6 +356,7 @@ export interface ComplianceCheckRequest {
   gatewayCode: string;
   requirementIds?: string[];
   jurisdictions: string[];
+  batchId?: string;
 }
 
 export interface ComplianceCheckResponse {
@@ -367,6 +370,8 @@ export interface ComplianceCheckResponse {
     totalTokens?: number;
     durationMs: number;
     timestamp: string;
+    batchId?: string;
+    documentsAnalyzed?: { id: string; title: string }[];
   };
 }
 

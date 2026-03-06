@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AiFindingCard } from "./ai-finding-card";
 import { usePoc } from "@/contexts/poc-context";
-import { Sparkles, RefreshCw, Loader2, Clock, Download } from "lucide-react";
+import { Sparkles, RefreshCw, Loader2, Clock, Download, FileText, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 import { exportCompliancePdf } from "@/lib/export-compliance-pdf";
 import { projects } from "@/data/projects";
 import type { ComplianceCheckResponse } from "@/lib/types";
@@ -29,7 +29,34 @@ export function AiComplianceResults({ projectId, gatewayCode, jurisdictions }: A
       <div className="flex flex-col items-center justify-center py-16">
         <Loader2 className="h-8 w-8 animate-spin text-palette-purple-400" />
         <p className="mt-3 text-sm font-medium text-text-secondary">Running AI Compliance Check...</p>
-        <p className="mt-1 text-xs text-text-tertiary">Analyzing report against {jurisdictions.includes("EU") || jurisdictions.includes("DE") ? "EU" : "US"} regulations</p>
+        <p className="mt-1 text-xs text-text-tertiary">
+          Analyzing document package against {jurisdictions.includes("EU") || jurisdictions.includes("DE") ? "EU" : "US"} regulations
+        </p>
+
+        {/* Batch progress */}
+        {poc.batchStatuses.length > 0 && (
+          <div className="mt-4 w-full max-w-sm space-y-2">
+            {poc.batchStatuses.map((batch) => (
+              <div key={batch.id} className="flex items-center gap-2 text-xs">
+                {batch.status === "pending" && (
+                  <span className="h-2 w-2 rounded-full bg-white/20" />
+                )}
+                {batch.status === "running" && (
+                  <Loader2 className="h-3 w-3 animate-spin text-palette-purple-400" />
+                )}
+                {batch.status === "done" && (
+                  <CheckCircle className="h-3 w-3 text-primary" />
+                )}
+                {batch.status === "error" && (
+                  <XCircle className="h-3 w-3 text-status-error" />
+                )}
+                <span className={batch.status === "running" ? "text-text-heading" : "text-text-tertiary"}>
+                  {batch.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
@@ -42,8 +69,8 @@ export function AiComplianceResults({ projectId, gatewayCode, jurisdictions }: A
         </div>
         <h3 className="mt-4 text-sm font-semibold text-text-heading">AI Compliance Analysis</h3>
         <p className="mt-1 max-w-sm text-center text-xs text-text-tertiary">
-          Run an AI-powered compliance check against applicable regulations.
-          The AI will analyze the synthetic annual report and identify compliance gaps.
+          Run an AI-powered compliance check on the full G8 document package.
+          The AI will generate synthetic documents for each requirement and analyze them against applicable regulations.
         </p>
         <Button
           onClick={handleRunCheck}
@@ -85,6 +112,14 @@ function ResultsDisplay({
   const avgConfidence = result.results.length > 0
     ? result.results.reduce((sum, r) => sum + r.confidence, 0) / result.results.length
     : 0;
+
+  // Group results by source document
+  const resultsByDoc = new Map<string, typeof result.results>();
+  for (const r of result.results) {
+    const key = r.sourceDocumentTitle ?? "Other";
+    if (!resultsByDoc.has(key)) resultsByDoc.set(key, []);
+    resultsByDoc.get(key)!.push(r);
+  }
 
   return (
     <div className="space-y-4">
@@ -128,6 +163,14 @@ function ResultsDisplay({
               <span>{result.metadata.totalTokens.toLocaleString()} tokens</span>
             )}
           </div>
+
+          {/* Documents analyzed */}
+          {result.metadata.documentsAnalyzed && result.metadata.documentsAnalyzed.length > 0 && (
+            <div className="flex items-start gap-1.5 text-[11px] text-text-tertiary">
+              <FileText className="h-3 w-3 mt-0.5 shrink-0" />
+              <span>{result.metadata.documentsAnalyzed.length} documents analyzed</span>
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <Button
@@ -149,40 +192,52 @@ function ResultsDisplay({
         </div>
       </div>
 
-      {/* Results by requirement */}
+      {/* Results grouped by source document */}
       <ScrollArea className="max-h-[600px]">
-        <div className="space-y-4">
-          {result.results.map((checkResult) => (
-            <div key={checkResult.requirementId} className="rounded-lg border">
-              {/* Check header */}
-              <div className="flex items-center justify-between border-b bg-white/[0.04] px-4 py-2">
-                <div className="flex items-center gap-2">
-                  <CheckStatusBadge status={checkResult.status} />
-                  <span className="text-sm font-medium text-text-heading">
-                    {checkResult.requirementId}
-                  </span>
-                  <span className="text-xs text-text-tertiary">
-                    {Math.round(checkResult.confidence * 100)}% confidence
-                  </span>
-                </div>
-                <span className="text-xs text-text-tertiary">
-                  {checkResult.findings.length} finding{checkResult.findings.length !== 1 ? "s" : ""}
-                </span>
+        <div className="space-y-6">
+          {[...resultsByDoc.entries()].map(([docTitle, docResults]) => (
+            <div key={docTitle} className="space-y-3">
+              {/* Document section header */}
+              <div className="flex items-center gap-2 border-b border-white/[0.06] pb-2">
+                <FileText className="h-4 w-4 text-brand-blue" />
+                <span className="text-xs font-medium text-text-heading truncate">{docTitle}</span>
+                <DocStatusSummary results={docResults} />
               </div>
 
-              {/* Summary */}
-              <div className="px-4 py-2 text-xs text-text-secondary">
-                {checkResult.summary}
-              </div>
+              {/* Results for this document */}
+              {docResults.map((checkResult) => (
+                <div key={checkResult.requirementId} className="rounded-lg border">
+                  {/* Check header */}
+                  <div className="flex items-center justify-between border-b bg-white/[0.04] px-4 py-2">
+                    <div className="flex items-center gap-2">
+                      <CheckStatusBadge status={checkResult.status} />
+                      <span className="text-sm font-medium text-text-heading">
+                        {checkResult.requirementId}
+                      </span>
+                      <span className="text-xs text-text-tertiary">
+                        {Math.round(checkResult.confidence * 100)}% confidence
+                      </span>
+                    </div>
+                    <span className="text-xs text-text-tertiary">
+                      {checkResult.findings.length} finding{checkResult.findings.length !== 1 ? "s" : ""}
+                    </span>
+                  </div>
 
-              {/* Findings */}
-              {checkResult.findings.length > 0 && (
-                <div className="space-y-2 px-4 pb-3">
-                  {checkResult.findings.map((finding) => (
-                    <AiFindingCard key={finding.id} finding={finding} />
-                  ))}
+                  {/* Summary */}
+                  <div className="px-4 py-2 text-xs text-text-secondary">
+                    {checkResult.summary}
+                  </div>
+
+                  {/* Findings */}
+                  {checkResult.findings.length > 0 && (
+                    <div className="space-y-2 px-4 pb-3">
+                      {checkResult.findings.map((finding) => (
+                        <AiFindingCard key={finding.id} finding={finding} />
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
             </div>
           ))}
         </div>
@@ -193,7 +248,39 @@ function ResultsDisplay({
         <span>Model: {result.metadata.model}</span>
         <span>|</span>
         <span>Regulations: {result.metadata.regulationsLoaded.length}</span>
+        {result.metadata.documentsAnalyzed && (
+          <>
+            <span>|</span>
+            <span>Documents: {result.metadata.documentsAnalyzed.length}</span>
+          </>
+        )}
       </div>
+    </div>
+  );
+}
+
+function DocStatusSummary({ results }: { results: { status: string }[] }) {
+  const pass = results.filter((r) => r.status === "pass").length;
+  const fail = results.filter((r) => r.status === "fail").length;
+  const warn = results.filter((r) => r.status === "warning").length;
+
+  return (
+    <div className="flex items-center gap-2 ml-auto text-[10px]">
+      {pass > 0 && (
+        <span className="flex items-center gap-0.5 text-primary">
+          <CheckCircle className="h-3 w-3" /> {pass}
+        </span>
+      )}
+      {warn > 0 && (
+        <span className="flex items-center gap-0.5 text-status-warning">
+          <AlertTriangle className="h-3 w-3" /> {warn}
+        </span>
+      )}
+      {fail > 0 && (
+        <span className="flex items-center gap-0.5 text-status-error">
+          <XCircle className="h-3 w-3" /> {fail}
+        </span>
+      )}
     </div>
   );
 }

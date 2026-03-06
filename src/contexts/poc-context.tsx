@@ -6,20 +6,32 @@ import type {
   ComplianceCheckResponse,
   ComplianceCheckResult,
 } from "@/lib/types";
-import { generateG8AnnualReport, renderG8AnnualReportMarkdown, type G8AnnualReportData } from "@/data/synthetic-docs/g8-annual-report";
+import {
+  generateG8DocumentPackage,
+  G8_COMPLIANCE_BATCHES,
+  type G8DocumentPackage,
+  type ComplianceBatch,
+} from "@/data/synthetic-docs/g8-document-package";
+
+export interface BatchStatus {
+  id: string;
+  label: string;
+  status: "pending" | "running" | "done" | "error";
+  error?: string;
+}
 
 interface PocContextType {
   // Results keyed by projectId
   complianceResults: Record<string, ComplianceCheckResponse>;
   isChecking: boolean;
   checkError: string | null;
-  syntheticDoc: string | null;
-  syntheticDocData: G8AnnualReportData | null;
+  documentPackage: G8DocumentPackage | null;
+  batchStatuses: BatchStatus[];
   tokenUsage: { total: number; calls: number };
   runComplianceCheck: (request: ComplianceCheckRequest) => Promise<ComplianceCheckResponse | null>;
   runAllAiChecks: (projectId: string, gatewayCode: string, jurisdictions: string[]) => Promise<void>;
   clearResults: () => void;
-  generateSyntheticDoc: (projectId: string) => void;
+  generateDocumentPackage: (projectId: string) => void;
   getResultForRequirement: (projectId: string, requirementId: string) => ComplianceCheckResult | undefined;
 }
 
@@ -29,12 +41,11 @@ export function PocProvider({ children }: { children: ReactNode }) {
   const [complianceResults, setComplianceResults] = useState<Record<string, ComplianceCheckResponse>>({});
   const [isChecking, setIsChecking] = useState(false);
   const [checkError, setCheckError] = useState<string | null>(null);
-  const [syntheticDoc, setSyntheticDoc] = useState<string | null>(null);
-  const [syntheticDocData, setSyntheticDocData] = useState<G8AnnualReportData | null>(null);
+  const [documentPackage, setDocumentPackage] = useState<G8DocumentPackage | null>(null);
+  const [batchStatuses, setBatchStatuses] = useState<BatchStatus[]>([]);
   const [tokenUsage, setTokenUsage] = useState({ total: 0, calls: 0 });
 
   const runComplianceCheck = useCallback(async (request: ComplianceCheckRequest): Promise<ComplianceCheckResponse | null> => {
-    setIsChecking(true);
     setCheckError(null);
 
     try {
@@ -57,16 +68,12 @@ export function PocProvider({ children }: { children: ReactNode }) {
 
       const response: ComplianceCheckResponse = await res.json();
       console.log(`[poc] Compliance check completed (${elapsed}s):`, {
+        batchId: request.batchId ?? "all",
         results: response.results.length,
         model: response.metadata.model,
         tokens: response.metadata.totalTokens,
         durationMs: response.metadata.durationMs,
       });
-
-      setComplianceResults((prev) => ({
-        ...prev,
-        [request.projectId]: response,
-      }));
 
       setTokenUsage((prev) => ({
         total: prev.total + (response.metadata.totalTokens ?? 0),
@@ -79,8 +86,6 @@ export function PocProvider({ children }: { children: ReactNode }) {
       console.error("[poc] Compliance check error:", message);
       setCheckError(message);
       return null;
-    } finally {
-      setIsChecking(false);
     }
   }, []);
 
@@ -89,22 +94,109 @@ export function PocProvider({ children }: { children: ReactNode }) {
     gatewayCode: string,
     jurisdictions: string[],
   ) => {
-    await runComplianceCheck({ projectId, gatewayCode, jurisdictions });
-  }, [runComplianceCheck]);
+    setIsChecking(true);
+    setCheckError(null);
+
+    // Generate document package if not already done
+    let pkg = documentPackage;
+    if (!pkg || pkg.projectId !== projectId) {
+      try {
+        pkg = generateG8DocumentPackage(projectId);
+        setDocumentPackage(pkg);
+      } catch (error) {
+        setCheckError(error instanceof Error ? error.message : "Failed to generate document package");
+        setIsChecking(false);
+        return;
+      }
+    }
+
+    // Initialize batch statuses
+    const initialStatuses: BatchStatus[] = G8_COMPLIANCE_BATCHES.map((b) => ({
+      id: b.id,
+      label: b.label,
+      status: "pending" as const,
+    }));
+    setBatchStatuses(initialStatuses);
+
+    // Run batches sequentially to avoid overwhelming the API
+    const allResults: ComplianceCheckResult[] = [];
+    const allRegulations: string[] = [];
+    const allDocuments: { id: string; title: string }[] = [];
+    let totalDuration = 0;
+
+    for (const batch of G8_COMPLIANCE_BATCHES) {
+      // Update status to running
+      setBatchStatuses((prev) =>
+        prev.map((s) => s.id === batch.id ? { ...s, status: "running" } : s)
+      );
+
+      const response = await runComplianceCheck({
+        projectId,
+        gatewayCode,
+        jurisdictions,
+        batchId: batch.id,
+      });
+
+      if (response) {
+        allResults.push(...response.results);
+        allRegulations.push(...response.metadata.regulationsLoaded);
+        if (response.metadata.documentsAnalyzed) {
+          allDocuments.push(...response.metadata.documentsAnalyzed);
+        }
+        totalDuration += response.metadata.durationMs;
+
+        setBatchStatuses((prev) =>
+          prev.map((s) => s.id === batch.id ? { ...s, status: "done" } : s)
+        );
+      } else {
+        setBatchStatuses((prev) =>
+          prev.map((s) => s.id === batch.id
+            ? { ...s, status: "error", error: checkError ?? "Unknown error" }
+            : s
+          )
+        );
+      }
+    }
+
+    // Combine all batch results into a single response
+    if (allResults.length > 0) {
+      const combined: ComplianceCheckResponse = {
+        requestId: `chk-combined-${Date.now()}`,
+        projectId,
+        gatewayCode,
+        results: allResults,
+        metadata: {
+          model: "gemini-2.5-flash",
+          regulationsLoaded: [...new Set(allRegulations)],
+          totalTokens: tokenUsage.total,
+          durationMs: totalDuration,
+          timestamp: new Date().toISOString(),
+          documentsAnalyzed: allDocuments,
+        },
+      };
+
+      setComplianceResults((prev) => ({
+        ...prev,
+        [projectId]: combined,
+      }));
+    }
+
+    setIsChecking(false);
+  }, [documentPackage, runComplianceCheck, checkError, tokenUsage.total]);
 
   const clearResults = useCallback(() => {
     setComplianceResults({});
     setCheckError(null);
     setTokenUsage({ total: 0, calls: 0 });
+    setBatchStatuses([]);
   }, []);
 
-  const generateSyntheticDocFn = useCallback((projectId: string) => {
+  const generateDocumentPackageFn = useCallback((projectId: string) => {
     try {
-      const data = generateG8AnnualReport(projectId);
-      setSyntheticDocData(data);
-      setSyntheticDoc(renderG8AnnualReportMarkdown(data));
+      const pkg = generateG8DocumentPackage(projectId);
+      setDocumentPackage(pkg);
     } catch (error) {
-      setCheckError(error instanceof Error ? error.message : "Failed to generate report");
+      setCheckError(error instanceof Error ? error.message : "Failed to generate document package");
     }
   }, []);
 
@@ -123,13 +215,13 @@ export function PocProvider({ children }: { children: ReactNode }) {
         complianceResults,
         isChecking,
         checkError,
-        syntheticDoc,
-        syntheticDocData,
+        documentPackage,
+        batchStatuses,
         tokenUsage,
         runComplianceCheck,
         runAllAiChecks,
         clearResults,
-        generateSyntheticDoc: generateSyntheticDocFn,
+        generateDocumentPackage: generateDocumentPackageFn,
         getResultForRequirement,
       }}
     >

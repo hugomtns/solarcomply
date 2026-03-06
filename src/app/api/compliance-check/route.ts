@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
-import { getRegulationsForCheck } from "@/lib/regulation-router";
-import { generateG8AnnualReport, renderG8AnnualReportMarkdown } from "@/data/synthetic-docs/g8-annual-report";
+import { getRegulationsForCheck, type RegulationFile } from "@/lib/regulation-router";
+import {
+  generateG8DocumentPackage,
+  renderDocumentMarkdown,
+  G8_COMPLIANCE_BATCHES,
+  type G8DocumentPackage,
+  type SyntheticDocument,
+} from "@/data/synthetic-docs/g8-document-package";
 import type { ComplianceCheckRequest, ComplianceCheckResponse, ComplianceCheckResult, ComplianceFinding } from "@/lib/types";
 
 const GEMINI_MODEL = "gemini-2.5-flash";
@@ -13,22 +19,45 @@ export async function POST(request: NextRequest) {
 
   try {
     const body: ComplianceCheckRequest = await request.json();
-    const { projectId, gatewayCode, jurisdictions } = body;
+    const { projectId, gatewayCode, jurisdictions, batchId } = body;
 
     // 1. Get applicable regulations
-    const regulations = getRegulationsForCheck(gatewayCode, jurisdictions);
-    if (regulations.length === 0) {
+    const allRegulations = getRegulationsForCheck(gatewayCode, jurisdictions);
+    if (allRegulations.length === 0 && !batchId) {
       return NextResponse.json(
         { error: "No regulations found for this gateway/jurisdiction combination" },
         { status: 400 }
       );
     }
 
-    // 2. Load regulation text files
+    // 2. Generate document package
+    const docPackage = generateG8DocumentPackage(projectId);
+
+    // 3. Determine which batch to run (or run specific batch)
+    const batch = batchId
+      ? G8_COMPLIANCE_BATCHES.find((b) => b.id === batchId)
+      : undefined;
+
+    if (batchId && !batch) {
+      return NextResponse.json(
+        { error: `Unknown batch: ${batchId}` },
+        { status: 400 }
+      );
+    }
+
+    // 4. Load regulation text files
     const regulationTexts: Record<string, string> = {};
     const extractedDir = path.join(process.cwd(), "docs", "regs", "extracted");
 
-    for (const reg of regulations) {
+    const regulationIdsNeeded = batch
+      ? batch.regulationIds
+      : allRegulations.map((r) => r.id);
+
+    const regulationsNeeded = allRegulations.filter((r) =>
+      regulationIdsNeeded.includes(r.id)
+    );
+
+    for (const reg of regulationsNeeded) {
       try {
         const filePath = path.join(extractedDir, reg.fileName);
         regulationTexts[reg.id] = await fs.readFile(filePath, "utf-8");
@@ -37,29 +66,16 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // 3. Generate synthetic document
-    const reportData = generateG8AnnualReport(projectId);
-    const reportMarkdown = renderG8AnnualReportMarkdown(reportData);
+    // 5. Select documents for this batch
+    const documents = batch
+      ? docPackage.documents.filter((d) => batch.documentIds.includes(d.id))
+      : docPackage.documents;
 
-    // 4. Build Gemini prompt
-    const systemPrompt = buildSystemPrompt();
-    const regulationContext = buildRegulationContext(regulationTexts, regulations);
-    const userPrompt = buildUserPrompt(reportMarkdown, body);
+    const requirementIds = batch
+      ? batch.requirementIds
+      : G8_COMPLIANCE_BATCHES.flatMap((b) => b.requirementIds);
 
-    console.log("[compliance-check] Request:", {
-      projectId,
-      gatewayCode,
-      jurisdictions,
-      regulationsLoaded: regulations.map((r) => r.name),
-      promptLengths: {
-        system: systemPrompt.length,
-        regulations: regulationContext.length,
-        user: userPrompt.length,
-        totalChars: systemPrompt.length + regulationContext.length + userPrompt.length,
-      },
-    });
-
-    // 5. Call Gemini API
+    // 6. Build prompts
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
@@ -68,6 +84,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const systemPrompt = buildSystemPrompt();
+    const regulationContext = buildRegulationContext(regulationTexts, regulationsNeeded);
+    const documentContext = buildDocumentContext(documents);
+    const userPrompt = buildUserPrompt(documents, requirementIds, body);
+
+    console.log("[compliance-check] Request:", {
+      projectId,
+      gatewayCode,
+      jurisdictions,
+      batchId: batchId ?? "all",
+      documentsIncluded: documents.map((d) => d.id),
+      regulationsLoaded: regulationsNeeded.map((r) => r.name),
+      requirementIds,
+      promptLengths: {
+        system: systemPrompt.length,
+        regulations: regulationContext.length,
+        documents: documentContext.length,
+        user: userPrompt.length,
+        totalChars: systemPrompt.length + regulationContext.length + documentContext.length + userPrompt.length,
+      },
+    });
+
+    // 7. Call Gemini API
     const geminiResponse = await fetch(`${GEMINI_URL}?key=${apiKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -78,6 +117,7 @@ export async function POST(request: NextRequest) {
             role: "user",
             parts: [
               { text: regulationContext },
+              { text: documentContext },
               { text: userPrompt },
             ],
           },
@@ -103,7 +143,7 @@ export async function POST(request: NextRequest) {
     const geminiData = await geminiResponse.json();
     const durationMs = Date.now() - startTime;
 
-    // 6. Parse response
+    // 8. Parse response
     const rawText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
     const finishReason = geminiData.candidates?.[0]?.finishReason;
     const totalTokens = geminiData.usageMetadata?.totalTokenCount;
@@ -134,10 +174,8 @@ export async function POST(request: NextRequest) {
       parsedResults = Array.isArray(parsed) ? parsed : parsed.results ?? [];
     } catch (firstError) {
       console.warn("[compliance-check] Direct JSON.parse failed:", (firstError as Error).message);
-      console.warn("[compliance-check] finishReason:", finishReason, "— attempting truncated JSON recovery");
+      console.warn("[compliance-check] finishReason:", finishReason, "-- attempting truncated JSON recovery");
 
-      // The response was likely truncated (hit token limit).
-      // Find the last complete top-level object in the array and close it.
       const recovered = recoverTruncatedJsonArray(rawText);
       if (recovered) {
         parsedResults = recovered;
@@ -153,19 +191,34 @@ export async function POST(request: NextRequest) {
 
     console.log("[compliance-check] Parsed", parsedResults.length, "results");
 
-    // 7. Build response
+    // 9. Enrich results with source document references
+    const enrichedResults = parsedResults.map((result) => {
+      const normalized = normalizeResult(result);
+      // Find which document(s) this requirement belongs to
+      const sourceDoc = documents.find((d) =>
+        d.requirementIds.includes(normalized.requirementId)
+      );
+      if (sourceDoc) {
+        normalized.sourceDocumentId = sourceDoc.id;
+        normalized.sourceDocumentTitle = sourceDoc.title;
+      }
+      return normalized;
+    });
 
+    // 10. Build response
     const response: ComplianceCheckResponse = {
       requestId: `chk-${Date.now()}`,
       projectId,
       gatewayCode,
-      results: parsedResults.map(normalizeResult),
+      results: enrichedResults,
       metadata: {
         model: GEMINI_MODEL,
-        regulationsLoaded: regulations.map((r) => r.name),
+        regulationsLoaded: regulationsNeeded.map((r) => r.name),
         totalTokens,
         durationMs,
         timestamp: new Date().toISOString(),
+        batchId: batchId ?? undefined,
+        documentsAnalyzed: documents.map((d) => ({ id: d.id, title: d.title })),
       },
     };
 
@@ -188,6 +241,8 @@ function normalizeResult(result: ComplianceCheckResult): ComplianceCheckResult {
     confidence: typeof result.confidence === "number" ? result.confidence : 0.5,
     findings: (result.findings || []).map(normalizeFinding),
     summary: result.summary || "No summary provided",
+    sourceDocumentId: result.sourceDocumentId,
+    sourceDocumentTitle: result.sourceDocumentTitle,
   };
 }
 
@@ -210,9 +265,9 @@ function normalizeFinding(finding: ComplianceFinding): ComplianceFinding {
 }
 
 function buildSystemPrompt(): string {
-  return `You are a regulatory compliance expert specializing in EU and US energy regulations for solar PV and battery energy storage systems (BESS).
+  return `You are a regulatory compliance expert specializing in EU energy regulations for solar PV and battery energy storage systems (BESS).
 
-Your task is to analyze an annual compliance report against applicable regulations and identify compliance gaps, missing disclosures, and areas of concern.
+Your task is to analyze compliance documents submitted for a G8 Annual Compliance Review gateway against applicable regulations. You will receive multiple documents — each is a separate deliverable in the compliance package.
 
 You MUST respond with a JSON array of compliance check results. Each result should follow this exact structure:
 
@@ -227,7 +282,7 @@ You MUST respond with a JSON array of compliance check results. Each result shou
         "severity": "critical | warning | info",
         "title": "Short title of the finding",
         "description": "Detailed description of the compliance gap or issue",
-        "documentSection": "Which section of the report this relates to",
+        "documentSection": "Which section of the source document this relates to",
         "citations": [
           {
             "regulationName": "Name of the regulation",
@@ -242,16 +297,23 @@ You MUST respond with a JSON array of compliance check results. Each result shou
   }
 ]
 
-Be thorough but practical. Focus on material gaps that would be flagged in a real compliance audit. Assign severity based on:
-- critical: Missing mandatory disclosure, regulatory deadline breach, or legal non-compliance
-- warning: Incomplete disclosure, approaching deadline, or best practice deviation
-- info: Minor improvement opportunity or optional enhancement`;
+Important instructions:
+- Evaluate EACH document against its relevant regulations
+- Generate one result per requirement ID provided
+- Reference specific sections of the source documents in your findings
+- Be thorough but practical — focus on material gaps that would be flagged in a real compliance audit
+- Assign severity: critical = missing mandatory disclosure / regulatory deadline breach; warning = incomplete disclosure / approaching deadline; info = minor improvement
+- Limit findings to the top 3-4 most important per requirement
+- Keep descriptions under 2 sentences and recommendations under 1 sentence
+- Respond with ONLY the JSON array — no markdown, no explanation, no code blocks`;
 }
 
 function buildRegulationContext(
   texts: Record<string, string>,
-  regulations: { id: string; name: string }[],
+  regulations: RegulationFile[],
 ): string {
+  if (regulations.length === 0) return "";
+
   const parts = ["=== APPLICABLE REGULATIONS ===\n"];
 
   for (const reg of regulations) {
@@ -265,42 +327,53 @@ function buildRegulationContext(
   return parts.join("\n");
 }
 
-function buildUserPrompt(reportMarkdown: string, request: ComplianceCheckRequest): string {
-  const requirementIds = request.requirementIds?.length
-    ? `\nFocus on these specific requirements: ${request.requirementIds.join(", ")}`
-    : "";
+function buildDocumentContext(documents: SyntheticDocument[]): string {
+  const parts = ["=== DOCUMENTS TO ANALYZE ===\n"];
 
-  return `=== DOCUMENT TO ANALYZE ===
+  for (const doc of documents) {
+    parts.push(`--- DOCUMENT: ${doc.title} ---`);
+    parts.push(`Document ID: ${doc.id}`);
+    parts.push(`Covers requirements: ${doc.requirementIds.join(", ")}`);
+    parts.push("");
+    parts.push(renderDocumentMarkdown(doc));
+    parts.push("\n");
+  }
 
-${reportMarkdown}
+  return parts.join("\n");
+}
 
-=== INSTRUCTIONS ===
+function buildUserPrompt(
+  documents: SyntheticDocument[],
+  requirementIds: string[],
+  request: ComplianceCheckRequest,
+): string {
+  return `=== INSTRUCTIONS ===
 
-Analyze the above annual compliance report for a ${request.gatewayCode} (Annual Compliance Review) gateway check.
+Analyze the above documents for a G8 (Annual Compliance Review) gateway check.
+Project: Sonnenberg Solar + Storage (100 MWp PV / 100 MWh BESS), Brandenburg, Germany
 Project jurisdictions: ${request.jurisdictions.join(", ")}
-${requirementIds}
 
-For each area of the report, check compliance against the applicable regulations provided above.
-Identify all gaps, missing disclosures, incomplete information, and non-compliance issues.
+Documents provided: ${documents.map((d) => d.title).join("; ")}
 
-Generate one ComplianceCheckResult per major compliance area (CSRD, ESRS E1, ESRS E2, ESRS E4, ESRS E5, Battery Passport, Taxonomy, Nature Restoration, F-Gas).
-Use requirement IDs that match the gateway requirements where possible (e.g., "g8-son-r2" for CSRD, "g8-son-r3" for ESRS E1, etc.).
+Generate one ComplianceCheckResult for EACH of the following requirement IDs:
+${requirementIds.map((id) => `- ${id}`).join("\n")}
 
-Respond with ONLY the JSON array — no markdown, no explanation, no code blocks.
-Keep each result concise — limit findings to the top 3 most important per area. Keep descriptions under 2 sentences and recommendations under 1 sentence.`;
+Map each requirement to its relevant source document:
+${documents.map((d) => `- ${d.requirementIds.join(", ")} → "${d.title}"`).join("\n")}
+
+For each requirement, assess compliance against the applicable regulations provided above.
+Identify all gaps, missing disclosures, incomplete information, and non-compliance issues found in the source document.
+
+Respond with ONLY the JSON array — no markdown, no explanation, no code blocks.`;
 }
 
 /**
  * Recover a truncated JSON array by finding the last complete top-level object.
- * Works by trying to parse progressively shorter substrings ending at each `}`.
  */
 function recoverTruncatedJsonArray(raw: string): ComplianceCheckResult[] | null {
-  // Find the opening bracket
   const startIdx = raw.indexOf("[");
   if (startIdx === -1) return null;
 
-  // Find all positions where a top-level object might end ("},")
-  // by looking for the pattern `}\s*,` or `}\s*]`
   const closingPositions: number[] = [];
   let depth = 0;
   let inString = false;
@@ -315,14 +388,12 @@ function recoverTruncatedJsonArray(raw: string): ComplianceCheckResult[] | null 
     if (ch === "{" || ch === "[") depth++;
     if (ch === "}" || ch === "]") {
       depth--;
-      // depth 0 means we closed a top-level object inside the root array
       if (depth === 0 && ch === "}") {
         closingPositions.push(i);
       }
     }
   }
 
-  // Try from the last complete object backwards
   for (let i = closingPositions.length - 1; i >= 0; i--) {
     const candidate = raw.slice(startIdx, closingPositions[i] + 1) + "]";
     try {
