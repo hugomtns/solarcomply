@@ -47,15 +47,15 @@ export function Topbar() {
   const breadcrumbs = useBreadcrumbs(pathname);
 
   return (
-    <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-white/[0.06] bg-[#0B1120]/80 backdrop-blur-xl px-8">
+    <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-white/[0.06] bg-surface-page/80 backdrop-blur-xl px-8">
       <nav className="flex items-center gap-1.5 text-sm">
         {breadcrumbs.map((crumb, i) => (
           <span key={crumb.href} className="flex items-center gap-1.5">
-            {i > 0 && <ChevronRight className="h-3.5 w-3.5 text-slate-600" />}
+            {i > 0 && <ChevronRight className="h-3.5 w-3.5 text-text-disabled" />}
             {i === breadcrumbs.length - 1 ? (
-              <span className="font-medium text-slate-200">{crumb.label}</span>
+              <span className="font-medium text-text-heading">{crumb.label}</span>
             ) : (
-              <Link href={crumb.href} className="text-slate-500 hover:text-[#06D6A0] transition-colors">
+              <Link href={crumb.href} className="text-text-muted hover:text-primary transition-colors">
                 {crumb.label}
               </Link>
             )}

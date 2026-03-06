@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { COLORS } from "@/lib/constants";
 
 interface ComplianceScoreRingProps {
   score: number;
@@ -13,9 +14,9 @@ const strokeMap = { sm: 4, md: 6, lg: 8 };
 const textMap = { sm: "text-xs", md: "text-lg", lg: "text-2xl" };
 
 function getColor(score: number) {
-  if (score < 60) return "#EF4444";
-  if (score < 80) return "#F59E0B";
-  return "#06D6A0";
+  if (score < 60) return COLORS.red;
+  if (score < 80) return COLORS.amber;
+  return COLORS.teal;
 }
 
 export function ComplianceScoreRing({ score, size = "md", label }: ComplianceScoreRingProps) {
@@ -72,12 +73,12 @@ export function ComplianceScoreRing({ score, size = "md", label }: ComplianceSco
             }}
           />
         </svg>
-        <span className={`absolute font-bold ${textMap[size]}`} style={{ color, fontFamily: 'var(--font-heading)' }}>
+        <span className={`absolute font-bold font-display ${textMap[size]}`} style={{ color }}>
           {score}
         </span>
       </div>
       {label && (
-        <span className="text-[10px] font-medium text-slate-500">{label}</span>
+        <span className="text-[10px] font-medium text-text-muted">{label}</span>
       )}
     </div>
   );

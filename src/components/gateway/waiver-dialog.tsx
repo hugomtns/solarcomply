@@ -135,7 +135,7 @@ export function WaiverDialog({
           <Button
             onClick={handleSubmit}
             disabled={!justification.trim() || !riskLevel}
-            className="bg-[#1B2A4A] hover:bg-[#1B2A4A]/90"
+            className="bg-brand-navy hover:bg-brand-navy/90"
           >
             Submit Waiver Request
           </Button>

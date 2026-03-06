@@ -82,7 +82,7 @@ export function FindingsList({ findings, onSelectFinding }: FindingsListProps) {
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold text-white">Findings</h2>
         <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-slate-500" />
+          <Filter className="h-4 w-4 text-text-muted" />
           <Select value={severityFilter} onValueChange={setSeverityFilter}>
             <SelectTrigger className="h-8 w-[130px] text-xs">
               <SelectValue placeholder="Severity" />
@@ -120,7 +120,7 @@ export function FindingsList({ findings, onSelectFinding }: FindingsListProps) {
         </div>
       </div>
 
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-text-tertiary">
         Showing {filtered.length} of {findings.length} findings
       </p>
 
@@ -139,9 +139,9 @@ export function FindingsList({ findings, onSelectFinding }: FindingsListProps) {
                 className="flex w-full items-start gap-3 px-4 py-3 text-left"
               >
                 {isExpanded ? (
-                  <ChevronDown className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
+                  <ChevronDown className="mt-0.5 h-4 w-4 shrink-0 text-text-muted" />
                 ) : (
-                  <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
+                  <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-text-muted" />
                 )}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -151,11 +151,11 @@ export function FindingsList({ findings, onSelectFinding }: FindingsListProps) {
                     >
                       {FINDING_SEVERITY_LABELS[finding.severity]}
                     </Badge>
-                    <Badge variant="outline" className="gap-1 text-[10px] text-slate-400">
+                    <Badge variant="outline" className="gap-1 text-[10px] text-text-tertiary">
                       <TypeIcon className="h-3 w-3" />
                       {FINDING_TYPE_LABELS[finding.type]}
                     </Badge>
-                    <Badge variant="outline" className="text-[10px] text-slate-400">
+                    <Badge variant="outline" className="text-[10px] text-text-tertiary">
                       {finding.gatewayCode}
                     </Badge>
                     {finding.autoFixable && (
@@ -172,12 +172,12 @@ export function FindingsList({ findings, onSelectFinding }: FindingsListProps) {
               </button>
 
               {isExpanded && (
-                <div className="border-t border-white/[0.04] bg-white/[0.03] px-4 py-3 pl-11">
-                  <p className="text-sm text-slate-400 leading-relaxed">
+                <div className="border-t border-surface-glass bg-white/[0.03] px-4 py-3 pl-11">
+                  <p className="text-sm text-text-tertiary leading-relaxed">
                     {finding.description}
                   </p>
                   {finding.standardRef && (
-                    <p className="mt-2 text-xs text-slate-400">
+                    <p className="mt-2 text-xs text-text-tertiary">
                       <span className="font-medium">Standard:</span> {finding.standardRef}
                     </p>
                   )}
@@ -200,7 +200,7 @@ export function FindingsList({ findings, onSelectFinding }: FindingsListProps) {
                     {finding.autoFixable && (
                       <Button
                         size="sm"
-                        className="gap-1 bg-[#ED7D31] text-xs text-white hover:bg-[#d06a28]"
+                        className="gap-1 bg-palette-orange-500 text-xs text-white hover:bg-palette-orange-500/85"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <Wand2 className="h-3 w-3" />

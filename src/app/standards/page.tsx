@@ -147,7 +147,7 @@ export default function StandardsPage() {
                   className="cursor-pointer hover:bg-gray-50"
                   onClick={() => toggleRow(std.id)}
                 >
-                  <TableCell className="font-medium text-[#2E75B6]">
+                  <TableCell className="font-medium text-brand-blue">
                     <div className="flex items-center gap-1.5">
                       <ChevronRight
                         className={`h-4 w-4 shrink-0 text-gray-400 transition-transform ${
@@ -213,7 +213,7 @@ export default function StandardsPage() {
                       <div className="px-4 pb-4 pt-2">
                         <div className="rounded-lg bg-gray-50 p-4">
                           <div className="flex items-start gap-2 mb-2">
-                            <Zap className="h-4 w-4 mt-0.5 text-[#2E75B6]" />
+                            <Zap className="h-4 w-4 mt-0.5 text-brand-blue" />
                             <div>
                               <p className="text-sm font-medium text-gray-900">
                                 {std.body} {std.number} — {std.edition}

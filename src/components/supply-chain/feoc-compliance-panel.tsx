@@ -104,7 +104,7 @@ export function FEOCCompliancePanel({ project }: FEOCCompliancePanelProps) {
         {assessment.categoryAssessments.map((cat) => (
           <Card key={cat.category} className="p-5">
             <div className="flex items-center justify-between">
-              <h4 className="text-sm font-medium text-slate-200">{cat.label}</h4>
+              <h4 className="text-sm font-medium text-text-heading">{cat.label}</h4>
               <Badge
                 variant="outline"
                 className={cat.passing
@@ -116,7 +116,7 @@ export function FEOCCompliancePanel({ project }: FEOCCompliancePanelProps) {
               </Badge>
             </div>
             <div className="mt-3">
-              <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
+              <div className="flex items-center justify-between text-xs text-text-tertiary mb-1">
                 <span>Non-FEOC: {(cat.feocRatio * 100).toFixed(0)}%</span>
                 <span>Threshold: {(cat.threshold * 100).toFixed(0)}%</span>
               </div>
@@ -136,7 +136,7 @@ export function FEOCCompliancePanel({ project }: FEOCCompliancePanelProps) {
                 <div className="absolute -top-3 h-3 w-0.5 bg-gray-800" />
               </div>
             </div>
-            <div className="mt-3 flex justify-between text-xs text-slate-400">
+            <div className="mt-3 flex justify-between text-xs text-text-tertiary">
               <span>Total: ${(cat.totalCostUSD / 1_000_000).toFixed(1)}M</span>
               <span>Non-FEOC: ${(cat.nonFEOCCostUSD / 1_000_000).toFixed(1)}M</span>
             </div>
@@ -157,7 +157,7 @@ export function FEOCCompliancePanel({ project }: FEOCCompliancePanelProps) {
       {/* Flagged Suppliers Table */}
       {allSuppliers.length > 0 && (
         <Card className="p-5">
-          <h3 className="mb-4 text-sm font-medium text-slate-200">Flagged Suppliers</h3>
+          <h3 className="mb-4 text-sm font-medium text-text-heading">Flagged Suppliers</h3>
           <Table>
             <TableHeader>
               <TableRow>

@@ -97,14 +97,14 @@ export default function AIHubPage({
         <TabsContent value="dashboard" className="flex-1 overflow-y-auto mt-4">
           {!healthScore ? (
             <div className="flex items-center justify-center py-20">
-              <p className="text-slate-400">No document intelligence data available for this project.</p>
+              <p className="text-text-tertiary">No document intelligence data available for this project.</p>
             </div>
           ) : !scanComplete ? (
             <ScanOverlay onComplete={handleScanComplete} />
           ) : (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-xs text-slate-400">
+                <div className="flex items-center gap-2 text-xs text-text-tertiary">
                   <Clock className="h-3 w-3" />
                   Last scan: 2 min ago
                 </div>
@@ -139,10 +139,10 @@ export default function AIHubPage({
             <div className="w-72 shrink-0 overflow-y-auto rounded-lg border border-white/[0.08] bg-white/[0.05] shadow-card">
               <div className="p-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <MessageSquare className="h-4 w-4 text-[#2E75B6]" />
+                  <MessageSquare className="h-4 w-4 text-brand-blue" />
                   <h2 className="text-sm font-semibold text-white">Quick Prompts</h2>
                 </div>
-                <p className="text-[11px] text-slate-400 mb-3">Click to start a conversation</p>
+                <p className="text-[11px] text-text-tertiary mb-3">Click to start a conversation</p>
                 <Separator className="mb-3" />
                 <div className="space-y-2">
                   {quickPrompts.map((prompt) => (
@@ -155,7 +155,7 @@ export default function AIHubPage({
                           | undefined;
                         if (submitFn) submitFn(prompt);
                       }}
-                      className="w-full rounded-lg border border-white/[0.08] px-3 py-2.5 text-left text-sm text-slate-300 transition-colors hover:border-[#2E75B6] hover:bg-blue-50/50"
+                      className="w-full rounded-lg border border-white/[0.08] px-3 py-2.5 text-left text-sm text-text-secondary transition-colors hover:border-brand-blue hover:bg-blue-50/50"
                     >
                       {prompt}
                     </button>

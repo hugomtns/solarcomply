@@ -120,7 +120,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
           <p className="text-sm text-gray-500 mb-1">No approval workflow configured yet.</p>
           <p className="text-xs text-gray-400 mb-4">Submit this document for stakeholder review and approval.</p>
           <Button
-            className="gap-1.5 bg-[#2E75B6] hover:bg-[#245d94] text-white"
+            className="gap-1.5 bg-brand-blue hover:bg-brand-blue-hover text-white"
             onClick={() => setDialogOpen(true)}
           >
             <Send className="h-4 w-4" />
@@ -149,7 +149,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                       checked={s.selected}
                       onCheckedChange={() => toggleOrg(s.orgId)}
                     />
-                    <div className="flex h-7 w-7 items-center justify-center rounded bg-[#1B2A4A] text-[10px] font-bold text-white shrink-0">
+                    <div className="flex h-7 w-7 items-center justify-center rounded bg-brand-navy text-[10px] font-bold text-white shrink-0">
                       {org?.logo ?? "?"}
                     </div>
                     <span className="text-sm font-medium text-gray-900 flex-1 min-w-0 truncate">
@@ -182,7 +182,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
               </Button>
               <Button
                 disabled={selectedCount === 0}
-                className="gap-1.5 bg-[#2E75B6] hover:bg-[#245d94] text-white"
+                className="gap-1.5 bg-brand-blue hover:bg-brand-blue-hover text-white"
                 onClick={handleSubmit}
               >
                 <Send className="h-3.5 w-3.5" />
@@ -228,7 +228,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                     <TableRow key={s.orgId}>
                       <TableCell>
                         <div className="flex items-center gap-2">
-                          <div className="flex h-7 w-7 items-center justify-center rounded bg-[#1B2A4A] text-[10px] font-bold text-white">
+                          <div className="flex h-7 w-7 items-center justify-center rounded bg-brand-navy text-[10px] font-bold text-white">
                             {org?.logo ?? "?"}
                           </div>
                           <span className="text-sm font-medium text-gray-900">
@@ -325,7 +325,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                   <TableRow key={approval.id}>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <div className="flex h-7 w-7 items-center justify-center rounded bg-[#1B2A4A] text-[10px] font-bold text-white">
+                        <div className="flex h-7 w-7 items-center justify-center rounded bg-brand-navy text-[10px] font-bold text-white">
                           {org?.logo ?? "?"}
                         </div>
                         <span className="text-sm font-medium text-gray-900">
@@ -393,7 +393,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                       {approval.status === "pending" && isCurrentOrg && (
                         <Button
                           size="sm"
-                          className="gap-1.5 bg-[#00B0A0] hover:bg-[#009688] text-white"
+                          className="gap-1.5 bg-primary hover:bg-palette-teal-600 text-white"
                           onClick={() => alert("Document approved (mock). All stakeholders will be notified.")}
                         >
                           <CheckCircle className="h-3.5 w-3.5" />

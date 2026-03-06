@@ -23,7 +23,7 @@ export function GatewayRefDetail({ gateway }: GatewayRefDetailProps) {
               {gateway.code} — {gateway.name}
             </h3>
             {gateway.speGatewayRef && (
-              <p className="text-xs text-slate-400 mt-0.5">SPE: {gateway.speGatewayRef}</p>
+              <p className="text-xs text-text-tertiary mt-0.5">SPE: {gateway.speGatewayRef}</p>
             )}
           </div>
           <div className="flex items-center gap-1.5">
@@ -35,33 +35,33 @@ export function GatewayRefDetail({ gateway }: GatewayRefDetailProps) {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-3">
-          <div className="flex items-center gap-2 rounded-lg bg-white/[0.04] p-2.5">
-            <Layers className="h-4 w-4 shrink-0 text-[#2E75B6]" />
+          <div className="flex items-center gap-2 rounded-lg bg-surface-glass p-2.5">
+            <Layers className="h-4 w-4 shrink-0 text-brand-blue" />
             <div className="min-w-0">
-              <p className="text-[10px] text-slate-500">Lifecycle Stage</p>
-              <p className="text-xs font-medium text-slate-300">
+              <p className="text-[10px] text-text-muted">Lifecycle Stage</p>
+              <p className="text-xs font-medium text-text-secondary">
                 {LIFECYCLE_STAGE_LABELS[gateway.lifecycleStage]}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 rounded-lg bg-white/[0.04] p-2.5">
-            <Clock className="h-4 w-4 shrink-0 text-[#2E75B6]" />
+          <div className="flex items-center gap-2 rounded-lg bg-surface-glass p-2.5">
+            <Clock className="h-4 w-4 shrink-0 text-brand-blue" />
             <div className="min-w-0">
-              <p className="text-[10px] text-slate-500">Duration</p>
-              <p className="text-xs font-medium text-slate-300">{gateway.duration}</p>
+              <p className="text-[10px] text-text-muted">Duration</p>
+              <p className="text-xs font-medium text-text-secondary">{gateway.duration}</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 rounded-lg bg-white/[0.04] p-2.5 col-span-2">
-            <Target className="h-4 w-4 shrink-0 text-[#2E75B6]" />
+          <div className="flex items-center gap-2 rounded-lg bg-surface-glass p-2.5 col-span-2">
+            <Target className="h-4 w-4 shrink-0 text-brand-blue" />
             <div className="min-w-0">
-              <p className="text-[10px] text-slate-500">Trigger</p>
-              <p className="text-xs font-medium text-slate-300">{gateway.trigger}</p>
+              <p className="text-[10px] text-text-muted">Trigger</p>
+              <p className="text-xs font-medium text-text-secondary">{gateway.trigger}</p>
             </div>
             <div className="ml-auto flex items-center gap-2 shrink-0 rounded-lg bg-white/[0.05] px-3 py-1.5 border border-white/[0.04]">
-              <FileText className="h-4 w-4 text-[#2E75B6]" />
+              <FileText className="h-4 w-4 text-brand-blue" />
               <div>
-                <p className="text-[10px] text-slate-500">Requirements</p>
-                <p className="text-xs font-medium text-slate-300">{gateway.requirements.length} items</p>
+                <p className="text-[10px] text-text-muted">Requirements</p>
+                <p className="text-xs font-medium text-text-secondary">{gateway.requirements.length} items</p>
               </div>
             </div>
           </div>
@@ -72,7 +72,7 @@ export function GatewayRefDetail({ gateway }: GatewayRefDetailProps) {
       <Card className="overflow-hidden">
         <div className="p-4 pb-2">
           <h4 className="text-sm font-semibold text-white">Required Documents & Data</h4>
-          <p className="text-xs text-slate-400 mt-0.5">Click a row to expand details</p>
+          <p className="text-xs text-text-tertiary mt-0.5">Click a row to expand details</p>
         </div>
         <RequirementsReferenceTable requirements={gateway.requirements} />
       </Card>

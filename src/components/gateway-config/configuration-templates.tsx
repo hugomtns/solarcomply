@@ -43,10 +43,10 @@ export function ConfigurationTemplates() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm text-slate-300">
+          <p className="text-sm text-text-secondary">
             Save and reuse gateway configurations across projects.
           </p>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-text-tertiary mt-0.5">
             {templates.length} saved templates
           </p>
         </div>
@@ -88,25 +88,25 @@ export function ConfigurationTemplates() {
               </div>
 
               <div className="grid grid-cols-3 gap-2 mb-3">
-                <div className="rounded bg-white/[0.04] p-2 text-center">
+                <div className="rounded bg-surface-glass p-2 text-center">
                   <p className="text-lg font-semibold text-white">
                     {config.requirementConfigs.length}
                   </p>
-                  <p className="text-[10px] text-slate-400">Configured</p>
+                  <p className="text-[10px] text-text-tertiary">Configured</p>
                 </div>
-                <div className="rounded bg-white/[0.04] p-2 text-center">
-                  <p className="text-lg font-semibold text-slate-400">{naCount}</p>
-                  <p className="text-[10px] text-slate-400">N/A</p>
+                <div className="rounded bg-surface-glass p-2 text-center">
+                  <p className="text-lg font-semibold text-text-tertiary">{naCount}</p>
+                  <p className="text-[10px] text-text-tertiary">N/A</p>
                 </div>
-                <div className="rounded bg-white/[0.04] p-2 text-center">
+                <div className="rounded bg-surface-glass p-2 text-center">
                   <p className="text-lg font-semibold text-orange-600">
                     {config.customRequirements.length}
                   </p>
-                  <p className="text-[10px] text-slate-400">Custom</p>
+                  <p className="text-[10px] text-text-tertiary">Custom</p>
                 </div>
               </div>
 
-              <p className="text-[10px] text-slate-500 mb-3">
+              <p className="text-[10px] text-text-muted mb-3">
                 Updated {new Date(config.updatedAt).toLocaleDateString("en-GB", {
                   day: "numeric",
                   month: "short",
@@ -117,7 +117,7 @@ export function ConfigurationTemplates() {
               <div className="mt-auto flex items-center gap-2">
                 <Button
                   size="sm"
-                  className="flex-1 bg-[#2E75B6] hover:bg-[#245d91] gap-1 text-xs"
+                  className="flex-1 bg-brand-blue hover:bg-brand-blue-hover gap-1 text-xs"
                   onClick={() => handleApply(config.id)}
                 >
                   <Download className="h-3 w-3" />
@@ -146,7 +146,7 @@ export function ConfigurationTemplates() {
 
         {templates.length === 0 && (
           <div className="col-span-full text-center py-12">
-            <p className="text-sm text-slate-500">No templates yet. Create one to get started.</p>
+            <p className="text-sm text-text-muted">No templates yet. Create one to get started.</p>
           </div>
         )}
       </div>

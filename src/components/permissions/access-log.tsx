@@ -157,7 +157,7 @@ export function AccessLog() {
                 key={entry.id}
                 className="flex items-start gap-3 px-6 py-3 hover:bg-gray-50 transition-colors"
               >
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1B2A4A] text-xs font-semibold text-white">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-navy text-xs font-semibold text-white">
                   {user?.avatar || "??"}
                 </div>
                 <div className="min-w-0 flex-1">

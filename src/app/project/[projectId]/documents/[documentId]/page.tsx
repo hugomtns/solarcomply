@@ -26,15 +26,15 @@ export default function DocumentPage({ params }: DocumentPageProps) {
   if (!doc) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
-        <h1 className="text-2xl font-semibold text-slate-200">
+        <h1 className="text-2xl font-semibold text-text-heading">
           Document Not Found
         </h1>
-        <p className="mt-2 text-sm text-slate-400">
+        <p className="mt-2 text-sm text-text-tertiary">
           The requested document does not exist.
         </p>
         <Link
           href={`/project/${projectId}/documents`}
-          className="mt-4 text-sm text-[#2E75B6] hover:underline"
+          className="mt-4 text-sm text-brand-blue hover:underline"
         >
           Back to Documents
         </Link>
@@ -50,7 +50,7 @@ export default function DocumentPage({ params }: DocumentPageProps) {
       {/* Back link */}
       <Link
         href={`/project/${projectId}/documents`}
-        className="inline-flex items-center gap-1.5 text-sm text-[#2E75B6] hover:underline"
+        className="inline-flex items-center gap-1.5 text-sm text-brand-blue hover:underline"
       >
         <ArrowLeft className="h-4 w-4" />
         Back to Documents
@@ -60,7 +60,7 @@ export default function DocumentPage({ params }: DocumentPageProps) {
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-1">
           <h1 className="text-xl font-semibold text-white">{doc.name}</h1>
-          <div className="flex items-center gap-2 text-sm text-slate-400 flex-wrap">
+          <div className="flex items-center gap-2 text-sm text-text-tertiary flex-wrap">
             <StatusBadge status={doc.status} />
             <span>{DOCUMENT_CATEGORY_LABELS[doc.category] ?? doc.category}</span>
             <span>&middot;</span>
@@ -91,7 +91,7 @@ export default function DocumentPage({ params }: DocumentPageProps) {
       ) : (
         <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-white/[0.04] py-20">
           <FileText className="h-12 w-12 text-gray-300 mb-3" />
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-text-muted">
             Preview not available in prototype
           </p>
         </div>

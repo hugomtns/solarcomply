@@ -71,7 +71,7 @@ export function FindingDetailSheet({ finding, onClose }: FindingDetailSheetProps
             >
               {FINDING_SEVERITY_LABELS[finding.severity]}
             </Badge>
-            <Badge variant="outline" className="gap-1 text-[10px] text-slate-400">
+            <Badge variant="outline" className="gap-1 text-[10px] text-text-tertiary">
               <TypeIcon className="h-3 w-3" />
               {FINDING_TYPE_LABELS[finding.type]}
             </Badge>
@@ -85,10 +85,10 @@ export function FindingDetailSheet({ finding, onClose }: FindingDetailSheetProps
 
         <div className="mt-4 space-y-5 px-4 pb-6">
           <div>
-            <h3 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <h3 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-text-muted">
               Description
             </h3>
-            <p className="text-sm leading-relaxed text-slate-300">
+            <p className="text-sm leading-relaxed text-text-secondary">
               {finding.description}
             </p>
           </div>
@@ -98,7 +98,7 @@ export function FindingDetailSheet({ finding, onClose }: FindingDetailSheetProps
           {affectedDocs.length > 0 && (
             <>
               <div>
-                <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-text-muted">
                   Affected Documents
                 </h3>
                 <div className="space-y-1.5">
@@ -107,12 +107,12 @@ export function FindingDetailSheet({ finding, onClose }: FindingDetailSheetProps
                       key={doc!.id}
                       className="flex items-center gap-2 rounded-md border border-white/[0.08] px-3 py-2"
                     >
-                      <FileText className="h-4 w-4 shrink-0 text-[#2E75B6]" />
+                      <FileText className="h-4 w-4 shrink-0 text-brand-blue" />
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-slate-300">
+                        <p className="truncate text-sm font-medium text-text-secondary">
                           {doc!.name}
                         </p>
-                        <p className="text-[11px] text-slate-500">
+                        <p className="text-[11px] text-text-muted">
                           {doc!.fileName} · v{doc!.version}
                         </p>
                       </div>
@@ -127,12 +127,12 @@ export function FindingDetailSheet({ finding, onClose }: FindingDetailSheetProps
           {finding.standardRef && (
             <>
               <div>
-                <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-text-muted">
                   Standard Reference
                 </h3>
                 <div className="flex items-center gap-2 rounded-md border border-white/[0.08] px-3 py-2">
-                  <BookOpen className="h-4 w-4 shrink-0 text-[#2E75B6]" />
-                  <p className="text-sm font-medium text-slate-300">
+                  <BookOpen className="h-4 w-4 shrink-0 text-brand-blue" />
+                  <p className="text-sm font-medium text-text-secondary">
                     {finding.standardRef}
                   </p>
                 </div>
@@ -142,7 +142,7 @@ export function FindingDetailSheet({ finding, onClose }: FindingDetailSheetProps
           )}
 
           <div>
-            <h3 className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <h3 className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-text-muted">
               <Lightbulb className="h-3.5 w-3.5" />
               Recommendation
             </h3>
@@ -167,7 +167,7 @@ export function FindingDetailSheet({ finding, onClose }: FindingDetailSheetProps
                 </div>
               ) : (
                 <Button
-                  className="w-full gap-2 bg-[#ED7D31] text-white hover:bg-[#d06a28]"
+                  className="w-full gap-2 bg-palette-orange-500 text-white hover:bg-palette-orange-500/85"
                   onClick={() => setFixApplied(true)}
                 >
                   <Wand2 className="h-4 w-4" />

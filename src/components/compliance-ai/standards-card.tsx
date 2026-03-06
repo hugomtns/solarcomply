@@ -16,8 +16,8 @@ export function StandardsCard({ standard }: StandardsCardProps) {
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">
-            <BookOpen className="h-4 w-4 text-[#2E75B6]" />
-            <CardTitle className="text-sm font-semibold text-[#1B2A4A]">
+            <BookOpen className="h-4 w-4 text-brand-blue" />
+            <CardTitle className="text-sm font-semibold text-brand-navy">
               {standard.body} {standard.number}
             </CardTitle>
           </div>
@@ -46,7 +46,7 @@ export function StandardsCard({ standard }: StandardsCardProps) {
               </Badge>
             ))}
           </div>
-          <button className="flex items-center gap-1 text-[11px] font-medium text-[#2E75B6] hover:underline">
+          <button className="flex items-center gap-1 text-[11px] font-medium text-brand-blue hover:underline">
             View Full Requirements
             <ExternalLink className="h-3 w-3" />
           </button>

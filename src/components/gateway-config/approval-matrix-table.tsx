@@ -17,7 +17,7 @@ const roleBadgeColors: Record<string, string> = {
   review: "bg-amber-50 text-amber-700 border-amber-200",
   witness: "bg-sky-50 text-sky-700 border-sky-200",
   sign_off: "bg-indigo-50 text-indigo-700 border-indigo-200",
-  shadow: "bg-white/[0.04] text-slate-400 border-white/[0.08]",
+  shadow: "bg-surface-glass text-text-tertiary border-white/[0.08]",
   input: "bg-orange-50 text-orange-700 border-orange-200",
   recommend: "bg-emerald-50 text-emerald-700 border-emerald-200",
   confirm: "bg-teal-50 text-teal-700 border-teal-200",
@@ -41,7 +41,7 @@ export function ApprovalMatrixTable({ approvals }: ApprovalMatrixTableProps) {
             <TableCell>
               <div>
                 <span className="text-sm font-medium text-white">{a.stakeholder}</span>
-                <p className="text-[10px] text-slate-500">{STAKEHOLDER_ABBREV_LABELS[a.stakeholder]}</p>
+                <p className="text-[10px] text-text-muted">{STAKEHOLDER_ABBREV_LABELS[a.stakeholder]}</p>
               </div>
             </TableCell>
             <TableCell>
@@ -49,7 +49,7 @@ export function ApprovalMatrixTable({ approvals }: ApprovalMatrixTableProps) {
                 {STAKEHOLDER_ROLE_LABELS[a.role]}
               </Badge>
             </TableCell>
-            <TableCell className="text-sm text-slate-400">{a.description}</TableCell>
+            <TableCell className="text-sm text-text-tertiary">{a.description}</TableCell>
           </TableRow>
         ))}
       </TableBody>

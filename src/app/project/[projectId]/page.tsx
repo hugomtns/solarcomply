@@ -65,19 +65,19 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       {/* Hero stats row */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {/* Compliance Score — featured card */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] shadow-[0_2px_8px_-2px_rgba(0,0,0,0.4)] transition-all duration-300 hover:border-[#06D6A0]/20 hover:shadow-[0_0_20px_rgba(6,214,160,0.1)]">
-          <div className="h-[2px] w-full bg-gradient-to-r from-[#06D6A0] to-[#3B82F6]" />
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] shadow-[0_2px_8px_-2px_rgba(0,0,0,0.4)] transition-all duration-300 hover:border-primary/20 hover:shadow-[0_0_20px_rgba(6,214,160,0.1)]">
+          <div className="h-[2px] w-full bg-gradient-to-r from-primary to-palette-blue-500" />
           <div className="p-5">
-            <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-slate-500">
+            <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-muted">
               Compliance
             </p>
             <div className="mt-3 flex items-center gap-3">
               <ComplianceScoreRing score={project.complianceScore} size="sm" />
               <div>
-                <p className="text-2xl font-bold text-white" style={{ fontFamily: 'var(--font-heading)' }}>
+                <p className="text-2xl font-bold text-white font-display">
                   {project.complianceScore}%
                 </p>
-                <p className="text-[11px] text-slate-500">Overall score</p>
+                <p className="text-[11px] text-text-muted">Overall score</p>
               </div>
             </div>
           </div>
@@ -139,8 +139,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         {/* Project Details */}
         <div className="lg:col-span-7">
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] shadow-[0_2px_8px_-2px_rgba(0,0,0,0.4)] p-6">
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#3B82F6] via-[#8B5CF6] to-transparent" />
-            <h3 className="text-sm font-semibold text-white mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-palette-blue-500 via-palette-purple-500 to-transparent" />
+            <h3 className="text-sm font-semibold text-white mb-4 font-display">
               Project Details
             </h3>
             <div className="grid grid-cols-2 gap-x-8 gap-y-3">
@@ -183,10 +183,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             {/* Stakeholders strip */}
             <div className="mt-5 pt-4 border-t border-white/[0.06]">
               <div className="flex items-center justify-between mb-2">
-                <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-[0.12em]">
+                <h4 className="text-xs font-semibold text-text-muted uppercase tracking-[0.12em]">
                   Stakeholders
                 </h4>
-                <span className="text-[11px] text-slate-600">
+                <span className="text-[11px] text-text-disabled">
                   {projectOrgs.length} organizations
                 </span>
               </div>
@@ -194,19 +194,19 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 {projectOrgs.slice(0, 6).map((org) => (
                   <span
                     key={org.id}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-slate-300 transition-colors hover:bg-white/[0.08] hover:border-[#06D6A0]/20"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-surface-glass px-2.5 py-1 text-[11px] font-medium text-text-secondary transition-colors hover:bg-surface-glass-hover hover:border-primary/20"
                   >
-                    <span className="flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-br from-[#06D6A0] to-[#3B82F6] text-[8px] font-bold text-white">
+                    <span className="flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-br from-primary to-palette-blue-500 text-[8px] font-bold text-white">
                       {(org.logo || org.name.substring(0, 2)).toUpperCase()}
                     </span>
                     {org.name.length > 20 ? org.name.substring(0, 18) + "..." : org.name}
-                    <span className="text-[9px] text-slate-500">
+                    <span className="text-[9px] text-text-muted">
                       {ORG_TYPE_LABELS[org.type] || org.type}
                     </span>
                   </span>
                 ))}
                 {projectOrgs.length > 6 && (
-                  <span className="inline-flex items-center rounded-full border border-white/[0.06] bg-white/[0.02] px-2.5 py-1 text-[11px] text-slate-500">
+                  <span className="inline-flex items-center rounded-full border border-white/[0.06] bg-white/[0.02] px-2.5 py-1 text-[11px] text-text-muted">
                     +{projectOrgs.length - 6} more
                   </span>
                 )}
@@ -220,11 +220,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 }
 
 const colorMap: Record<string, { gradient: string; iconBg: string; iconText: string }> = {
-  blue: { gradient: "from-[#3B82F6] to-[#60A5FA]", iconBg: "bg-[#3B82F6]/15", iconText: "text-[#60A5FA]" },
-  teal: { gradient: "from-[#06D6A0] to-[#34D399]", iconBg: "bg-[#06D6A0]/15", iconText: "text-[#06D6A0]" },
-  amber: { gradient: "from-[#F59E0B] to-[#FBBF24]", iconBg: "bg-[#F59E0B]/15", iconText: "text-[#FBBF24]" },
-  purple: { gradient: "from-[#8B5CF6] to-[#A78BFA]", iconBg: "bg-[#8B5CF6]/15", iconText: "text-[#A78BFA]" },
-  muted: { gradient: "from-slate-500 to-slate-400", iconBg: "bg-slate-500/15", iconText: "text-slate-400" },
+  blue: { gradient: "from-palette-blue-500 to-palette-blue-400", iconBg: "bg-status-info/15", iconText: "text-palette-blue-400" },
+  teal: { gradient: "from-primary to-palette-teal-400", iconBg: "bg-primary/15", iconText: "text-primary" },
+  amber: { gradient: "from-status-warning to-status-warning-light", iconBg: "bg-status-warning/15", iconText: "text-status-warning-light" },
+  purple: { gradient: "from-status-special to-palette-purple-400", iconBg: "bg-status-special/15", iconText: "text-palette-purple-400" },
+  muted: { gradient: "from-status-neutral to-text-tertiary", iconBg: "bg-status-neutral/15", iconText: "text-text-tertiary" },
 };
 
 function StatCard({
@@ -246,13 +246,13 @@ function StatCard({
       <div className={`h-[2px] w-full bg-gradient-to-r ${c.gradient}`} />
       <div className="p-5">
         <div className="flex items-start justify-between">
-          <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-slate-500">
+          <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-muted">
             {label}
           </p>
           <div className={`rounded-xl p-1.5 ${c.iconBg} ${c.iconText}`}>{icon}</div>
         </div>
-        <p className="mt-2 text-2xl font-bold text-white" style={{ fontFamily: 'var(--font-heading)' }}>{value}</p>
-        <p className="mt-0.5 text-[11px] text-slate-500">{sub}</p>
+        <p className="mt-2 text-2xl font-bold text-white font-display">{value}</p>
+        <p className="mt-0.5 text-[11px] text-text-muted">{sub}</p>
       </div>
     </div>
   );
@@ -281,10 +281,10 @@ function QuickActionCard({
         {icon}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-white group-hover:text-[#06D6A0] transition-colors" style={{ fontFamily: 'var(--font-heading)' }}>{title}</p>
-        <p className="text-xs text-slate-500">{description}</p>
+        <p className="text-sm font-semibold text-white group-hover:text-primary transition-colors font-display">{title}</p>
+        <p className="text-xs text-text-muted">{description}</p>
       </div>
-      <ChevronRight className="h-4 w-4 text-slate-600 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-[#06D6A0]" />
+      <ChevronRight className="h-4 w-4 text-text-disabled transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-primary" />
     </Link>
   );
 }
@@ -300,12 +300,12 @@ function DetailItem({
 }) {
   return (
     <div className="flex items-start gap-2">
-      <div className="mt-0.5 text-slate-600">{icon}</div>
+      <div className="mt-0.5 text-text-disabled">{icon}</div>
       <div className="min-w-0">
-        <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-slate-600">
+        <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-text-disabled">
           {label}
         </p>
-        <p className="text-sm text-slate-300">{value}</p>
+        <p className="text-sm text-text-secondary">{value}</p>
       </div>
     </div>
   );

@@ -105,7 +105,7 @@ export function AlertFeed() {
                         />
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2">
-                            <span className="text-sm font-semibold text-[#1B2A4A] leading-tight">
+                            <span className="text-sm font-semibold text-brand-navy leading-tight">
                               {alert.title}
                             </span>
                             <Badge className={cn("shrink-0 text-[10px] px-1.5 py-0", cfg.badge)}>

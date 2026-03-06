@@ -166,19 +166,19 @@ function MarkdownBlock({ block }: { block: Block }) {
       );
     case "h3":
       return (
-        <h3 className="text-base font-semibold text-slate-200 mt-4 mb-1.5">
+        <h3 className="text-base font-semibold text-text-heading mt-4 mb-1.5">
           <InlineText text={block.text} />
         </h3>
       );
     case "paragraph":
       return (
-        <p className="text-sm text-slate-300 leading-relaxed mb-3">
+        <p className="text-sm text-text-secondary leading-relaxed mb-3">
           <InlineText text={block.text} />
         </p>
       );
     case "ul":
       return (
-        <ul className="list-disc list-inside space-y-1 mb-3 text-sm text-slate-300">
+        <ul className="list-disc list-inside space-y-1 mb-3 text-sm text-text-secondary">
           {block.items.map((item, i) => (
             <li key={i}>
               <InlineText text={item} />
@@ -195,7 +195,7 @@ function MarkdownBlock({ block }: { block: Block }) {
                 {block.headers.map((h, i) => (
                   <th
                     key={i}
-                    className="border border-white/[0.08] px-3 py-1.5 text-left font-medium text-slate-300"
+                    className="border border-white/[0.08] px-3 py-1.5 text-left font-medium text-text-secondary"
                   >
                     <InlineText text={h} />
                   </th>
@@ -208,7 +208,7 @@ function MarkdownBlock({ block }: { block: Block }) {
                   {row.map((cell, ci) => (
                     <td
                       key={ci}
-                      className="border border-white/[0.08] px-3 py-1.5 text-slate-400"
+                      className="border border-white/[0.08] px-3 py-1.5 text-text-tertiary"
                     >
                       <InlineText text={cell} />
                     </td>

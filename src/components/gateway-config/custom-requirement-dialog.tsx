@@ -85,15 +85,15 @@ export function CustomRequirementDialog({
           </div>
           <div className="grid grid-cols-3 gap-3">
             <div className="space-y-2">
-              <Label className="text-xs text-slate-400">Format</Label>
+              <Label className="text-xs text-text-tertiary">Format</Label>
               <Input placeholder="PDF" value={format} onChange={(e) => setFormat(e.target.value)} />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs text-slate-400">Provider</Label>
+              <Label className="text-xs text-text-tertiary">Provider</Label>
               <Input placeholder="EPC" value={provider} onChange={(e) => setProvider(e.target.value)} />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs text-slate-400">Reviewer</Label>
+              <Label className="text-xs text-text-tertiary">Reviewer</Label>
               <Input placeholder="TA, DEV" value={reviewer} onChange={(e) => setReviewer(e.target.value)} />
             </div>
           </div>
@@ -103,7 +103,7 @@ export function CustomRequirementDialog({
           <Button
             onClick={handleSubmit}
             disabled={!label.trim()}
-            className="bg-[#2E75B6] hover:bg-[#245d91]"
+            className="bg-brand-blue hover:bg-brand-blue-hover"
           >
             Add Requirement
           </Button>

@@ -44,7 +44,7 @@ export default function RootLayout({
             <TooltipProvider>
               <div className="flex min-h-screen">
                 <Sidebar />
-                <div className="flex-1 pl-64 min-h-screen bg-[#0B1120]">
+                <div className="flex-1 pl-64 min-h-screen bg-surface-page">
                   <Topbar />
                   <main className="mx-auto max-w-[1440px] p-8">{children}</main>
                 </div>

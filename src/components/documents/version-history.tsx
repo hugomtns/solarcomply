@@ -59,7 +59,7 @@ export function VersionHistory({ document: doc }: VersionHistoryProps) {
                   <Circle
                     className={`absolute -left-5 mt-0.5 h-3.5 w-3.5 shrink-0 ${
                       v.isCurrent
-                        ? "fill-[#2E75B6] text-[#2E75B6]"
+                        ? "fill-brand-blue text-brand-blue"
                         : "fill-gray-300 text-gray-300"
                     }`}
                   />
@@ -68,7 +68,7 @@ export function VersionHistory({ document: doc }: VersionHistoryProps) {
                       <p className="text-sm font-medium text-gray-900">
                         v{v.version}
                         {v.isCurrent && (
-                          <span className="ml-2 text-xs font-normal text-[#2E75B6]">
+                          <span className="ml-2 text-xs font-normal text-brand-blue">
                             (current)
                           </span>
                         )}
@@ -124,7 +124,7 @@ export function VersionHistory({ document: doc }: VersionHistoryProps) {
               <Circle
                 className={`absolute -left-5 mt-0.5 h-3.5 w-3.5 shrink-0 ${
                   v.isCurrent
-                    ? "fill-[#2E75B6] text-[#2E75B6]"
+                    ? "fill-brand-blue text-brand-blue"
                     : "fill-gray-300 text-gray-300"
                 }`}
               />
@@ -132,7 +132,7 @@ export function VersionHistory({ document: doc }: VersionHistoryProps) {
                 <p className="text-sm font-medium text-gray-900">
                   v{v.ver}
                   {v.isCurrent && (
-                    <span className="ml-2 text-xs font-normal text-[#2E75B6]">
+                    <span className="ml-2 text-xs font-normal text-brand-blue">
                       (current)
                     </span>
                   )}

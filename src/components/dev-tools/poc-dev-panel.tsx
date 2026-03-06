@@ -57,10 +57,10 @@ export function PocDevPanel() {
           {/* Content */}
           <div className="space-y-3 p-4">
             {/* Project info */}
-            <div className="text-xs text-slate-400">
-              Project: <span className="font-medium text-slate-200">{project?.name ?? "None"}</span>
+            <div className="text-xs text-text-tertiary">
+              Project: <span className="font-medium text-text-heading">{project?.name ?? "None"}</span>
               {project && (
-                <span className="ml-1 text-slate-500">
+                <span className="ml-1 text-text-muted">
                   [{project.jurisdictions.join(", ")}]
                 </span>
               )}
@@ -69,8 +69,8 @@ export function PocDevPanel() {
             {/* Synthetic doc */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-slate-300">Synthetic Report</span>
-                <Badge variant="outline" className={`text-xs ${poc.syntheticDoc ? "bg-green-50 text-green-700" : "bg-white/[0.04] text-slate-400"}`}>
+                <span className="text-xs font-medium text-text-secondary">Synthetic Report</span>
+                <Badge variant="outline" className={`text-xs ${poc.syntheticDoc ? "bg-green-50 text-green-700" : "bg-surface-glass text-text-tertiary"}`}>
                   {poc.syntheticDoc ? "Generated" : "Not generated"}
                 </Badge>
               </div>
@@ -89,8 +89,8 @@ export function PocDevPanel() {
             {/* AI Check */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-slate-300">AI Compliance Check</span>
-                <Badge variant="outline" className={`text-xs ${resultCount > 0 ? "bg-blue-50 text-blue-700" : "bg-white/[0.04] text-slate-400"}`}>
+                <span className="text-xs font-medium text-text-secondary">AI Compliance Check</span>
+                <Badge variant="outline" className={`text-xs ${resultCount > 0 ? "bg-blue-50 text-blue-700" : "bg-surface-glass text-text-tertiary"}`}>
                   {resultCount} result{resultCount !== 1 ? "s" : ""} cached
                 </Badge>
               </div>
@@ -130,13 +130,13 @@ export function PocDevPanel() {
 
             {/* Token usage */}
             {poc.tokenUsage.calls > 0 && (
-              <div className="rounded-md bg-white/[0.04] px-3 py-2">
-                <div className="flex justify-between text-xs text-slate-400">
+              <div className="rounded-md bg-surface-glass px-3 py-2">
+                <div className="flex justify-between text-xs text-text-tertiary">
                   <span>API calls: {poc.tokenUsage.calls}</span>
                   <span>Total tokens: {poc.tokenUsage.total.toLocaleString()}</span>
                 </div>
                 {currentResult && (
-                  <div className="mt-1 text-xs text-slate-400">
+                  <div className="mt-1 text-xs text-text-tertiary">
                     Duration: {currentResult.metadata.durationMs.toLocaleString()}ms
                   </div>
                 )}
@@ -147,7 +147,7 @@ export function PocDevPanel() {
             {currentResult && (
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-slate-300">
+                  <span className="text-xs font-medium text-text-secondary">
                     Results ({currentResult.results.length} checks)
                   </span>
                   <Button
@@ -185,7 +185,7 @@ export function PocDevPanel() {
             {/* Regs loaded */}
             {currentResult && (
               <div className="space-y-1">
-                <span className="text-xs font-medium text-slate-300">Regulations loaded</span>
+                <span className="text-xs font-medium text-text-secondary">Regulations loaded</span>
                 <div className="flex flex-wrap gap-1">
                   {currentResult.metadata.regulationsLoaded.map((r, i) => (
                     <Badge key={i} variant="outline" className="text-[10px]">

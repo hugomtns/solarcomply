@@ -55,7 +55,7 @@ export function GapReportPreview({ gapItems, complianceResult, projectName }: Ga
                   AI Compliance Analysis Report
                 </CardTitle>
               </div>
-              <span className="text-[11px] text-slate-400">
+              <span className="text-[11px] text-text-tertiary">
                 {new Date(complianceResult.metadata.timestamp).toLocaleDateString("en-GB", {
                   day: "numeric",
                   month: "short",
@@ -65,7 +65,7 @@ export function GapReportPreview({ gapItems, complianceResult, projectName }: Ga
             </div>
           </CardHeader>
           <CardContent className="pt-0">
-            <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
+            <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-text-tertiary">
               <span className="font-medium">
                 {complianceResult.results.length} requirements assessed
               </span>
@@ -85,11 +85,11 @@ export function GapReportPreview({ gapItems, complianceResult, projectName }: Ga
                 {complianceResult.results.filter((r) => r.status === "warning").length} warnings
               </span>
               <span className="text-gray-300">|</span>
-              <span className="text-slate-400">
+              <span className="text-text-tertiary">
                 Gateway {complianceResult.gatewayCode}
               </span>
             </div>
-            <div className="mb-3 text-[11px] text-slate-400">
+            <div className="mb-3 text-[11px] text-text-tertiary">
               Regulations: {complianceResult.metadata.regulationsLoaded.join(", ")}
             </div>
             <Button
@@ -110,16 +110,16 @@ export function GapReportPreview({ gapItems, complianceResult, projectName }: Ga
         <CardHeader className="pb-2">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2">
-              <FileText className="h-4 w-4 text-[#2E75B6]" />
+              <FileText className="h-4 w-4 text-brand-blue" />
               <CardTitle className="text-sm font-semibold text-white">
                 Gap Analysis Report
               </CardTitle>
             </div>
-            <span className="text-[11px] text-slate-400">{today}</span>
+            <span className="text-[11px] text-text-tertiary">{today}</span>
           </div>
         </CardHeader>
         <CardContent className="pt-0">
-          <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
+          <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-text-tertiary">
             <span className="font-medium">
               {gapItems.length} requirements assessed
             </span>
@@ -152,7 +152,7 @@ export function GapReportPreview({ gapItems, complianceResult, projectName }: Ga
               <>
                 <span className="text-gray-300">|</span>
                 <span className="flex items-center gap-1">
-                  <Minus className="h-3 w-3 text-slate-500" />
+                  <Minus className="h-3 w-3 text-text-muted" />
                   {na} not applicable
                 </span>
               </>

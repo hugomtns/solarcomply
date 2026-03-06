@@ -22,7 +22,7 @@ export function GatewayCoverageMatrix({ coverage }: GatewayCoverageMatrixProps) 
       <div className="rounded-lg border border-white/[0.08] bg-white/[0.05]overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-white/[0.04]">
+            <TableRow className="bg-surface-glass">
               <TableHead className="w-[100px] text-xs">Gateway</TableHead>
               <TableHead className="text-xs">Name</TableHead>
               <TableHead className="w-[90px] text-center text-xs">Required</TableHead>
@@ -42,10 +42,10 @@ export function GatewayCoverageMatrix({ coverage }: GatewayCoverageMatrixProps) 
 
               return (
                 <TableRow key={item.gatewayCode}>
-                  <TableCell className="font-mono text-sm font-semibold text-[#2E75B6]">
+                  <TableCell className="font-mono text-sm font-semibold text-brand-blue">
                     {item.gatewayCode}
                   </TableCell>
-                  <TableCell className="text-sm text-slate-300">
+                  <TableCell className="text-sm text-text-secondary">
                     {item.gatewayName}
                   </TableCell>
                   <TableCell className="text-center text-sm">{item.requiredCount}</TableCell>
@@ -55,7 +55,7 @@ export function GatewayCoverageMatrix({ coverage }: GatewayCoverageMatrixProps) 
                   <TableCell className="text-center text-sm">
                     <span className={cn(
                       "font-medium",
-                      item.missingCount > 0 ? "text-red-600" : "text-slate-500"
+                      item.missingCount > 0 ? "text-red-600" : "text-text-muted"
                     )}>
                       {item.missingCount}
                     </span>
@@ -63,7 +63,7 @@ export function GatewayCoverageMatrix({ coverage }: GatewayCoverageMatrixProps) 
                   <TableCell className="text-center text-sm">
                     <span className={cn(
                       "font-medium",
-                      item.issueCount > 0 ? "text-amber-600" : "text-slate-500"
+                      item.issueCount > 0 ? "text-amber-600" : "text-text-muted"
                     )}>
                       {item.issueCount}
                     </span>
@@ -76,7 +76,7 @@ export function GatewayCoverageMatrix({ coverage }: GatewayCoverageMatrixProps) 
                           style={{ width: `${pct}%`, backgroundColor: barColor }}
                         />
                       </div>
-                      <span className="w-9 text-right text-xs font-medium tabular-nums text-slate-400">
+                      <span className="w-9 text-right text-xs font-medium tabular-nums text-text-tertiary">
                         {pct}%
                       </span>
                     </div>

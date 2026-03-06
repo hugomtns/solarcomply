@@ -16,8 +16,8 @@ export function GatewayRefCard({ gateway, isSelected, onClick }: GatewayRefCardP
     <button
       onClick={onClick}
       className={cn(
-        "w-full text-left rounded-lg border p-3 transition-colors hover:bg-white/[0.04]",
-        isSelected ? "border-[#2E75B6] bg-blue-50/20 ring-1 ring-[#2E75B6]" : "border-white/[0.08]"
+        "w-full text-left rounded-lg border p-3 transition-colors hover:bg-surface-glass",
+        isSelected ? "border-brand-blue bg-blue-50/20 ring-1 ring-brand-blue" : "border-white/[0.08]"
       )}
     >
       <div className="flex items-center justify-between mb-1">
@@ -33,7 +33,7 @@ export function GatewayRefCard({ gateway, isSelected, onClick }: GatewayRefCardP
           </Badge>
         </div>
       </div>
-      <p className="text-xs font-medium text-slate-300 leading-tight">{gateway.name}</p>
+      <p className="text-xs font-medium text-text-secondary leading-tight">{gateway.name}</p>
       <p className="text-[10px] text-gray-400 mt-1">
         {LIFECYCLE_STAGE_LABELS[gateway.lifecycleStage]} &middot; {gateway.duration}
       </p>

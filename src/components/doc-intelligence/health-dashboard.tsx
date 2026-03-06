@@ -26,10 +26,10 @@ export function HealthDashboard({ healthScore }: HealthDashboardProps) {
         <Card className="flex items-center gap-4 px-5 py-4">
           <ComplianceScoreRing score={healthScore.overallScore} size="lg" />
           <div>
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+            <p className="text-xs font-medium uppercase tracking-wide text-text-muted">
               Overall Health
             </p>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-text-tertiary">
               {healthScore.overallScore >= 80
                 ? "Good standing"
                 : healthScore.overallScore >= 60
@@ -58,10 +58,10 @@ export function HealthDashboard({ healthScore }: HealthDashboardProps) {
       <Card className="px-5 py-4">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="h-4 w-4 text-slate-500" />
+            <AlertTriangle className="h-4 w-4 text-text-muted" />
             <p className="text-sm font-medium text-white">Findings Breakdown</p>
           </div>
-          <p className="text-sm text-slate-400">{totalFindings} total findings</p>
+          <p className="text-sm text-text-tertiary">{totalFindings} total findings</p>
         </div>
         <div className="flex h-3 overflow-hidden rounded-full bg-white/[0.06]">
           {(["critical", "high", "medium", "low"] as const).map((severity) => {
@@ -82,7 +82,7 @@ export function HealthDashboard({ healthScore }: HealthDashboardProps) {
         </div>
         <div className="mt-2 flex gap-4">
           {(["critical", "high", "medium", "low"] as const).map((severity) => (
-            <div key={severity} className="flex items-center gap-1.5 text-xs text-slate-400">
+            <div key={severity} className="flex items-center gap-1.5 text-xs text-text-tertiary">
               <span
                 className="h-2.5 w-2.5 rounded-full"
                 style={{ backgroundColor: SEVERITY_CONFIG[severity].color }}

@@ -107,7 +107,7 @@ export function DocumentViewer({ document: doc, open, onOpenChange }: DocumentVi
               <span className="flex items-center gap-2 flex-wrap">
                 <StatusBadge status={doc.status} />
                 {hasApprovals && (
-                  <span className="inline-flex items-center rounded-full border border-white/[0.08] bg-white/[0.04] px-2 py-0.5 text-xs font-medium text-slate-300">
+                  <span className="inline-flex items-center rounded-full border border-white/[0.08] bg-surface-glass px-2 py-0.5 text-xs font-medium text-text-secondary">
                     {approvedCount}/{requiredCount} approved
                   </span>
                 )}
@@ -116,9 +116,9 @@ export function DocumentViewer({ document: doc, open, onOpenChange }: DocumentVi
           </SheetHeader>
 
           {/* Preview Area */}
-          <div className="mx-4 flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-white/[0.04] py-12">
+          <div className="mx-4 flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-surface-glass py-12">
             <Icon className="h-12 w-12 text-gray-300 mb-3" />
-            <p className="text-sm text-slate-500">Preview not available in prototype</p>
+            <p className="text-sm text-text-muted">Preview not available in prototype</p>
           </div>
 
           {/* AI Analysis Banner */}
@@ -181,7 +181,7 @@ export function DocumentViewer({ document: doc, open, onOpenChange }: DocumentVi
                 <TabsTrigger value="approvals">
                   Approvals
                   {hasApprovals && (
-                    <span className="ml-1.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white/[0.06] px-1 text-[10px] font-medium text-slate-400">
+                    <span className="ml-1.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white/[0.06] px-1 text-[10px] font-medium text-text-tertiary">
                       {approvedCount}/{requiredCount}
                     </span>
                   )}
@@ -193,8 +193,8 @@ export function DocumentViewer({ document: doc, open, onOpenChange }: DocumentVi
                   <dl className="space-y-1.5">
                     {metaRows.map((row) => (
                       <div key={row.label} className="flex gap-2 text-sm">
-                        <dt className="w-28 shrink-0 text-slate-400">{row.label}</dt>
-                        <dd className="text-slate-200 break-all">{row.value}</dd>
+                        <dt className="w-28 shrink-0 text-text-tertiary">{row.label}</dt>
+                        <dd className="text-text-heading break-all">{row.value}</dd>
                       </div>
                     ))}
                   </dl>

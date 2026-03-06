@@ -24,31 +24,31 @@ const statusConfig: Record<
   passed: {
     color: COLORS.status.passed,
     icon: CheckCircle,
-    fillClass: "bg-[#00B0A0]",
-    ringClass: "ring-[#00B0A0]/20",
+    fillClass: "bg-primary",
+    ringClass: "ring-primary/20",
   },
   blocked: {
     color: COLORS.status.blocked,
     icon: XCircle,
-    fillClass: "bg-[#EF4444]",
-    ringClass: "ring-[#EF4444]/20",
+    fillClass: "bg-status-error",
+    ringClass: "ring-status-error/20",
   },
   in_review: {
     color: COLORS.status.inReview,
     icon: Clock,
-    fillClass: "bg-[#F59E0B]",
-    ringClass: "ring-[#F59E0B]/20",
+    fillClass: "bg-status-warning",
+    ringClass: "ring-status-warning/20",
   },
   waived: {
     color: COLORS.status.waived,
     icon: ShieldOff,
-    fillClass: "bg-[#8B5CF6]",
-    ringClass: "ring-[#8B5CF6]/20",
+    fillClass: "bg-status-special",
+    ringClass: "ring-status-special/20",
   },
   upcoming: {
     color: COLORS.status.upcoming,
     icon: Clock,
-    fillClass: "bg-slate-800",
+    fillClass: "bg-surface-elevated",
     ringClass: "",
   },
 };
@@ -113,13 +113,13 @@ export function GatewayCard({ gateway, isCurrent, isLast }: GatewayCardProps) {
                   <div
                     className={`flex items-center justify-center rounded-full transition-all duration-200 group-hover:scale-110 ${
                       isUpcoming
-                        ? "border-2 border-slate-600 bg-slate-800"
+                        ? "border-2 border-text-disabled bg-surface-elevated"
                         : config.fillClass
                     }`}
                     style={{ width: circleSize, height: circleSize }}
                   >
                     {isUpcoming ? (
-                      <span className="text-xs font-semibold text-slate-500">
+                      <span className="text-xs font-semibold text-text-muted">
                         {gateway.code}
                       </span>
                     ) : (
@@ -146,14 +146,14 @@ export function GatewayCard({ gateway, isCurrent, isLast }: GatewayCardProps) {
 
         {/* Label below node */}
         <div className="mt-2 flex w-20 flex-col items-center text-center">
-          <span className="text-[11px] font-semibold text-slate-300" style={{ fontFamily: 'var(--font-heading)' }}>
+          <span className="text-[11px] font-semibold text-text-secondary font-display">
             {gateway.code}
           </span>
-          <span className="line-clamp-2 text-[10px] leading-tight text-slate-500">
+          <span className="line-clamp-2 text-[10px] leading-tight text-text-muted">
             {gateway.name}
           </span>
           {gateway.completedDate && (
-            <span className="mt-0.5 text-[9px] text-slate-600">
+            <span className="mt-0.5 text-[9px] text-text-disabled">
               {formatDate(gateway.completedDate)}
             </span>
           )}

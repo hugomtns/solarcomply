@@ -75,7 +75,7 @@ export function ConfigurableRequirementsList({
               <AccordionTrigger className="px-4 py-3 hover:no-underline">
                 <div className="flex items-center gap-3 text-left">
                   <span className="text-sm font-semibold text-white">{gw.code}</span>
-                  <span className="text-sm text-slate-300">{gw.name}</span>
+                  <span className="text-sm text-text-secondary">{gw.name}</span>
                   <Badge variant="outline" className="text-[10px] px-1.5 py-0 bg-teal-50 text-teal-700 border-teal-200">
                     {enabledCount}/{reqs.length + gwCustom.length} enabled
                   </Badge>
@@ -95,14 +95,14 @@ export function ConfigurableRequirementsList({
                         key={req.id}
                         className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm ${
                           status === 'not_applicable'
-                            ? 'bg-white/[0.04] opacity-60'
+                            ? 'bg-surface-glass opacity-60'
                             : status === 'disabled'
-                            ? 'bg-white/[0.04] opacity-75'
-                            : 'hover:bg-white/[0.04]'
+                            ? 'bg-surface-glass opacity-75'
+                            : 'hover:bg-surface-glass'
                         }`}
                       >
-                        <span className="text-xs font-medium text-[#2E75B6] w-14 shrink-0">{req.id}</span>
-                        <span className={`flex-1 text-sm ${status === 'enabled' ? 'text-slate-300' : 'text-slate-500'}`}>
+                        <span className="text-xs font-medium text-brand-blue w-14 shrink-0">{req.id}</span>
+                        <span className={`flex-1 text-sm ${status === 'enabled' ? 'text-text-secondary' : 'text-text-muted'}`}>
                           {req.label}
                           {req.isBessOnly && (
                             <Badge variant="outline" className="ml-1.5 text-[9px] px-1 py-0 bg-blue-50 text-blue-700 border-blue-200">
@@ -113,13 +113,13 @@ export function ConfigurableRequirementsList({
                         <div className="flex items-center gap-2 shrink-0">
                           {status === 'not_applicable' ? (
                             <div className="flex items-center gap-1.5">
-                              <Badge variant="outline" className="text-[10px] bg-white/[0.06] text-slate-400 border-gray-200">
+                              <Badge variant="outline" className="text-[10px] bg-white/[0.06] text-text-tertiary border-gray-200">
                                 N/A
                               </Badge>
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="h-6 px-1.5 text-[10px] text-slate-500 hover:text-slate-400"
+                                className="h-6 px-1.5 text-[10px] text-text-muted hover:text-text-tertiary"
                                 onClick={() => onToggle(req.id, 'enabled')}
                               >
                                 Restore
@@ -134,7 +134,7 @@ export function ConfigurableRequirementsList({
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="h-6 w-6 p-0 text-slate-500 hover:text-slate-400"
+                                className="h-6 w-6 p-0 text-text-muted hover:text-text-tertiary"
                                 title="Mark as N/A"
                                 onClick={() => {
                                   setNaDialogReqId(req.id);
@@ -157,7 +157,7 @@ export function ConfigurableRequirementsList({
                       className="flex items-center gap-3 rounded-md px-3 py-2 text-sm bg-orange-50/50 border border-orange-100"
                     >
                       <FileText className="h-3.5 w-3.5 text-orange-500 shrink-0" />
-                      <span className="flex-1 text-sm text-slate-300">
+                      <span className="flex-1 text-sm text-text-secondary">
                         {cr.label}
                         <Badge variant="outline" className="ml-1.5 text-[9px] px-1 py-0 bg-orange-50 text-orange-700 border-orange-200">
                           Custom
@@ -220,7 +220,7 @@ export function ConfigurableRequirementsList({
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => { setNaDialogReqId(null); setNaReason(""); }}>Cancel</Button>
-            <Button onClick={handleNaConfirm} disabled={!naReason.trim()} className="bg-[#1B2A4A] hover:bg-[#1B2A4A]/90">
+            <Button onClick={handleNaConfirm} disabled={!naReason.trim()} className="bg-brand-navy hover:bg-brand-navy/90">
               Confirm
             </Button>
           </DialogFooter>

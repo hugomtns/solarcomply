@@ -98,10 +98,10 @@ export function ChatInterface({ projectId }: ChatInterfaceProps) {
           {isTyping && (
             <div className="flex gap-2">
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100 border border-gray-200">
-                <Bot className="h-4 w-4 text-[#1B2A4A]" />
+                <Bot className="h-4 w-4 text-brand-navy" />
               </div>
               <div className="flex items-center gap-2 rounded-2xl rounded-bl-sm border border-gray-200 bg-white px-4 py-3">
-                <Loader2 className="h-4 w-4 animate-spin text-[#2E75B6]" />
+                <Loader2 className="h-4 w-4 animate-spin text-brand-blue" />
                 <span className="text-sm text-gray-500">Analyzing...</span>
               </div>
             </div>
@@ -127,7 +127,7 @@ export function ChatInterface({ projectId }: ChatInterfaceProps) {
             size="sm"
             onClick={() => handleSubmit()}
             disabled={!inputValue.trim() || isTyping}
-            className="h-9 w-9 shrink-0 bg-[#2E75B6] hover:bg-[#245d94] p-0"
+            className="h-9 w-9 shrink-0 bg-brand-blue hover:bg-brand-blue-hover p-0"
           >
             <Send className="h-4 w-4" />
           </Button>

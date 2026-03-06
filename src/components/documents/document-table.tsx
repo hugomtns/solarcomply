@@ -123,7 +123,7 @@ export function DocumentTable({ documents, onSelect }: DocumentTableProps) {
                 <Icon className="h-4 w-4 text-gray-500" />
               </TableCell>
               <TableCell>
-                <span className="font-medium text-[#2E75B6] hover:underline">
+                <span className="font-medium text-brand-blue hover:underline">
                   {doc.name}
                 </span>
               </TableCell>

@@ -35,10 +35,10 @@ export default function GatewayPage({ params }: GatewayPageProps) {
   if (!gateway) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
-        <h1 className="text-2xl font-semibold text-slate-200">
+        <h1 className="text-2xl font-semibold text-text-heading">
           Gateway Not Found
         </h1>
-        <p className="mt-2 text-sm text-slate-400">
+        <p className="mt-2 text-sm text-text-tertiary">
           The gateway you are looking for does not exist or you do not have
           access to it.
         </p>
@@ -67,10 +67,10 @@ export default function GatewayPage({ params }: GatewayPageProps) {
               </h1>
               <StatusBadge status={gateway.status} />
             </div>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-text-tertiary">
               {gateway.description}
             </p>
-            <div className="mt-2 flex items-center gap-4 text-xs text-slate-500">
+            <div className="mt-2 flex items-center gap-4 text-xs text-text-muted">
               {gateway.targetDate && (
                 <span>
                   Target:{" "}

@@ -9,16 +9,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-gradient-to-r from-[#06D6A0] to-[#059669] text-[#0B1120] font-semibold shadow-[0_0_12px_rgba(6,214,160,0.25)] hover:shadow-[0_0_20px_rgba(6,214,160,0.35)] hover:brightness-110",
+        default: "gradient-button text-primary-foreground font-semibold shadow-[0_0_12px_rgba(6,214,160,0.25)] hover:shadow-[0_0_20px_rgba(6,214,160,0.35)] hover:brightness-110",
         destructive:
-          "bg-red-500/80 text-white hover:bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.2)]",
+          "bg-status-error/80 text-white hover:bg-status-error shadow-[0_0_12px_rgba(239,68,68,0.2)]",
         outline:
-          "border border-white/[0.1] bg-white/[0.04] text-slate-300 hover:bg-white/[0.08] hover:text-white hover:border-white/[0.15]",
+          "border border-white/[0.1] bg-surface-glass text-text-secondary hover:bg-surface-glass-hover hover:text-white hover:border-white/[0.15]",
         secondary:
-          "bg-white/[0.06] text-slate-300 hover:bg-white/[0.10] hover:text-white",
+          "bg-white/[0.06] text-text-secondary hover:bg-white/[0.10] hover:text-white",
         ghost:
-          "text-slate-400 hover:bg-white/[0.06] hover:text-slate-200",
-        link: "text-[#06D6A0] underline-offset-4 hover:underline",
+          "text-text-tertiary hover:bg-white/[0.06] hover:text-text-heading",
+        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

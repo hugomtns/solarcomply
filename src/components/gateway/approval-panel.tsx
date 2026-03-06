@@ -81,7 +81,7 @@ export function ApprovalPanel({ approvals }: ApprovalPanelProps) {
                   <TableRow key={approval.stakeholderOrgId}>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <div className="flex h-7 w-7 items-center justify-center rounded bg-[#1B2A4A] text-[10px] font-bold text-white">
+                        <div className="flex h-7 w-7 items-center justify-center rounded bg-brand-navy text-[10px] font-bold text-white">
                           {org?.logo ?? "?"}
                         </div>
                         <span className="text-sm font-medium text-gray-900">
@@ -149,7 +149,7 @@ export function ApprovalPanel({ approvals }: ApprovalPanelProps) {
                       {approval.status === "pending" && isCurrentOrg && (
                         <Button
                           size="sm"
-                          className="gap-1.5 bg-[#00B0A0] hover:bg-[#009688] text-white"
+                          className="gap-1.5 bg-primary hover:bg-palette-teal-600 text-white"
                           onClick={handleApproveGateway}
                         >
                           <CheckCircle className="h-3.5 w-3.5" />

@@ -13,8 +13,8 @@ export function PageHeader({ title, description, children }: PageHeaderProps) {
         <h1 className="text-2xl font-bold tracking-tight text-white">
           {title}
         </h1>
-        <div className="mt-2 h-0.5 w-16 rounded-full bg-gradient-to-r from-[#06D6A0] via-[#3B82F6] to-transparent" />
-        {description && <p className="mt-2 text-sm text-slate-400">{description}</p>}
+        <div className="mt-2 h-0.5 w-16 rounded-full gradient-primary" />
+        {description && <p className="mt-2 text-sm text-text-tertiary">{description}</p>}
       </div>
       {children && <div className="flex items-center gap-2">{children}</div>}
     </div>

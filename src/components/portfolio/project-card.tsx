@@ -26,11 +26,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
     <Link href={`/project/${project.id}`}>
       <Card className="group cursor-pointer p-0 gap-0 overflow-hidden">
         {/* Gradient top bar */}
-        <div className="h-[2px] w-full bg-gradient-to-r from-[#06D6A0] via-[#3B82F6] to-[#8B5CF6]" />
+        <div className="h-[2px] w-full bg-gradient-to-r from-primary via-palette-blue-500 to-palette-purple-500" />
         <div className="p-5">
           <div className="flex items-start justify-between">
             <div className="min-w-0 flex-1">
-              <h3 className="truncate text-[15px] font-semibold text-white group-hover:text-[#06D6A0] transition-colors" style={{ fontFamily: 'var(--font-heading)' }}>
+              <h3 className="truncate text-[15px] font-semibold text-white group-hover:text-primary transition-colors font-display">
                 {project.name}
               </h3>
               <div className="mt-1.5 flex flex-wrap gap-1">
@@ -47,16 +47,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <ComplianceScoreRing score={project.complianceScore} size="sm" />
           </div>
 
-          <div className="mt-4 space-y-1.5 text-sm text-slate-400">
+          <div className="mt-4 space-y-1.5 text-sm text-text-tertiary">
             <div className="flex items-center gap-1.5">
-              <MapPin className="h-3.5 w-3.5 text-slate-600" />
+              <MapPin className="h-3.5 w-3.5 text-text-disabled" />
               {project.location.region}, {project.location.country}
             </div>
             <div className="flex items-center gap-1.5">
-              <Calendar className="h-3.5 w-3.5 text-slate-600" />
+              <Calendar className="h-3.5 w-3.5 text-text-disabled" />
               COD: {new Date(project.expectedCOD).toLocaleDateString("en-GB", { month: "short", year: "numeric" })}
             </div>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-text-muted">
               {project.capacityMW} MW{project.capacityMWh ? ` / ${project.capacityMWh} MWh` : ""} &middot;{" "}
               {LIFECYCLE_STAGE_LABELS[project.currentStage]}
             </p>
@@ -65,7 +65,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <div className="mt-4">
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[0.06]">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-[#06D6A0] to-[#3B82F6] transition-all"
+                className="h-full rounded-full bg-gradient-to-r from-primary to-palette-blue-500 transition-all"
                 style={{ width: `${progress}%` }}
               />
             </div>

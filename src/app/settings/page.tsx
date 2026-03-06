@@ -110,7 +110,7 @@ export default function SettingsPage() {
             <Card className="p-6">
               <h3 className="text-sm font-semibold text-gray-900 mb-4">Organization Details</h3>
               <div className="flex items-center gap-4 mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#1B2A4A] text-white font-bold text-sm">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-brand-navy text-white font-bold text-sm">
                   {org?.logo}
                 </div>
                 <div>
@@ -371,7 +371,7 @@ export default function SettingsPage() {
       </Tabs>
 
       <div className="mt-6 flex items-center gap-3">
-        <Button onClick={handleSave} className="bg-[#2E75B6] hover:bg-[#245d91]">
+        <Button onClick={handleSave} className="bg-brand-blue hover:bg-brand-blue-hover">
           {saved ? "Saved!" : "Save Changes"}
         </Button>
         <Button variant="outline">Cancel</Button>
