@@ -28,7 +28,7 @@ export function MarketSelector({
     <div className="flex items-center gap-4 rounded-lg border border-white/[0.08] bg-white/[0.05] p-4">
       <div className="flex items-center gap-3">
         <div>
-          <label className="text-xs text-slate-400 block mb-1">Market / Jurisdiction</label>
+          <label className="text-xs text-text-tertiary block mb-1">Market / Jurisdiction</label>
           <Select value={market} onValueChange={onMarketChange}>
             <SelectTrigger className="w-[200px]">
               <SelectValue />
@@ -43,7 +43,7 @@ export function MarketSelector({
           </Select>
         </div>
         <div>
-          <label className="text-xs text-slate-400 block mb-1">Project Type</label>
+          <label className="text-xs text-text-tertiary block mb-1">Project Type</label>
           <Select value={projectType} onValueChange={(v) => onProjectTypeChange(v as ProjectType)}>
             <SelectTrigger className="w-[160px]">
               <SelectValue />
@@ -60,7 +60,7 @@ export function MarketSelector({
         <p className="text-sm font-medium text-white">
           {filteredCount} of {totalCount} requirements
         </p>
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-text-tertiary">
           applicable for {MARKET_PROFILES.find((m) => m.code === market)?.name ?? market} &middot;{" "}
           {PROJECT_TYPE_LABELS[projectType]}
         </p>

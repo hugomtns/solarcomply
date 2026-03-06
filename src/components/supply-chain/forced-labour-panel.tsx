@@ -133,7 +133,7 @@ export function ForcedLabourPanel({ project }: ForcedLabourPanelProps) {
             <p className="text-xs text-text-tertiary">Pending Review</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold" style={{ color: COLORS.gray400 }}>
+            <p className="text-2xl font-bold" style={{ color: COLORS.status.upcoming }}>
               {flDocs.filter((d) => d.status === "draft").length}
             </p>
             <p className="text-xs text-text-tertiary">Draft</p>

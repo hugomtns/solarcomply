@@ -117,7 +117,7 @@ export function BatteryPassportPanel({ project }: BatteryPassportPanelProps) {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Data Field Checklist */}
         <Card className="p-5">
-          <h3 className="mb-4 text-sm font-medium text-slate-200">
+          <h3 className="mb-4 text-sm font-medium text-text-heading">
             Passport Data Fields — {passport.batteryModel}
           </h3>
           <div className="space-y-2">
@@ -126,9 +126,9 @@ export function BatteryPassportPanel({ project }: BatteryPassportPanelProps) {
                 {f.populated ? (
                   <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                 ) : (
-                  <XCircle className="h-4 w-4 text-slate-600" />
+                  <XCircle className="h-4 w-4 text-text-disabled" />
                 )}
-                <span className={f.populated ? "text-slate-300" : "text-slate-500"}>{f.field}</span>
+                <span className={f.populated ? "text-text-secondary" : "text-text-muted"}>{f.field}</span>
               </div>
             ))}
           </div>
@@ -142,16 +142,16 @@ export function BatteryPassportPanel({ project }: BatteryPassportPanelProps) {
                 }}
               />
             </div>
-            <span className="text-xs text-slate-400">{Math.round((populatedCount / totalFields) * 100)}%</span>
+            <span className="text-xs text-text-tertiary">{Math.round((populatedCount / totalFields) * 100)}%</span>
           </div>
         </Card>
 
         {/* Carbon Footprint Breakdown */}
         <Card className="p-5">
-          <h3 className="mb-2 text-sm font-medium text-slate-200">Carbon Footprint Breakdown</h3>
+          <h3 className="mb-2 text-sm font-medium text-text-heading">Carbon Footprint Breakdown</h3>
           {passport.carbonFootprint ? (
             <>
-              <p className="mb-4 text-xs text-slate-400">
+              <p className="mb-4 text-xs text-text-tertiary">
                 Total: {passport.carbonFootprint.totalKgCO2PerKWh} kg CO₂/kWh
                 <Badge variant="outline" className="ml-2 text-[10px]">
                   {passport.carbonFootprint.status}
@@ -175,7 +175,7 @@ export function BatteryPassportPanel({ project }: BatteryPassportPanelProps) {
               </ResponsiveContainer>
             </>
           ) : (
-            <div className="flex h-[200px] items-center justify-center text-sm text-slate-500">
+            <div className="flex h-[200px] items-center justify-center text-sm text-text-muted">
               Carbon footprint data not yet available.
             </div>
           )}
@@ -184,41 +184,41 @@ export function BatteryPassportPanel({ project }: BatteryPassportPanelProps) {
 
       {/* Key Details */}
       <Card className="p-5">
-        <h3 className="mb-4 text-sm font-medium text-slate-200">Battery Details</h3>
+        <h3 className="mb-4 text-sm font-medium text-text-heading">Battery Details</h3>
         <div className="grid grid-cols-2 gap-4 text-sm sm:grid-cols-4">
           <div>
-            <p className="text-xs text-slate-500">Model</p>
-            <p className="font-medium text-slate-200">{passport.batteryModel}</p>
+            <p className="text-xs text-text-muted">Model</p>
+            <p className="font-medium text-text-heading">{passport.batteryModel}</p>
           </div>
           <div>
-            <p className="text-xs text-slate-500">Chemistry</p>
-            <p className="font-medium text-slate-200">{passport.chemistryType}</p>
+            <p className="text-xs text-text-muted">Chemistry</p>
+            <p className="font-medium text-text-heading">{passport.chemistryType}</p>
           </div>
           <div>
-            <p className="text-xs text-slate-500">Capacity</p>
-            <p className="font-medium text-slate-200">{passport.capacityMWh} MWh</p>
+            <p className="text-xs text-text-muted">Capacity</p>
+            <p className="font-medium text-text-heading">{passport.capacityMWh} MWh</p>
           </div>
           <div>
-            <p className="text-xs text-slate-500">Manufacturer</p>
-            <p className="font-medium text-slate-200">{passport.manufacturer}</p>
+            <p className="text-xs text-text-muted">Manufacturer</p>
+            <p className="font-medium text-text-heading">{passport.manufacturer}</p>
           </div>
           <div>
-            <p className="text-xs text-slate-500">Manufacturing Date</p>
-            <p className="font-medium text-slate-200">{passport.manufacturingDate}</p>
+            <p className="text-xs text-text-muted">Manufacturing Date</p>
+            <p className="font-medium text-text-heading">{passport.manufacturingDate}</p>
           </div>
           <div>
-            <p className="text-xs text-slate-500">Location</p>
-            <p className="font-medium text-slate-200">{passport.manufacturingLocation}</p>
+            <p className="text-xs text-text-muted">Location</p>
+            <p className="font-medium text-text-heading">{passport.manufacturingLocation}</p>
           </div>
           {passport.stateOfHealth && (
             <>
               <div>
-                <p className="text-xs text-slate-500">State of Health</p>
-                <p className="font-medium text-slate-200">{passport.stateOfHealth.currentSoH}%</p>
+                <p className="text-xs text-text-muted">State of Health</p>
+                <p className="font-medium text-text-heading">{passport.stateOfHealth.currentSoH}%</p>
               </div>
               <div>
-                <p className="text-xs text-slate-500">SoH Last Updated</p>
-                <p className="font-medium text-slate-200">{passport.stateOfHealth.lastUpdated}</p>
+                <p className="text-xs text-text-muted">SoH Last Updated</p>
+                <p className="font-medium text-text-heading">{passport.stateOfHealth.lastUpdated}</p>
               </div>
             </>
           )}

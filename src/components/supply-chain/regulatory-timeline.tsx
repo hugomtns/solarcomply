@@ -43,8 +43,8 @@ export function RegulatoryTimeline({ project }: RegulatoryTimelineProps) {
           const daysUntil = Math.floor((deadlineDate.getTime() - now) / (1000 * 60 * 60 * 24));
           const isPast = daysUntil < 0;
 
-          let dotColor: string = COLORS.gray400;
-          let badgeClass = "bg-white/[0.06] text-slate-400";
+          let dotColor: string = COLORS.status.upcoming;
+          let badgeClass = "bg-white/[0.06] text-text-tertiary";
           if (isPast) {
             dotColor = COLORS.teal;
             badgeClass = "bg-emerald-50 text-emerald-700";
@@ -66,15 +66,15 @@ export function RegulatoryTimeline({ project }: RegulatoryTimelineProps) {
 
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-sm font-semibold text-slate-200">{d.regulation}</span>
+                  <span className="text-sm font-semibold text-text-heading">{d.regulation}</span>
                   {d.jurisdictions.map((j) => (
                     <Badge key={j} variant="outline" className="text-[10px]">{j}</Badge>
                   ))}
                 </div>
-                <p className="mt-0.5 text-xs text-slate-400">
+                <p className="mt-0.5 text-xs text-text-tertiary">
                   {deadlineDate.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
                 </p>
-                <p className="mt-1 text-sm text-slate-400">{d.description}</p>
+                <p className="mt-1 text-sm text-text-tertiary">{d.description}</p>
                 <Badge variant="outline" className={`mt-2 text-xs ${badgeClass}`}>
                   {isPast ? "Effective" : `${daysUntil} days remaining`}
                 </Badge>
@@ -85,7 +85,7 @@ export function RegulatoryTimeline({ project }: RegulatoryTimelineProps) {
       </div>
 
       {filtered.length === 0 && (
-        <p className="py-8 text-center text-sm text-slate-500">
+        <p className="py-8 text-center text-sm text-text-muted">
           No upcoming regulatory deadlines for this project&apos;s jurisdictions.
         </p>
       )}
