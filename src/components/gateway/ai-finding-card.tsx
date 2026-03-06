@@ -12,24 +12,24 @@ interface AiFindingCardProps {
 const severityConfig = {
   critical: {
     icon: XCircle,
-    border: "border-red-200",
-    bg: "bg-red-50",
-    badge: "bg-red-100 text-red-800 border-red-200",
-    iconColor: "text-red-600",
+    border: "border-status-error/25",
+    bg: "bg-status-error/15",
+    badge: "bg-status-error/15 text-palette-red-400 border-status-error/25",
+    iconColor: "text-palette-red-400",
   },
   warning: {
     icon: AlertTriangle,
-    border: "border-amber-200",
-    bg: "bg-amber-50",
-    badge: "bg-amber-100 text-amber-800 border-amber-200",
-    iconColor: "text-amber-600",
+    border: "border-status-warning/25",
+    bg: "bg-status-warning/15",
+    badge: "bg-status-warning/20 text-status-warning-light border-status-warning/25",
+    iconColor: "text-status-warning-light",
   },
   info: {
     icon: Info,
-    border: "border-blue-200",
-    bg: "bg-blue-50",
-    badge: "bg-blue-100 text-blue-800 border-blue-200",
-    iconColor: "text-blue-600",
+    border: "border-status-info/25",
+    bg: "bg-status-info/15",
+    badge: "bg-status-info/15 text-palette-blue-400 border-status-info/25",
+    iconColor: "text-palette-blue-400",
   },
 };
 
@@ -73,7 +73,7 @@ export function AiFindingCard({ finding }: AiFindingCardProps) {
           )}
 
           {/* Recommendation */}
-          <div className="mt-2 rounded bg-white/80 px-2.5 py-1.5 text-xs text-text-heading">
+          <div className="mt-2 rounded bg-white/[0.06] px-2.5 py-1.5 text-xs text-text-heading">
             <span className="font-medium">Recommendation:</span> {finding.recommendation}
           </div>
         </div>

@@ -46,7 +46,7 @@ export function GapReportPreview({ gapItems, complianceResult, projectName }: Ga
     <div className="space-y-4">
       {/* AI Compliance Analysis Report (from POC G8 check) */}
       {complianceResult && (
-        <Card className="border-purple-200 bg-purple-50/30 shadow-card">
+        <Card className="border-status-special/25 bg-status-special/15 shadow-card">
           <CardHeader className="pb-2">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-2">
@@ -69,22 +69,22 @@ export function GapReportPreview({ gapItems, complianceResult, projectName }: Ga
               <span className="font-medium">
                 {complianceResult.results.length} requirements assessed
               </span>
-              <span className="text-gray-300">|</span>
+              <span className="text-white/20">|</span>
               <span className="flex items-center gap-1">
                 <CheckCircle className="h-3 w-3 text-emerald-600" />
                 {complianceResult.results.filter((r) => r.status === "pass").length} compliant
               </span>
-              <span className="text-gray-300">|</span>
+              <span className="text-white/20">|</span>
               <span className="flex items-center gap-1">
                 <XCircle className="h-3 w-3 text-red-600" />
                 {complianceResult.results.filter((r) => r.status === "fail").length} non-compliant
               </span>
-              <span className="text-gray-300">|</span>
+              <span className="text-white/20">|</span>
               <span className="flex items-center gap-1">
                 <AlertTriangle className="h-3 w-3 text-amber-600" />
                 {complianceResult.results.filter((r) => r.status === "warning").length} warnings
               </span>
-              <span className="text-gray-300">|</span>
+              <span className="text-white/20">|</span>
               <span className="text-text-tertiary">
                 Gateway {complianceResult.gatewayCode}
               </span>
@@ -106,7 +106,7 @@ export function GapReportPreview({ gapItems, complianceResult, projectName }: Ga
       )}
 
       {/* Standards Gap Analysis Report */}
-      <Card className="border-blue-200 bg-blue-50/30 shadow-card">
+      <Card className="border-status-info/25 bg-status-info/15 shadow-card">
         <CardHeader className="pb-2">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2">
@@ -123,19 +123,19 @@ export function GapReportPreview({ gapItems, complianceResult, projectName }: Ga
             <span className="font-medium">
               {gapItems.length} requirements assessed
             </span>
-            <span className="text-gray-300">|</span>
+            <span className="text-white/20">|</span>
             <span className="flex items-center gap-1">
               <CheckCircle className="h-3 w-3 text-emerald-600" />
               {compliant} compliant
             </span>
-            <span className="text-gray-300">|</span>
+            <span className="text-white/20">|</span>
             <span className="flex items-center gap-1">
               <XCircle className="h-3 w-3 text-red-600" />
               {gaps} gaps identified
             </span>
             {warnings > 0 && (
               <>
-                <span className="text-gray-300">|</span>
+                <span className="text-white/20">|</span>
                 <span className="flex items-center gap-1">
                   <AlertTriangle className="h-3 w-3 text-amber-600" />
                   {warnings} warnings
@@ -144,13 +144,13 @@ export function GapReportPreview({ gapItems, complianceResult, projectName }: Ga
             )}
             {pending > 0 && (
               <>
-                <span className="text-gray-300">|</span>
+                <span className="text-white/20">|</span>
                 <span>{pending} pending</span>
               </>
             )}
             {na > 0 && (
               <>
-                <span className="text-gray-300">|</span>
+                <span className="text-white/20">|</span>
                 <span className="flex items-center gap-1">
                   <Minus className="h-3 w-3 text-text-muted" />
                   {na} not applicable

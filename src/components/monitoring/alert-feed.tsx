@@ -19,22 +19,22 @@ const severityConfig: Record<
   critical: {
     icon: AlertCircle,
     border: "border-l-red-500",
-    bg: "bg-red-50/50",
-    badge: "bg-red-100 text-red-700",
+    bg: "bg-status-error/15",
+    badge: "bg-status-error/20 text-palette-red-400",
     label: "Critical",
   },
   warning: {
     icon: AlertTriangle,
     border: "border-l-amber-500",
-    bg: "bg-amber-50/50",
-    badge: "bg-amber-100 text-amber-700",
+    bg: "bg-status-warning/15",
+    badge: "bg-status-warning/20 text-status-warning-light",
     label: "Warning",
   },
   info: {
     icon: Info,
     border: "border-l-blue-500",
-    bg: "bg-blue-50/50",
-    badge: "bg-blue-100 text-blue-700",
+    bg: "bg-status-info/15",
+    badge: "bg-status-info/20 text-palette-blue-400",
     label: "Info",
   },
 };
@@ -79,7 +79,7 @@ export function AlertFeed() {
             <ScrollArea className="h-[520px]">
               <div className="space-y-0 px-4 pb-4">
                 {filtered.length === 0 && (
-                  <p className="py-8 text-center text-sm text-gray-400">No alerts</p>
+                  <p className="py-8 text-center text-sm text-text-muted">No alerts</p>
                 )}
                 {filtered.map((alert) => {
                   const cfg = severityConfig[alert.severity];
@@ -112,14 +112,14 @@ export function AlertFeed() {
                               {cfg.label}
                             </Badge>
                           </div>
-                          <p className="mt-1 text-xs text-gray-500 leading-relaxed">
+                          <p className="mt-1 text-xs text-text-muted leading-relaxed">
                             {alert.description}
                           </p>
                           <div className="mt-2 flex items-center justify-between">
-                            <span className="text-[10px] text-gray-400">
+                            <span className="text-[10px] text-text-muted">
                               {timeAgo(alert.timestamp)}
                               {alert.standardRef && (
-                                <span className="ml-2 font-medium text-gray-500">
+                                <span className="ml-2 font-medium text-text-muted">
                                   {alert.standardRef}
                                 </span>
                               )}
@@ -128,7 +128,7 @@ export function AlertFeed() {
                               <Button
                                 variant="ghost"
                                 size="xs"
-                                className="text-[10px] text-gray-500 hover:text-emerald-600"
+                                className="text-[10px] text-text-muted hover:text-emerald-600"
                                 onClick={() => acknowledgeAlert(alert.id)}
                               >
                                 <Check className="mr-1 h-3 w-3" />

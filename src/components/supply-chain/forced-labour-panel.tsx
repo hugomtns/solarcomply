@@ -46,9 +46,9 @@ export function ForcedLabourPanel({ project }: ForcedLabourPanelProps) {
   return (
     <div className="space-y-6">
       {/* Enforcement Timeline Banner */}
-      <Alert className="border-blue-200 bg-blue-50">
-        <Clock className="h-4 w-4 text-blue-600" />
-        <AlertDescription className="text-blue-800">
+      <Alert className="border-status-info/25 bg-status-info/15">
+        <Clock className="h-4 w-4 text-palette-blue-400" />
+        <AlertDescription className="text-palette-blue-400">
           <strong>EU Forced Labour Regulation (2024/3015)</strong> — Full enforcement begins December 2027. Competent authorities can investigate supply chains and order product withdrawals.
         </AlertDescription>
       </Alert>
@@ -63,7 +63,7 @@ export function ForcedLabourPanel({ project }: ForcedLabourPanelProps) {
               variant="outline"
               className={
                 m.status === "complete"
-                  ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                  ? "bg-primary/15 text-primary border-primary/25"
                   : "bg-surface-glass text-text-tertiary border-white/[0.08]"
               }
             >
@@ -87,9 +87,9 @@ export function ForcedLabourPanel({ project }: ForcedLabourPanelProps) {
                   variant="outline"
                   className={
                     s.status === "complete"
-                      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                      ? "bg-primary/15 text-primary border-primary/25"
                       : s.status === "partial"
-                      ? "bg-amber-50 text-amber-700 border-amber-200"
+                      ? "bg-status-warning/15 text-status-warning-light border-status-warning/25"
                       : "bg-surface-glass text-text-tertiary border-white/[0.08]"
                   }
                 >
@@ -153,7 +153,7 @@ export function ForcedLabourPanel({ project }: ForcedLabourPanelProps) {
           </div>
         )}
         {flDocs.length === 0 && (
-          <div className="mt-4 flex items-center gap-2 text-xs text-amber-600">
+          <div className="mt-4 flex items-center gap-2 text-xs text-status-warning-light">
             <AlertTriangle className="h-3.5 w-3.5" />
             No forced labour due diligence documents uploaded yet.
           </div>

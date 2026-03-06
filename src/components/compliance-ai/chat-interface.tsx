@@ -87,7 +87,7 @@ export function ChatInterface({ projectId }: ChatInterfaceProps) {
   }, [submitQuery]);
 
   return (
-    <div className="flex h-full flex-col rounded-lg border border-gray-200 bg-gray-50">
+    <div className="flex h-full flex-col rounded-lg border border-white/[0.08] bg-surface-glass">
       {/* Messages area */}
       <ScrollArea className="flex-1 overflow-auto">
         <div className="space-y-6 p-4">
@@ -97,12 +97,12 @@ export function ChatInterface({ projectId }: ChatInterfaceProps) {
 
           {isTyping && (
             <div className="flex gap-2">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100 border border-gray-200">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-glass border border-white/[0.08]">
                 <Bot className="h-4 w-4 text-brand-navy" />
               </div>
-              <div className="flex items-center gap-2 rounded-2xl rounded-bl-sm border border-gray-200 bg-white px-4 py-3">
+              <div className="flex items-center gap-2 rounded-2xl rounded-bl-sm border border-white/[0.08] bg-surface-glass px-4 py-3">
                 <Loader2 className="h-4 w-4 animate-spin text-brand-blue" />
-                <span className="text-sm text-gray-500">Analyzing...</span>
+                <span className="text-sm text-text-muted">Analyzing...</span>
               </div>
             </div>
           )}
@@ -112,7 +112,7 @@ export function ChatInterface({ projectId }: ChatInterfaceProps) {
       </ScrollArea>
 
       {/* Input area */}
-      <div className="border-t border-gray-200 bg-white p-3">
+      <div className="border-t border-white/[0.08] bg-surface-glass p-3">
         <div className="flex items-center gap-2">
           <Input
             ref={inputRef}
@@ -132,7 +132,7 @@ export function ChatInterface({ projectId }: ChatInterfaceProps) {
             <Send className="h-4 w-4" />
           </Button>
         </div>
-        <p className="mt-1.5 text-center text-[10px] text-gray-400">
+        <p className="mt-1.5 text-center text-[10px] text-text-muted">
           AI responses are based on project data and may not reflect real-time changes.
         </p>
       </div>

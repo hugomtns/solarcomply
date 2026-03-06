@@ -57,16 +57,16 @@ export function FEOCCompliancePanel({ project }: FEOCCompliancePanelProps) {
     <div className="space-y-6">
       {/* Safe Harbor Banner */}
       {assessment.safeHarborApplies ? (
-        <Alert className="border-blue-200 bg-blue-50">
-          <Timer className="h-4 w-4 text-blue-600" />
-          <AlertDescription className="text-blue-800">
+        <Alert className="border-status-info/25 bg-status-info/15">
+          <Timer className="h-4 w-4 text-palette-blue-400" />
+          <AlertDescription className="text-palette-blue-400">
             <strong>Safe Harbor Active</strong> — This project qualifies for safe harbor provisions under the OBBBA final rule (BOC before Jan 1, 2025).
           </AlertDescription>
         </Alert>
       ) : (
-        <Alert className="border-amber-200 bg-amber-50">
-          <AlertTriangle className="h-4 w-4 text-amber-600" />
-          <AlertDescription className="text-amber-800">
+        <Alert className="border-status-warning/25 bg-status-warning/15">
+          <AlertTriangle className="h-4 w-4 text-status-warning-light" />
+          <AlertDescription className="text-status-warning-light">
             <strong>Safe Harbor Not Available</strong> — BOC date ({assessment.bocDate}) is after the Jan 1, 2025 safe harbor cutoff. Full FEOC compliance required for ITC eligibility.
           </AlertDescription>
         </Alert>
@@ -108,8 +108,8 @@ export function FEOCCompliancePanel({ project }: FEOCCompliancePanelProps) {
               <Badge
                 variant="outline"
                 className={cat.passing
-                  ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-                  : "bg-red-50 text-red-700 border-red-200"
+                  ? "bg-primary/15 text-primary border-primary/25"
+                  : "bg-status-error/15 text-palette-red-400 border-status-error/25"
                 }
               >
                 {cat.passing ? "Pass" : "Fail"}
@@ -133,7 +133,7 @@ export function FEOCCompliancePanel({ project }: FEOCCompliancePanelProps) {
                 className="relative h-0"
                 style={{ left: `${cat.threshold * 100}%` }}
               >
-                <div className="absolute -top-3 h-3 w-0.5 bg-gray-800" />
+                <div className="absolute -top-3 h-3 w-0.5 bg-text-heading" />
               </div>
             </div>
             <div className="mt-3 flex justify-between text-xs text-text-tertiary">
@@ -143,7 +143,7 @@ export function FEOCCompliancePanel({ project }: FEOCCompliancePanelProps) {
             {cat.flaggedSuppliers.length > 0 && (
               <div className="mt-2 space-y-1">
                 {cat.flaggedSuppliers.map((s, i) => (
-                  <div key={i} className="flex items-center gap-1.5 text-xs text-red-600">
+                  <div key={i} className="flex items-center gap-1.5 text-xs text-palette-red-400">
                     <AlertTriangle className="h-3 w-3" />
                     {s.name} ({s.component})
                   </div>
@@ -174,7 +174,7 @@ export function FEOCCompliancePanel({ project }: FEOCCompliancePanelProps) {
                   <TableCell className="font-medium">{s.name}</TableCell>
                   <TableCell>{s.component}</TableCell>
                   <TableCell>
-                    <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 text-xs">
+                    <Badge variant="outline" className="bg-status-error/15 text-palette-red-400 border-status-error/25 text-xs">
                       {s.reason.replace(/_/g, " ")}
                     </Badge>
                   </TableCell>

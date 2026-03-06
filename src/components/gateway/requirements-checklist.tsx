@@ -35,9 +35,9 @@ const categoryLabels: Record<string, string> = {
 const categoryOrder: string[] = ["document", "standard", "data_quality", "approval"];
 
 const checkTypeBadge: Record<string, { label: string; className: string }> = {
-  automated: { label: "Automated", className: "bg-blue-100 text-blue-700 border-blue-200" },
-  manual: { label: "Manual", className: "bg-white/[0.06] text-text-secondary border-gray-200" },
-  ai_assisted: { label: "AI", className: "bg-purple-100 text-purple-700 border-purple-200" },
+  automated: { label: "Automated", className: "bg-status-info/15 text-palette-blue-400 border-status-info/25" },
+  manual: { label: "Manual", className: "bg-white/[0.06] text-text-secondary border-white/[0.08]" },
+  ai_assisted: { label: "AI", className: "bg-status-special/15 text-palette-purple-400 border-status-special/25" },
 };
 
 export function RequirementsChecklist({ requirements, projectId, onRequestWaiver, onViewAiAnalysis }: RequirementsChecklistProps) {
@@ -133,7 +133,7 @@ export function RequirementsChecklist({ requirements, projectId, onRequestWaiver
                           {checkCfg.label}
                         </Badge>
                         {req.standardRef && (
-                          <Badge variant="outline" className="text-xs bg-sky-50 text-sky-700 border-sky-200">
+                          <Badge variant="outline" className="text-xs bg-status-info/15 text-palette-blue-400 border-status-info/25">
                             {req.standardRef}
                           </Badge>
                         )}
@@ -171,10 +171,10 @@ export function RequirementsChecklist({ requirements, projectId, onRequestWaiver
                                   variant="outline"
                                   className={`text-[10px] px-1.5 py-0 ${
                                     doc!.status === "approved"
-                                      ? "bg-emerald-50 text-emerald-700"
+                                      ? "bg-primary/15 text-primary"
                                       : doc!.status === "rejected"
-                                        ? "bg-red-50 text-red-700"
-                                        : "bg-amber-50 text-amber-700"
+                                        ? "bg-status-error/15 text-palette-red-400"
+                                        : "bg-status-warning/15 text-status-warning-light"
                                   }`}
                                 >
                                   {doc!.status.replace("_", " ")}
@@ -198,7 +198,7 @@ export function RequirementsChecklist({ requirements, projectId, onRequestWaiver
                           {req.status === "not_applicable" && "Not applicable to this gateway."}
                         </p>
                         {req.checkType === "ai_assisted" && req.aiConfidence != null && (
-                          <p className="mt-1 text-xs text-purple-600">
+                          <p className="mt-1 text-xs text-palette-purple-400">
                             AI confidence: {Math.round(req.aiConfidence * 100)}% — manual
                             verification {req.aiConfidence >= 0.9 ? "optional" : "recommended"}
                           </p>
@@ -207,14 +207,14 @@ export function RequirementsChecklist({ requirements, projectId, onRequestWaiver
 
                       {/* AI result inline */}
                       {aiResult && (
-                        <div className="rounded-md border border-purple-200 bg-purple-50 p-2.5">
+                        <div className="rounded-md border border-status-special/25 bg-status-special/15 p-2.5">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <Sparkles className="h-3.5 w-3.5 text-purple-600" />
-                              <span className="text-xs font-medium text-purple-900">
+                              <Sparkles className="h-3.5 w-3.5 text-palette-purple-400" />
+                              <span className="text-xs font-medium text-palette-purple-400">
                                 AI Analysis: {aiResult.status.toUpperCase()}
                               </span>
-                              <span className="text-xs text-purple-600">
+                              <span className="text-xs text-palette-purple-400">
                                 ({Math.round(aiResult.confidence * 100)}% confidence)
                               </span>
                             </div>
@@ -222,16 +222,16 @@ export function RequirementsChecklist({ requirements, projectId, onRequestWaiver
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="h-6 gap-1 text-xs text-purple-700 hover:text-purple-900"
+                                className="h-6 gap-1 text-xs text-palette-purple-400 hover:text-palette-purple-400"
                                 onClick={onViewAiAnalysis}
                               >
                                 View AI Analysis
                               </Button>
                             )}
                           </div>
-                          <p className="mt-1 text-xs text-purple-800">{aiResult.summary}</p>
+                          <p className="mt-1 text-xs text-palette-purple-400">{aiResult.summary}</p>
                           {aiResult.findings.length > 0 && (
-                            <p className="mt-1 text-[11px] text-purple-600">
+                            <p className="mt-1 text-[11px] text-palette-purple-400">
                               {aiResult.findings.length} finding{aiResult.findings.length !== 1 ? "s" : ""}: {" "}
                               {aiResult.findings.filter(f => f.severity === "critical").length} critical, {" "}
                               {aiResult.findings.filter(f => f.severity === "warning").length} warning, {" "}
@@ -246,7 +246,7 @@ export function RequirementsChecklist({ requirements, projectId, onRequestWaiver
                         <Button
                           variant="outline"
                           size="sm"
-                          className="gap-1.5 text-xs text-purple-700 border-purple-200 hover:bg-purple-50"
+                          className="gap-1.5 text-xs text-palette-purple-400 border-status-special/25 hover:bg-status-special/15"
                           onClick={onViewAiAnalysis}
                         >
                           <Sparkles className="h-3 w-3" />
@@ -280,9 +280,9 @@ export function RequirementsChecklist({ requirements, projectId, onRequestWaiver
 
 function AiResultBadge({ status, findingCount }: { status: string; findingCount: number }) {
   const config: Record<string, string> = {
-    pass: "bg-green-100 text-green-700 border-green-200",
-    warning: "bg-amber-100 text-amber-700 border-amber-200",
-    fail: "bg-red-100 text-red-700 border-red-200",
+    pass: "bg-primary/15 text-primary border-primary/25",
+    warning: "bg-status-warning/20 text-status-warning-light border-status-warning/25",
+    fail: "bg-status-error/15 text-palette-red-400 border-status-error/25",
   };
   return (
     <Badge variant="outline" className={`gap-1 text-[10px] ${config[status] ?? config.warning}`}>

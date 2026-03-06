@@ -123,7 +123,7 @@ export default function GatewayPage({ params }: GatewayPageProps) {
             onClick={handleAnalyzeWithAI}
             variant="outline"
             size="sm"
-            className="gap-2 border-purple-200 text-purple-700 hover:bg-purple-50"
+            className="gap-2 border-status-special/25 text-palette-purple-400 hover:bg-status-special/15"
           >
             <Sparkles className="h-4 w-4" />
             AI Hub

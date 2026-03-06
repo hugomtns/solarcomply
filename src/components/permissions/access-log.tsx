@@ -27,10 +27,10 @@ interface AccessLogEntry {
 const ACTIONS: ActionType[] = ["Viewed", "Downloaded", "Uploaded", "Shared"];
 
 const ACTION_BADGE: Record<ActionType, string> = {
-  Viewed: "bg-blue-50 text-blue-700 border-blue-200",
-  Downloaded: "bg-green-50 text-green-700 border-green-200",
-  Uploaded: "bg-amber-50 text-amber-700 border-amber-200",
-  Shared: "bg-purple-50 text-purple-700 border-purple-200",
+  Viewed: "bg-status-info/15 text-palette-blue-400 border-status-info/25",
+  Downloaded: "bg-primary/15 text-primary border-primary/25",
+  Uploaded: "bg-status-warning/15 text-status-warning-light border-status-warning/25",
+  Shared: "bg-status-special/15 text-palette-purple-400 border-status-special/25",
 };
 
 const MOCK_IPS = [
@@ -141,7 +141,7 @@ export function AccessLog() {
       <CardContent className="p-0">
         <div className="divide-y">
           {filtered.length === 0 && (
-            <p className="px-6 py-8 text-center text-sm text-gray-500">
+            <p className="px-6 py-8 text-center text-sm text-text-muted">
               No matching access log entries.
             </p>
           )}
@@ -155,18 +155,18 @@ export function AccessLog() {
             return (
               <div
                 key={entry.id}
-                className="flex items-start gap-3 px-6 py-3 hover:bg-gray-50 transition-colors"
+                className="flex items-start gap-3 px-6 py-3 hover:bg-surface-glass transition-colors"
               >
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-navy text-xs font-semibold text-white">
                   {user?.avatar || "??"}
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-1.5 text-sm">
-                    <span className="font-medium text-gray-900">
+                    <span className="font-medium text-text-heading">
                       {user?.name || "Unknown"}
                     </span>
-                    <span className="text-gray-400">-</span>
-                    <span className="text-gray-500 text-xs">
+                    <span className="text-text-muted">-</span>
+                    <span className="text-text-muted text-xs">
                       {org?.name || ""}
                     </span>
                   </div>
@@ -177,16 +177,16 @@ export function AccessLog() {
                     >
                       {entry.action}
                     </Badge>
-                    <span className="text-gray-700 truncate max-w-[300px]">
+                    <span className="text-text-secondary truncate max-w-[300px]">
                       {doc?.name || "Unknown document"}
                     </span>
                   </div>
                 </div>
                 <div className="shrink-0 text-right">
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-text-muted">
                     {formatTimestamp(entry.timestamp)}
                   </p>
-                  <p className="mt-0.5 text-[11px] font-mono text-gray-400">
+                  <p className="mt-0.5 text-[11px] font-mono text-text-muted">
                     {entry.ipAddress}
                   </p>
                 </div>

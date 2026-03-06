@@ -149,10 +149,10 @@ export function UploadDialog({ open, onOpenChange, projectId }: UploadDialogProp
             <div
               className={`flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 transition-colors ${
                 dragActive
-                  ? "border-brand-blue bg-blue-50"
+                  ? "border-brand-blue bg-status-info/15"
                   : file
-                    ? "border-emerald-300 bg-emerald-50/50"
-                    : "border-gray-300 bg-surface-glass"
+                    ? "border-primary/25 bg-primary/15"
+                    : "border-white/[0.08] bg-surface-glass"
               }`}
               onDragEnter={handleDrag}
               onDragLeave={handleDrag}
@@ -161,7 +161,7 @@ export function UploadDialog({ open, onOpenChange, projectId }: UploadDialogProp
             >
               {file ? (
                 <div className="flex flex-col items-center gap-2">
-                  <FileText className="h-10 w-10 text-emerald-500" />
+                  <FileText className="h-10 w-10 text-primary" />
                   <p className="text-sm font-medium text-text-heading">{file.name}</p>
                   <p className="text-xs text-text-tertiary">
                     {(file.size / 1024 / 1024).toFixed(2)} MB
@@ -252,12 +252,12 @@ export function UploadDialog({ open, onOpenChange, projectId }: UploadDialogProp
                 </>
               ) : (
                 <>
-                  <CheckCircle className="h-12 w-12 text-emerald-500" />
+                  <CheckCircle className="h-12 w-12 text-primary" />
                   <p className="text-sm font-medium text-text-heading">Validation Complete</p>
                   <div className="space-y-1.5 text-center">
-                    <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200">Format Valid</Badge>
-                    <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 ml-1.5">Size OK</Badge>
-                    <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 ml-1.5">No Duplicates</Badge>
+                    <Badge className="bg-primary/15 text-primary border-primary/25">Format Valid</Badge>
+                    <Badge className="bg-primary/15 text-primary border-primary/25 ml-1.5">Size OK</Badge>
+                    <Badge className="bg-primary/15 text-primary border-primary/25 ml-1.5">No Duplicates</Badge>
                   </div>
                 </>
               )}
@@ -266,11 +266,11 @@ export function UploadDialog({ open, onOpenChange, projectId }: UploadDialogProp
 
           {currentStep === "preview" && (
             <div className="space-y-3">
-              <div className="flex items-center gap-2 rounded-lg border border-purple-200 bg-purple-50 p-3">
-                <Sparkles className="h-4 w-4 text-purple-600 shrink-0" />
+              <div className="flex items-center gap-2 rounded-lg border border-status-special/25 bg-status-special/15 p-3">
+                <Sparkles className="h-4 w-4 text-palette-purple-400 shrink-0" />
                 <div>
-                  <p className="text-xs font-semibold text-purple-900">AI Document Preview</p>
-                  <p className="text-xs text-purple-700 mt-0.5">
+                  <p className="text-xs font-semibold text-palette-purple-400">AI Document Preview</p>
+                  <p className="text-xs text-palette-purple-400 mt-0.5">
                     AI analysis suggests this document satisfies requirements for{" "}
                     {gateway && gateway !== "none" ? gateway : "G3-G5"} gateways.
                     No inconsistencies detected with existing documentation.

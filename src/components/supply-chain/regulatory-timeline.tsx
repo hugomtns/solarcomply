@@ -47,13 +47,13 @@ export function RegulatoryTimeline({ project }: RegulatoryTimelineProps) {
           let badgeClass = "bg-white/[0.06] text-text-tertiary";
           if (isPast) {
             dotColor = COLORS.teal;
-            badgeClass = "bg-emerald-50 text-emerald-700";
+            badgeClass = "bg-primary/15 text-primary";
           } else if (daysUntil < 90) {
             dotColor = COLORS.red;
-            badgeClass = "bg-red-50 text-red-700";
+            badgeClass = "bg-status-error/15 text-palette-red-400";
           } else if (daysUntil < 180) {
             dotColor = COLORS.amber;
-            badgeClass = "bg-amber-50 text-amber-700";
+            badgeClass = "bg-status-warning/15 text-status-warning-light";
           }
 
           return (

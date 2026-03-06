@@ -116,24 +116,24 @@ export function DocumentViewer({ document: doc, open, onOpenChange }: DocumentVi
           </SheetHeader>
 
           {/* Preview Area */}
-          <div className="mx-4 flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-surface-glass py-12">
-            <Icon className="h-12 w-12 text-gray-300 mb-3" />
+          <div className="mx-4 flex flex-col items-center justify-center rounded-lg border border-dashed border-white/[0.08] bg-surface-glass py-12">
+            <Icon className="h-12 w-12 text-text-muted mb-3" />
             <p className="text-sm text-text-muted">Preview not available in prototype</p>
           </div>
 
           {/* AI Analysis Banner */}
-          <div className="mx-4 flex items-center gap-3 rounded-lg border border-purple-200 bg-purple-50 px-4 py-3">
-            <Sparkles className="h-4 w-4 text-purple-600 shrink-0" />
+          <div className="mx-4 flex items-center gap-3 rounded-lg border border-status-special/25 bg-status-special/15 px-4 py-3">
+            <Sparkles className="h-4 w-4 text-palette-purple-400 shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-purple-900">AI Document Analysis</p>
-              <p className="text-[11px] text-purple-700 mt-0.5">
+              <p className="text-xs font-semibold text-palette-purple-400">AI Document Analysis</p>
+              <p className="text-[11px] text-palette-purple-400 mt-0.5">
                 Analyze this document for compliance gaps, cross-reference findings, and standard alignment.
               </p>
             </div>
             <Button
               variant="outline"
               size="sm"
-              className="shrink-0 gap-1.5 text-xs border-purple-200 text-purple-700 hover:bg-purple-100"
+              className="shrink-0 gap-1.5 text-xs border-status-special/25 text-palette-purple-400 hover:bg-status-special/15"
               onClick={() => alert("Navigate to AI Hub with document context (mock)")}
             >
               <Sparkles className="h-3 w-3" />

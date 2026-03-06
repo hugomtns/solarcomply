@@ -89,8 +89,8 @@ export default function DocumentPage({ params }: DocumentPageProps) {
           />
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-white/[0.04] py-20">
-          <FileText className="h-12 w-12 text-gray-300 mb-3" />
+        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-white/[0.08] bg-white/[0.04] py-20">
+          <FileText className="h-12 w-12 text-text-muted mb-3" />
           <p className="text-sm text-text-muted">
             Preview not available in prototype
           </p>

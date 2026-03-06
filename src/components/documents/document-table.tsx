@@ -86,7 +86,7 @@ export function DocumentTable({ documents, onSelect }: DocumentTableProps) {
       >
         <span className="inline-flex items-center gap-1">
           {children}
-          <ArrowUpDown className="h-3 w-3 text-gray-400" />
+          <ArrowUpDown className="h-3 w-3 text-text-muted" />
         </span>
       </TableHead>
     );
@@ -95,7 +95,7 @@ export function DocumentTable({ documents, onSelect }: DocumentTableProps) {
   return (
     <Table>
       <TableHeader>
-        <TableRow className="bg-gray-50">
+        <TableRow className="bg-surface-glass">
           <TableHead className="w-8" />
           <SortableHead field="name">Name</SortableHead>
           <TableHead>Category</TableHead>
@@ -116,11 +116,11 @@ export function DocumentTable({ documents, onSelect }: DocumentTableProps) {
           return (
             <TableRow
               key={doc.id}
-              className={`cursor-pointer ${idx % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
+              className={`cursor-pointer ${idx % 2 === 0 ? "" : "bg-surface-glass"}`}
               onClick={() => onSelect(doc)}
             >
               <TableCell>
-                <Icon className="h-4 w-4 text-gray-500" />
+                <Icon className="h-4 w-4 text-text-muted" />
               </TableCell>
               <TableCell>
                 <span className="font-medium text-brand-blue hover:underline">
@@ -138,9 +138,9 @@ export function DocumentTable({ documents, onSelect }: DocumentTableProps) {
               </TableCell>
               <TableCell className="text-center">
                 {doc.formatValid ? (
-                  <CheckCircle className="h-4 w-4 text-emerald-500" />
+                  <CheckCircle className="h-4 w-4 text-primary" />
                 ) : (
-                  <X className="h-4 w-4 text-red-500" />
+                  <X className="h-4 w-4 text-status-error" />
                 )}
               </TableCell>
               <TableCell>
@@ -149,7 +149,7 @@ export function DocumentTable({ documents, onSelect }: DocumentTableProps) {
                     {gateway.code}
                   </Badge>
                 ) : (
-                  <span className="text-xs text-gray-400">--</span>
+                  <span className="text-xs text-text-muted">--</span>
                 )}
               </TableCell>
               <TableCell>
@@ -159,15 +159,15 @@ export function DocumentTable({ documents, onSelect }: DocumentTableProps) {
                       {uploader?.avatar ?? "??"}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="text-xs text-gray-700">
+                  <span className="text-xs text-text-secondary">
                     {uploader?.name ?? "Unknown"}
                   </span>
                 </div>
               </TableCell>
-              <TableCell className="text-xs text-gray-600">
+              <TableCell className="text-xs text-text-tertiary">
                 {formatDate(doc.uploadedAt)}
               </TableCell>
-              <TableCell className="text-xs text-gray-600">
+              <TableCell className="text-xs text-text-tertiary">
                 {formatSize(doc.fileSizeMB)}
               </TableCell>
             </TableRow>
@@ -175,7 +175,7 @@ export function DocumentTable({ documents, onSelect }: DocumentTableProps) {
         })}
         {sorted.length === 0 && (
           <TableRow>
-            <TableCell colSpan={10} className="text-center py-8 text-gray-400">
+            <TableCell colSpan={10} className="text-center py-8 text-text-muted">
               No documents match the current filters.
             </TableCell>
           </TableRow>

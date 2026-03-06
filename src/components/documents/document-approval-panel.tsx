@@ -116,9 +116,9 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
     return (
       <>
         <div className="flex flex-col items-center justify-center py-8 text-center">
-          <FileSearch className="h-10 w-10 text-gray-300 mb-3" />
-          <p className="text-sm text-gray-500 mb-1">No approval workflow configured yet.</p>
-          <p className="text-xs text-gray-400 mb-4">Submit this document for stakeholder review and approval.</p>
+          <FileSearch className="h-10 w-10 text-text-muted mb-3" />
+          <p className="text-sm text-text-muted mb-1">No approval workflow configured yet.</p>
+          <p className="text-xs text-text-muted mb-4">Submit this document for stakeholder review and approval.</p>
           <Button
             className="gap-1.5 bg-brand-blue hover:bg-brand-blue-hover text-white"
             onClick={() => setDialogOpen(true)}
@@ -152,7 +152,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                     <div className="flex h-7 w-7 items-center justify-center rounded bg-brand-navy text-[10px] font-bold text-white shrink-0">
                       {org?.logo ?? "?"}
                     </div>
-                    <span className="text-sm font-medium text-gray-900 flex-1 min-w-0 truncate">
+                    <span className="text-sm font-medium text-text-heading flex-1 min-w-0 truncate">
                       {org?.name}
                     </span>
                     <Select
@@ -201,11 +201,11 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
     return (
       <TooltipProvider>
         <div className="space-y-4">
-          <div className="flex items-center gap-3 rounded-lg border bg-gray-50 px-4 py-3 text-sm">
-            <span className="font-medium text-gray-900">
+          <div className="flex items-center gap-3 rounded-lg border bg-surface-glass px-4 py-3 text-sm">
+            <span className="font-medium text-text-heading">
               0 of {selected.length} approvals received
             </span>
-            <span className="text-gray-300">|</span>
+            <span className="text-text-muted">|</span>
             <span className="text-amber-600 font-medium">Awaiting responses</span>
           </div>
 
@@ -231,7 +231,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                           <div className="flex h-7 w-7 items-center justify-center rounded bg-brand-navy text-[10px] font-bold text-white">
                             {org?.logo ?? "?"}
                           </div>
-                          <span className="text-sm font-medium text-gray-900">
+                          <span className="text-sm font-medium text-text-heading">
                             {org?.name ?? s.orgId}
                           </span>
                         </div>
@@ -245,10 +245,10 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                         <StatusBadge status="pending" />
                       </TableCell>
                       <TableCell>
-                        <span className="text-sm text-gray-400">--</span>
+                        <span className="text-sm text-text-muted">--</span>
                       </TableCell>
                       <TableCell>
-                        <span className="text-sm text-gray-400">--</span>
+                        <span className="text-sm text-text-muted">--</span>
                       </TableCell>
                       <TableCell className="text-right">
                         <Button
@@ -279,21 +279,21 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
     <TooltipProvider>
       <div className="space-y-4">
         {/* Summary */}
-        <div className="flex items-center gap-3 rounded-lg border bg-gray-50 px-4 py-3 text-sm">
-          <span className="font-medium text-gray-900">
+        <div className="flex items-center gap-3 rounded-lg border bg-surface-glass px-4 py-3 text-sm">
+          <span className="font-medium text-text-heading">
             {approvedCount} of {requiredCount} approvals received
           </span>
           {approvals.some(
             (a) => a.status === "pending" && a.stakeholderOrgId === currentUserOrg
           ) && (
             <>
-              <span className="text-gray-300">|</span>
+              <span className="text-text-muted">|</span>
               <span className="text-amber-600 font-medium">Your approval is pending</span>
             </>
           )}
           {approvals.some((a) => a.status === "rejected") && (
             <>
-              <span className="text-gray-300">|</span>
+              <span className="text-text-muted">|</span>
               <span className="text-red-600 font-medium">Revision requested</span>
             </>
           )}
@@ -328,7 +328,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                         <div className="flex h-7 w-7 items-center justify-center rounded bg-brand-navy text-[10px] font-bold text-white">
                           {org?.logo ?? "?"}
                         </div>
-                        <span className="text-sm font-medium text-gray-900">
+                        <span className="text-sm font-medium text-text-heading">
                           {org?.name ?? approval.stakeholderOrgId}
                         </span>
                       </div>
@@ -340,7 +340,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                             <Badge variant="outline" className="text-xs">
                               {STAKEHOLDER_ROLE_LABELS[approval.requiredRole] ?? approval.requiredRole}
                             </Badge>
-                            <Info className="h-3 w-3 text-gray-400" />
+                            <Info className="h-3 w-3 text-text-muted" />
                           </div>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -355,14 +355,14 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                     </TableCell>
                     <TableCell>
                       {approver ? (
-                        <span className="text-sm text-gray-700">{approver.name}</span>
+                        <span className="text-sm text-text-secondary">{approver.name}</span>
                       ) : (
-                        <span className="text-sm text-gray-400">--</span>
+                        <span className="text-sm text-text-muted">--</span>
                       )}
                     </TableCell>
                     <TableCell>
                       {approval.timestamp ? (
-                        <span className="text-sm text-gray-600">
+                        <span className="text-sm text-text-tertiary">
                           {new Date(approval.timestamp).toLocaleDateString("en-GB", {
                             day: "2-digit",
                             month: "short",
@@ -370,14 +370,14 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                           })}
                         </span>
                       ) : (
-                        <span className="text-sm text-gray-400">--</span>
+                        <span className="text-sm text-text-muted">--</span>
                       )}
                     </TableCell>
                     <TableCell>
                       {approval.comment ? (
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <span className="text-sm text-gray-600 max-w-[200px] truncate block cursor-help">
+                            <span className="text-sm text-text-tertiary max-w-[200px] truncate block cursor-help">
                               {approval.comment}
                             </span>
                           </TooltipTrigger>
@@ -386,7 +386,7 @@ export function DocumentApprovalPanel({ documentId, versionId }: DocumentApprova
                           </TooltipContent>
                         </Tooltip>
                       ) : (
-                        <span className="text-sm text-gray-400">--</span>
+                        <span className="text-sm text-text-muted">--</span>
                       )}
                     </TableCell>
                     <TableCell className="text-right">

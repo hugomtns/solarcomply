@@ -71,7 +71,7 @@ export default function AIHubPage({
         title="AI Hub"
         description="Document intelligence, compliance chat, and gap analysis"
       >
-        <div className="flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 border border-emerald-200">
+        <div className="flex items-center gap-1.5 rounded-full bg-primary/15 px-3 py-1 text-xs font-medium text-primary border border-primary/25">
           <Sparkles className="h-3 w-3" />
           AI-Powered
         </div>
@@ -155,7 +155,7 @@ export default function AIHubPage({
                           | undefined;
                         if (submitFn) submitFn(prompt);
                       }}
-                      className="w-full rounded-lg border border-white/[0.08] px-3 py-2.5 text-left text-sm text-text-secondary transition-colors hover:border-brand-blue hover:bg-blue-50/50"
+                      className="w-full rounded-lg border border-white/[0.08] px-3 py-2.5 text-left text-sm text-text-secondary transition-colors hover:border-brand-blue hover:bg-surface-glass-hover"
                     >
                       {prompt}
                     </button>

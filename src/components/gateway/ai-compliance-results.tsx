@@ -27,7 +27,7 @@ export function AiComplianceResults({ projectId, gatewayCode, jurisdictions }: A
   if (poc.isChecking) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
-        <Loader2 className="h-8 w-8 animate-spin text-purple-600" />
+        <Loader2 className="h-8 w-8 animate-spin text-palette-purple-400" />
         <p className="mt-3 text-sm font-medium text-text-secondary">Running AI Compliance Check...</p>
         <p className="mt-1 text-xs text-text-tertiary">Analyzing report against {jurisdictions.includes("EU") || jurisdictions.includes("DE") ? "EU" : "US"} regulations</p>
       </div>
@@ -37,8 +37,8 @@ export function AiComplianceResults({ projectId, gatewayCode, jurisdictions }: A
   if (!result) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
-        <div className="rounded-full bg-purple-100 p-4">
-          <Sparkles className="h-8 w-8 text-purple-600" />
+        <div className="rounded-full bg-status-special/15 p-4">
+          <Sparkles className="h-8 w-8 text-palette-purple-400" />
         </div>
         <h3 className="mt-4 text-sm font-semibold text-text-heading">AI Compliance Analysis</h3>
         <p className="mt-1 max-w-sm text-center text-xs text-text-tertiary">
@@ -47,14 +47,14 @@ export function AiComplianceResults({ projectId, gatewayCode, jurisdictions }: A
         </p>
         <Button
           onClick={handleRunCheck}
-          className="mt-4 gap-2 bg-purple-600 hover:bg-purple-700"
+          className="mt-4 gap-2 bg-status-special hover:bg-status-special/80"
           size="sm"
         >
           <Sparkles className="h-4 w-4" />
           Run AI Compliance Check
         </Button>
         {poc.checkError && (
-          <div className="mt-3 max-w-sm rounded-md bg-red-50 px-4 py-2 text-xs text-red-700">
+          <div className="mt-3 max-w-sm rounded-md bg-status-error/15 px-4 py-2 text-xs text-palette-red-400">
             {poc.checkError}
           </div>
         )}
@@ -110,7 +110,7 @@ function ResultsDisplay({
               <span className="h-2 w-2 rounded-full bg-blue-500" />
               {infoCount} info
             </span>
-            <span className="text-gray-300">|</span>
+            <span className="text-text-muted">|</span>
             <span className="text-text-tertiary">
               {passCount} pass / {warnCount} warn / {failCount} fail
             </span>
@@ -200,9 +200,9 @@ function ResultsDisplay({
 
 function OverallStatusBadge({ status }: { status: string }) {
   const config: Record<string, { label: string; className: string }> = {
-    pass: { label: "Compliant", className: "bg-green-100 text-green-800 border-green-200" },
-    warning: { label: "Issues Found", className: "bg-amber-100 text-amber-800 border-amber-200" },
-    fail: { label: "Non-Compliant", className: "bg-red-100 text-red-800 border-red-200" },
+    pass: { label: "Compliant", className: "bg-primary/15 text-primary border-primary/25" },
+    warning: { label: "Issues Found", className: "bg-status-warning/20 text-status-warning-light border-status-warning/25" },
+    fail: { label: "Non-Compliant", className: "bg-status-error/15 text-palette-red-400 border-status-error/25" },
   };
   const cfg = config[status] ?? config.warning;
   return <Badge variant="outline" className={cfg.className}>{cfg.label}</Badge>;
@@ -210,9 +210,9 @@ function OverallStatusBadge({ status }: { status: string }) {
 
 function CheckStatusBadge({ status }: { status: string }) {
   const config: Record<string, string> = {
-    pass: "bg-green-100 text-green-700 border-green-200",
-    warning: "bg-amber-100 text-amber-700 border-amber-200",
-    fail: "bg-red-100 text-red-700 border-red-200",
+    pass: "bg-primary/15 text-primary border-primary/25",
+    warning: "bg-status-warning/20 text-status-warning-light border-status-warning/25",
+    fail: "bg-status-error/15 text-palette-red-400 border-status-error/25",
     not_applicable: "bg-white/[0.06] text-text-tertiary border-white/[0.08]",
   };
   return (

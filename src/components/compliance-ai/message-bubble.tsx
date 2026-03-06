@@ -82,7 +82,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
           <div className="rounded-2xl rounded-br-sm bg-brand-blue px-4 py-2.5 text-sm text-white">
             {message.content}
           </div>
-          <p className="mt-1 text-right text-[10px] text-gray-400">{time}</p>
+          <p className="mt-1 text-right text-[10px] text-text-muted">{time}</p>
         </div>
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-blue">
           <User className="h-4 w-4 text-white" />
@@ -93,11 +93,11 @@ export function MessageBubble({ message }: MessageBubbleProps) {
 
   return (
     <div className="flex gap-2">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100 border border-gray-200">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-glass border border-white/[0.08]">
         <Bot className="h-4 w-4 text-brand-navy" />
       </div>
       <div className="max-w-[80%] space-y-3">
-        <div className="rounded-2xl rounded-bl-sm border border-gray-200 bg-white px-4 py-3 text-sm leading-relaxed text-gray-800">
+        <div className="rounded-2xl rounded-bl-sm border border-white/[0.08] bg-surface-glass px-4 py-3 text-sm leading-relaxed text-text-secondary">
           {formatContent(message.content)}
         </div>
 
@@ -112,29 +112,29 @@ export function MessageBubble({ message }: MessageBubbleProps) {
         {message.gapItems && message.gapItems.length > 0 && (
           <div className="space-y-2">
             <GapReportPreview gapItems={message.gapItems} />
-            <div className="overflow-hidden rounded-lg border border-gray-200">
+            <div className="overflow-hidden rounded-lg border border-white/[0.08]">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="bg-gray-50 text-left text-gray-600">
+                  <tr className="bg-surface-glass text-left text-text-tertiary">
                     <th className="px-3 py-2 font-medium">Standard</th>
                     <th className="px-3 py-2 font-medium">Requirement</th>
                     <th className="px-3 py-2 font-medium">Status</th>
                     <th className="px-3 py-2 font-medium">Action / Notes</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-white/[0.06]">
                   {message.gapItems.map((item, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50">
-                      <td className="whitespace-nowrap px-3 py-2 font-medium text-gray-700">
+                    <tr key={idx} className="hover:bg-surface-glass">
+                      <td className="whitespace-nowrap px-3 py-2 font-medium text-text-secondary">
                         {item.standard}
                       </td>
-                      <td className="px-3 py-2 text-gray-600">
+                      <td className="px-3 py-2 text-text-tertiary">
                         {item.requirement}
                       </td>
                       <td className="px-3 py-2">
                         <StatusBadge status={item.status} />
                       </td>
-                      <td className="px-3 py-2 text-gray-500">
+                      <td className="px-3 py-2 text-text-muted">
                         {item.action}
                       </td>
                     </tr>
@@ -145,7 +145,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
           </div>
         )}
 
-        <p className="text-[10px] text-gray-400">{time}</p>
+        <p className="text-[10px] text-text-muted">{time}</p>
       </div>
     </div>
   );

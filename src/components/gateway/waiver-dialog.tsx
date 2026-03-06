@@ -78,17 +78,17 @@ export function WaiverDialog({
 
         <div className="space-y-4 py-2">
           {/* Requirement info */}
-          <div className="rounded-md border bg-gray-50 p-3">
-            <p className="text-sm font-medium text-gray-900">
+          <div className="rounded-md border bg-surface-glass p-3">
+            <p className="text-sm font-medium text-text-heading">
               {requirement.label}
             </p>
-            <p className="mt-0.5 text-xs text-gray-500">
+            <p className="mt-0.5 text-xs text-text-muted">
               {requirement.description}
             </p>
             {requirement.standardRef && (
               <Badge
                 variant="outline"
-                className="mt-2 text-xs bg-sky-50 text-sky-700 border-sky-200"
+                className="mt-2 text-xs bg-status-info/15 text-palette-blue-400 border-status-info/25"
               >
                 {requirement.standardRef}
               </Badge>

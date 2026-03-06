@@ -7,7 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { usePoc } from "@/contexts/poc-context";
 import { useApp } from "@/contexts/app-context";
 import { projects } from "@/data/projects";
-import { Wrench, ChevronDown, ChevronUp, FileText, Zap, Trash2, Eye } from "lucide-react";
+import { Wrench, ChevronDown, FileText, Zap, Trash2, Eye } from "lucide-react";
 
 export function PocDevPanel() {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +25,7 @@ export function PocDevPanel() {
       {!isOpen && (
         <Button
           onClick={() => setIsOpen(true)}
-          className="h-12 w-12 rounded-full bg-purple-600 shadow-lg hover:bg-purple-700"
+          className="h-12 w-12 rounded-full bg-status-special shadow-lg hover:bg-status-special/80"
           size="icon"
         >
           <Wrench className="h-5 w-5 text-white" />
@@ -34,13 +34,13 @@ export function PocDevPanel() {
 
       {/* Panel */}
       {isOpen && (
-        <div className="w-96 rounded-lg border bg-white/[0.05]shadow-2xl">
+        <div className="w-96 rounded-lg border border-white/[0.08] bg-surface-page shadow-2xl">
           {/* Header */}
-          <div className="flex items-center justify-between border-b bg-purple-50 px-4 py-2.5">
+          <div className="flex items-center justify-between border-b border-white/[0.08] bg-status-special/15 px-4 py-2.5 rounded-t-lg">
             <div className="flex items-center gap-2">
-              <Wrench className="h-4 w-4 text-purple-600" />
-              <span className="text-sm font-semibold text-purple-900">POC Dev Tools</span>
-              <Badge variant="outline" className="text-xs bg-purple-100 text-purple-700">
+              <Wrench className="h-4 w-4 text-palette-purple-400" />
+              <span className="text-sm font-semibold text-text-heading">POC Dev Tools</span>
+              <Badge variant="outline" className="text-xs bg-status-special/20 text-palette-purple-400">
                 G8 AI
               </Badge>
             </div>
@@ -70,7 +70,7 @@ export function PocDevPanel() {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium text-text-secondary">Synthetic Report</span>
-                <Badge variant="outline" className={`text-xs ${poc.syntheticDoc ? "bg-green-50 text-green-700" : "bg-surface-glass text-text-tertiary"}`}>
+                <Badge variant="outline" className={`text-xs ${poc.syntheticDoc ? "bg-primary/15 text-primary" : "bg-surface-glass text-text-tertiary"}`}>
                   {poc.syntheticDoc ? "Generated" : "Not generated"}
                 </Badge>
               </div>
@@ -90,7 +90,7 @@ export function PocDevPanel() {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium text-text-secondary">AI Compliance Check</span>
-                <Badge variant="outline" className={`text-xs ${resultCount > 0 ? "bg-blue-50 text-blue-700" : "bg-surface-glass text-text-tertiary"}`}>
+                <Badge variant="outline" className={`text-xs ${resultCount > 0 ? "bg-status-info/15 text-palette-blue-400" : "bg-surface-glass text-text-tertiary"}`}>
                   {resultCount} result{resultCount !== 1 ? "s" : ""} cached
                 </Badge>
               </div>
@@ -112,7 +112,7 @@ export function PocDevPanel() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="gap-1.5 text-xs text-red-600 hover:text-red-700"
+                  className="gap-1.5 text-xs text-status-error hover:text-status-error/80"
                   onClick={poc.clearResults}
                   disabled={resultCount === 0}
                 >
@@ -123,7 +123,7 @@ export function PocDevPanel() {
 
             {/* Error */}
             {poc.checkError && (
-              <div className="rounded-md bg-red-50 px-3 py-2 text-xs text-red-700">
+              <div className="rounded-md bg-status-error/15 px-3 py-2 text-xs text-palette-red-400">
                 {poc.checkError}
               </div>
             )}
@@ -161,20 +161,20 @@ export function PocDevPanel() {
                   </Button>
                 </div>
                 <div className="flex gap-2 text-xs">
-                  <span className="text-red-600">
+                  <span className="text-status-error">
                     {currentResult.results.filter((r) => r.status === "fail").length} fail
                   </span>
-                  <span className="text-amber-600">
+                  <span className="text-status-warning">
                     {currentResult.results.filter((r) => r.status === "warning").length} warning
                   </span>
-                  <span className="text-green-600">
+                  <span className="text-primary">
                     {currentResult.results.filter((r) => r.status === "pass").length} pass
                   </span>
                 </div>
 
                 {showJson && (
-                  <ScrollArea className="h-48 rounded border bg-gray-950 p-2">
-                    <pre className="text-[10px] text-green-400">
+                  <ScrollArea className="h-48 rounded border border-white/[0.08] bg-surface-page p-2">
+                    <pre className="text-[10px] text-primary">
                       {JSON.stringify(currentResult, null, 2)}
                     </pre>
                   </ScrollArea>

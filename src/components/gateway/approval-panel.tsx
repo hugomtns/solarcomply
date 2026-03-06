@@ -40,8 +40,8 @@ export function ApprovalPanel({ approvals }: ApprovalPanelProps) {
     <TooltipProvider>
       <div className="space-y-4">
         {/* Summary */}
-        <div className="flex items-center gap-3 rounded-lg border bg-gray-50 px-4 py-3 text-sm">
-          <span className="font-medium text-gray-900">
+        <div className="flex items-center gap-3 rounded-lg border bg-surface-glass px-4 py-3 text-sm">
+          <span className="font-medium text-text-heading">
             {approvals.filter((a) => a.status === "approved").length} of{" "}
             {approvals.filter((a) => a.status !== "not_required").length} approvals received
           </span>
@@ -49,7 +49,7 @@ export function ApprovalPanel({ approvals }: ApprovalPanelProps) {
             (a) => a.status === "pending" && a.stakeholderOrgId === currentUserOrg
           ) && (
             <>
-              <span className="text-gray-300">|</span>
+              <span className="text-text-muted">|</span>
               <span className="text-amber-600 font-medium">Your approval is pending</span>
             </>
           )}
@@ -84,7 +84,7 @@ export function ApprovalPanel({ approvals }: ApprovalPanelProps) {
                         <div className="flex h-7 w-7 items-center justify-center rounded bg-brand-navy text-[10px] font-bold text-white">
                           {org?.logo ?? "?"}
                         </div>
-                        <span className="text-sm font-medium text-gray-900">
+                        <span className="text-sm font-medium text-text-heading">
                           {org?.name ?? approval.stakeholderOrgId}
                         </span>
                       </div>
@@ -96,7 +96,7 @@ export function ApprovalPanel({ approvals }: ApprovalPanelProps) {
                             <Badge variant="outline" className="text-xs">
                               {STAKEHOLDER_ROLE_LABELS[approval.requiredRole] ?? approval.requiredRole}
                             </Badge>
-                            <Info className="h-3 w-3 text-gray-400" />
+                            <Info className="h-3 w-3 text-text-muted" />
                           </div>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -111,14 +111,14 @@ export function ApprovalPanel({ approvals }: ApprovalPanelProps) {
                     </TableCell>
                     <TableCell>
                       {approver ? (
-                        <span className="text-sm text-gray-700">{approver.name}</span>
+                        <span className="text-sm text-text-secondary">{approver.name}</span>
                       ) : (
-                        <span className="text-sm text-gray-400">--</span>
+                        <span className="text-sm text-text-muted">--</span>
                       )}
                     </TableCell>
                     <TableCell>
                       {approval.timestamp ? (
-                        <span className="text-sm text-gray-600">
+                        <span className="text-sm text-text-tertiary">
                           {new Date(approval.timestamp).toLocaleDateString("en-GB", {
                             day: "2-digit",
                             month: "short",
@@ -126,14 +126,14 @@ export function ApprovalPanel({ approvals }: ApprovalPanelProps) {
                           })}
                         </span>
                       ) : (
-                        <span className="text-sm text-gray-400">--</span>
+                        <span className="text-sm text-text-muted">--</span>
                       )}
                     </TableCell>
                     <TableCell>
                       {approval.comment ? (
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <span className="text-sm text-gray-600 max-w-[200px] truncate block cursor-help">
+                            <span className="text-sm text-text-tertiary max-w-[200px] truncate block cursor-help">
                               {approval.comment}
                             </span>
                           </TooltipTrigger>
@@ -142,7 +142,7 @@ export function ApprovalPanel({ approvals }: ApprovalPanelProps) {
                           </TooltipContent>
                         </Tooltip>
                       ) : (
-                        <span className="text-sm text-gray-400">--</span>
+                        <span className="text-sm text-text-muted">--</span>
                       )}
                     </TableCell>
                     <TableCell className="text-right">

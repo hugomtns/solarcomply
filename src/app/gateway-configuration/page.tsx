@@ -20,7 +20,7 @@ export default function GatewayConfigurationPage() {
         title="Gateway Configuration"
         description="Browse, configure, and template gateway requirements across the G0–G10 lifecycle"
       >
-        <div className="flex items-center gap-1.5 rounded-full bg-purple-50 px-3 py-1 text-xs font-medium text-purple-700 border border-purple-200">
+        <div className="flex items-center gap-1.5 rounded-full bg-status-special/15 px-3 py-1 text-xs font-medium text-palette-purple-400 border border-status-special/25">
           <Workflow className="h-3 w-3" />
           {gatewayReference.length} Gateways &middot; {totalRequirements} Requirements
         </div>

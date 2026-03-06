@@ -14,9 +14,9 @@ interface RequirementsReferenceTableProps {
 }
 
 const typeColors: Record<string, string> = {
-  pv: "bg-amber-100 text-amber-800 border-amber-200",
-  bess: "bg-blue-100 text-blue-800 border-blue-200",
-  hybrid: "bg-purple-100 text-purple-800 border-purple-200",
+  pv: "bg-status-warning/20 text-status-warning-light border-status-warning/25",
+  bess: "bg-status-info/20 text-palette-blue-400 border-status-info/25",
+  hybrid: "bg-status-special/20 text-palette-purple-400 border-status-special/25",
 };
 
 export function RequirementsReferenceTable({ requirements }: RequirementsReferenceTableProps) {
@@ -36,11 +36,11 @@ export function RequirementsReferenceTable({ requirements }: RequirementsReferen
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[70px]">#</TableHead>
+            <TableHead className="w-16">#</TableHead>
             <TableHead>Document / Data Item</TableHead>
-            <TableHead className="w-[100px]">Provider</TableHead>
-            <TableHead className="w-[110px]">Reviewer</TableHead>
-            <TableHead className="w-[100px]">Standard</TableHead>
+            <TableHead className="w-24">Provider</TableHead>
+            <TableHead className="w-28">Reviewer</TableHead>
+            <TableHead className="w-40">Standard</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -64,7 +64,7 @@ export function RequirementsReferenceTable({ requirements }: RequirementsReferen
                   <div className="flex items-center gap-1.5">
                     <span className="text-xs text-text-secondary">{req.label}</span>
                     {req.isBessOnly && (
-                      <Badge variant="outline" className="text-[9px] px-1 py-0 bg-blue-50 text-blue-700 border-blue-200 shrink-0">
+                      <Badge variant="outline" className="text-[9px] px-1 py-0 bg-status-info/20 text-palette-blue-400 border-status-info/25 shrink-0">
                         BESS
                       </Badge>
                     )}
@@ -82,13 +82,13 @@ export function RequirementsReferenceTable({ requirements }: RequirementsReferen
                 <TableCell>
                   <div className="flex flex-wrap gap-0.5">
                     {req.reviewerApprover.map((r) => (
-                      <Badge key={r} variant="outline" className="text-[9px] px-1 py-0 bg-sky-50 text-sky-700 border-sky-200">
+                      <Badge key={r} variant="outline" className="text-[9px] px-1 py-0 bg-status-info/15 text-palette-blue-400 border-status-info/25">
                         {r}
                       </Badge>
                     ))}
                   </div>
                 </TableCell>
-                <TableCell className="text-[10px] text-text-tertiary max-w-[100px] truncate">
+                <TableCell className="text-[10px] text-text-tertiary">
                   {req.standardRef || "—"}
                 </TableCell>
               </TableRow>

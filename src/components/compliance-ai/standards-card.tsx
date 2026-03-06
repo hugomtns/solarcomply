@@ -12,7 +12,7 @@ interface StandardsCardProps {
 
 export function StandardsCard({ standard }: StandardsCardProps) {
   return (
-    <Card className="border-gray-200 shadow-sm">
+    <Card className="border-white/[0.08] shadow-sm">
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">
@@ -23,15 +23,15 @@ export function StandardsCard({ standard }: StandardsCardProps) {
           </div>
           <StatusBadge status="pass" />
         </div>
-        <p className="text-xs text-gray-600">{standard.title}</p>
+        <p className="text-xs text-text-tertiary">{standard.title}</p>
         {standard.edition && (
-          <Badge variant="outline" className="w-fit text-[10px] text-gray-500">
+          <Badge variant="outline" className="w-fit text-[10px] text-text-muted">
             {standard.edition}
           </Badge>
         )}
       </CardHeader>
       <CardContent className="pt-0">
-        <p className="mb-3 text-xs leading-relaxed text-gray-500">
+        <p className="mb-3 text-xs leading-relaxed text-text-muted">
           {standard.scope}
         </p>
         <div className="flex items-center justify-between">
@@ -40,7 +40,7 @@ export function StandardsCard({ standard }: StandardsCardProps) {
               <Badge
                 key={gw}
                 variant="outline"
-                className="text-[10px] bg-blue-50 text-blue-700 border-blue-200"
+                className="text-[10px] bg-status-info/15 text-palette-blue-400 border-status-info/25"
               >
                 {gw}
               </Badge>

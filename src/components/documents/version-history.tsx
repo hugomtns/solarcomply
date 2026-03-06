@@ -48,7 +48,7 @@ export function VersionHistory({ document: doc }: VersionHistoryProps) {
 
         <div className="relative pl-5">
           {/* Vertical line */}
-          <div className="absolute left-[7px] top-1 bottom-1 w-px bg-gray-200" />
+          <div className="absolute left-[7px] top-1 bottom-1 w-px bg-white/[0.08]" />
 
           <div className="space-y-4">
             {sorted.map((v) => {
@@ -60,12 +60,12 @@ export function VersionHistory({ document: doc }: VersionHistoryProps) {
                     className={`absolute -left-5 mt-0.5 h-3.5 w-3.5 shrink-0 ${
                       v.isCurrent
                         ? "fill-brand-blue text-brand-blue"
-                        : "fill-gray-300 text-gray-300"
+                        : "fill-text-muted text-text-muted"
                     }`}
                   />
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <p className="text-sm font-medium text-gray-900">
+                      <p className="text-sm font-medium text-text-heading">
                         v{v.version}
                         {v.isCurrent && (
                           <span className="ml-2 text-xs font-normal text-brand-blue">
@@ -75,8 +75,8 @@ export function VersionHistory({ document: doc }: VersionHistoryProps) {
                       </p>
                       <StatusBadge status={v.status} className="text-[10px] px-1.5 py-0" />
                     </div>
-                    <p className="mt-0.5 text-xs text-gray-600">{v.changelog}</p>
-                    <p className="mt-1 text-xs text-gray-500">
+                    <p className="mt-0.5 text-xs text-text-tertiary">{v.changelog}</p>
+                    <p className="mt-1 text-xs text-text-muted">
                       {uploader?.name ?? "Unknown"} &middot; {formatDate(v.uploadedAt)} &middot; {v.fileSizeMB} MB
                     </p>
                   </div>
@@ -116,7 +116,7 @@ export function VersionHistory({ document: doc }: VersionHistoryProps) {
 
       <div className="relative pl-5">
         {/* Vertical line */}
-        <div className="absolute left-[7px] top-1 bottom-1 w-px bg-gray-200" />
+        <div className="absolute left-[7px] top-1 bottom-1 w-px bg-white/[0.08]" />
 
         <div className="space-y-4">
           {versions.map((v) => (
@@ -125,11 +125,11 @@ export function VersionHistory({ document: doc }: VersionHistoryProps) {
                 className={`absolute -left-5 mt-0.5 h-3.5 w-3.5 shrink-0 ${
                   v.isCurrent
                     ? "fill-brand-blue text-brand-blue"
-                    : "fill-gray-300 text-gray-300"
+                    : "fill-text-muted text-text-muted"
                 }`}
               />
               <div className="min-w-0">
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-text-heading">
                   v{v.ver}
                   {v.isCurrent && (
                     <span className="ml-2 text-xs font-normal text-brand-blue">
@@ -137,7 +137,7 @@ export function VersionHistory({ document: doc }: VersionHistoryProps) {
                     </span>
                   )}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-text-muted">
                   {v.uploader.name} &middot; {v.date}
                 </p>
               </div>

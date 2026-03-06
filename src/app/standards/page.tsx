@@ -27,9 +27,9 @@ import { PROJECT_TYPE_LABELS } from "@/lib/constants";
 const bodyOptions = Array.from(new Set(standards.map((s) => s.body))).sort();
 
 const typeColors: Record<string, string> = {
-  pv: "bg-amber-100 text-amber-800 border-amber-200",
-  bess: "bg-blue-100 text-blue-800 border-blue-200",
-  hybrid: "bg-purple-100 text-purple-800 border-purple-200",
+  pv: "bg-status-warning/20 text-status-warning-light border-status-warning/25",
+  bess: "bg-status-info/20 text-palette-blue-400 border-status-info/25",
+  hybrid: "bg-status-special/20 text-palette-purple-400 border-status-special/25",
 };
 
 export default function StandardsPage() {
@@ -67,7 +67,7 @@ export default function StandardsPage() {
         title="Standards Library"
         description={`${standards.length} standards tracked across IEC, IEEE, UL, NFPA, ISO, UN, EU, and FIDIC`}
       >
-        <div className="flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 border border-blue-200">
+        <div className="flex items-center gap-1.5 rounded-full bg-status-info/15 px-3 py-1 text-xs font-medium text-palette-blue-400 border border-status-info/25">
           <BookOpen className="h-3 w-3" />
           {standards.length} Standards
         </div>
@@ -76,7 +76,7 @@ export default function StandardsPage() {
       {/* Filters */}
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-[200px] max-w-sm">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
           <Input
             placeholder="Search standards..."
             value={search}
@@ -115,14 +115,14 @@ export default function StandardsPage() {
               setBodyFilter("all");
               setTypeFilter("all");
             }}
-            className="text-xs text-gray-500 hover:text-gray-700 underline"
+            className="text-xs text-text-muted hover:text-text-secondary underline"
           >
             Clear filters
           </button>
         )}
       </div>
 
-      <p className="mb-3 text-xs text-gray-500">
+      <p className="mb-3 text-xs text-text-muted">
         Showing {filtered.length} of {standards.length} standards
       </p>
 
@@ -144,30 +144,30 @@ export default function StandardsPage() {
               <>
                 <TableRow
                   key={std.id}
-                  className="cursor-pointer hover:bg-gray-50"
+                  className="cursor-pointer hover:bg-surface-glass"
                   onClick={() => toggleRow(std.id)}
                 >
                   <TableCell className="font-medium text-brand-blue">
                     <div className="flex items-center gap-1.5">
                       <ChevronRight
-                        className={`h-4 w-4 shrink-0 text-gray-400 transition-transform ${
+                        className={`h-4 w-4 shrink-0 text-text-muted transition-transform ${
                           expanded.has(std.id) ? "rotate-90" : ""
                         }`}
                       />
                       {std.number}
                     </div>
                   </TableCell>
-                  <TableCell className="text-sm text-gray-700 max-w-[400px] truncate">
+                  <TableCell className="text-sm text-text-secondary max-w-[400px] truncate">
                     {std.title}
                   </TableCell>
-                  <TableCell className="text-xs text-gray-500">{std.edition}</TableCell>
+                  <TableCell className="text-xs text-text-muted">{std.edition}</TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
                       {std.applicableGateways.map((g) => (
                         <Badge
                           key={g}
                           variant="outline"
-                          className="text-[10px] px-1.5 py-0 bg-sky-50 text-sky-700 border-sky-200"
+                          className="text-[10px] px-1.5 py-0 bg-status-info/15 text-palette-blue-400 border-status-info/25"
                         >
                           {g}
                         </Badge>
@@ -189,7 +189,7 @@ export default function StandardsPage() {
                   </TableCell>
                   <TableCell>
                     {std.jurisdictions.length === 0 ? (
-                      <span className="flex items-center gap-1 text-xs text-gray-400">
+                      <span className="flex items-center gap-1 text-xs text-text-muted">
                         <Globe className="h-3 w-3" /> Global
                       </span>
                     ) : (
@@ -211,18 +211,18 @@ export default function StandardsPage() {
                   <TableRow key={`${std.id}-detail`}>
                     <TableCell colSpan={6} className="p-0">
                       <div className="px-4 pb-4 pt-2">
-                        <div className="rounded-lg bg-gray-50 p-4">
+                        <div className="rounded-lg bg-surface-glass p-4">
                           <div className="flex items-start gap-2 mb-2">
                             <Zap className="h-4 w-4 mt-0.5 text-brand-blue" />
                             <div>
-                              <p className="text-sm font-medium text-gray-900">
+                              <p className="text-sm font-medium text-text-heading">
                                 {std.body} {std.number} — {std.edition}
                               </p>
-                              <p className="text-sm text-gray-700 mt-1">{std.title}</p>
+                              <p className="text-sm text-text-secondary mt-1">{std.title}</p>
                             </div>
                           </div>
-                          <p className="text-sm text-gray-600 mt-3 leading-relaxed">{std.scope}</p>
-                          <div className="mt-3 flex items-center gap-4 text-xs text-gray-500">
+                          <p className="text-sm text-text-tertiary mt-3 leading-relaxed">{std.scope}</p>
+                          <div className="mt-3 flex items-center gap-4 text-xs text-text-muted">
                             <span>
                               <strong>Applicable Gateways:</strong>{" "}
                               {std.applicableGateways.join(", ")}
