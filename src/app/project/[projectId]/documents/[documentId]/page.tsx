@@ -37,6 +37,10 @@ import {
   generateG8AnnualReport,
   renderG8AnnualReportMarkdown,
 } from "@/data/synthetic-docs/g8-annual-report";
+import {
+  generateG8DocumentPackage,
+  renderDocumentMarkdown,
+} from "@/data/synthetic-docs/g8-document-package";
 
 interface DocumentPageProps {
   params: Promise<{ projectId: string; documentId: string }>;
@@ -62,6 +66,34 @@ function formatSize(mb: number) {
   if (mb >= 1000) return `${(mb / 1000).toFixed(1)} GB`;
   if (mb < 1) return `${Math.round(mb * 1024)} KB`;
   return `${mb.toFixed(1)} MB`;
+}
+
+/** Map document list IDs (doc-g8-pkg-*) to synthetic doc package IDs (doc-*) */
+const PKG_DOC_ID_MAP: Record<string, string> = {
+  "doc-g8-pkg-performance": "doc-performance",
+  "doc-g8-pkg-csrd": "doc-csrd",
+  "doc-g8-pkg-esrs-e1": "doc-esrs-e1",
+  "doc-g8-pkg-esrs-e2": "doc-esrs-e2",
+  "doc-g8-pkg-esrs-e4": "doc-esrs-e4",
+  "doc-g8-pkg-esrs-e5": "doc-esrs-e5",
+  "doc-g8-pkg-battery-passport": "doc-battery-passport",
+  "doc-g8-pkg-taxonomy-env": "doc-taxonomy-env",
+  "doc-g8-pkg-om": "doc-om",
+};
+
+function getSyntheticContent(doc: { id: string; projectId: string }): string {
+  // New package documents
+  const syntheticId = PKG_DOC_ID_MAP[doc.id];
+  if (syntheticId) {
+    const pkg = generateG8DocumentPackage(doc.projectId);
+    const synDoc = pkg.documents.find((d) => d.id === syntheticId);
+    if (synDoc) return renderDocumentMarkdown(synDoc);
+  }
+  // Legacy monolithic report
+  if (doc.id.startsWith("doc-g8-annual-")) {
+    return renderG8AnnualReportMarkdown(generateG8AnnualReport(doc.projectId));
+  }
+  return "No content available.";
 }
 
 export default function DocumentPage({ params }: DocumentPageProps) {
@@ -94,7 +126,9 @@ export default function DocumentPage({ params }: DocumentPageProps) {
   const Icon = getFileIcon(doc.fileType);
   const gateway = gateways.find((g) => g.id === doc.gatewayId);
   const uploader = users.find((u) => u.id === doc.uploadedBy);
-  const isSynthetic = doc.id.startsWith("doc-g8-annual-");
+  const isOldSynthetic = doc.id.startsWith("doc-g8-annual-");
+  const isPackageSynthetic = doc.id.startsWith("doc-g8-pkg-");
+  const isSynthetic = isOldSynthetic || isPackageSynthetic;
   const approvals = getApprovalsForDocument(doc.id);
   const approvedCount = approvals.filter((a) => a.status === "approved").length;
   const requiredCount = approvals.filter((a) => a.status !== "not_required").length;
@@ -181,9 +215,7 @@ export default function DocumentPage({ params }: DocumentPageProps) {
           {isSynthetic ? (
             <Card className="p-6">
               <SimpleMarkdown
-                content={renderG8AnnualReportMarkdown(
-                  generateG8AnnualReport(doc.projectId)
-                )}
+                content={getSyntheticContent(doc)}
               />
             </Card>
           ) : (

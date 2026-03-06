@@ -153,7 +153,7 @@ const sonnenbergGateways: Gateway[] = [
     targetDate: "2027-09-15",
     requirements: [
       // Documents
-      { id: "g8-son-r1", category: "document", label: "Annual Performance Report", description: "12-month operational performance report per IEC 61724-1", status: "pass", checkType: "automated", standardRef: "IEC 61724-1", linkedDocumentIds: ["doc-g8-annual-sonnenberg"] },
+      { id: "g8-son-r1", category: "document", label: "Annual Performance Report", description: "12-month operational performance report per IEC 61724-1", status: "pass", checkType: "automated", standardRef: "IEC 61724-1", linkedDocumentIds: ["doc-g8-pkg-performance"] },
       { id: "g8-son-r2", category: "document", label: "CSRD Sustainability Report", description: "Corporate Sustainability Reporting Directive (EU 2022/2464) annual disclosure", status: "warning", checkType: "ai_assisted", standardRef: "EU 2022/2464 (CSRD)", aiConfidence: 0.72 },
       { id: "g8-son-r3", category: "document", label: "ESRS E1 — Climate Change Disclosure", description: "ESRS E1 climate change metrics and targets per EFRAG standards", status: "warning", checkType: "ai_assisted", standardRef: "ESRS E1 (EU 2023/2772)", aiConfidence: 0.68 },
       { id: "g8-son-r4", category: "document", label: "ESRS E2 — Pollution Disclosure", description: "ESRS E2 pollution prevention and control disclosures", status: "pending", checkType: "ai_assisted", standardRef: "ESRS E2 (EU 2023/2772)", aiConfidence: undefined },

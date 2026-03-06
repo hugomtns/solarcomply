@@ -146,7 +146,9 @@ export type DocumentCategory =
   | 'insurance_policy' | 'ie_report' | 'grid_compliance_cert'
   | 'feoc_assessment' | 'feoc_supplier_certification' | 'forced_labour_due_diligence'
   | 'forced_labour_audit' | 'battery_passport_data' | 'carbon_footprint_declaration'
-  | 'cbam_emissions_report' | 'pfas_declaration' | 'mineral_traceability';
+  | 'cbam_emissions_report' | 'pfas_declaration' | 'mineral_traceability'
+  | 'csrd_report' | 'esrs_e1_disclosure' | 'esrs_e2_disclosure'
+  | 'esrs_e4_disclosure' | 'esrs_e5_disclosure' | 'taxonomy_assessment' | 'om_report';
 
 export interface Standard {
   id: string;

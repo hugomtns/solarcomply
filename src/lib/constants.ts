@@ -112,6 +112,13 @@ export const DOCUMENT_CATEGORY_LABELS: Record<string, string> = {
   cbam_emissions_report: 'CBAM Emissions Report',
   pfas_declaration: 'PFAS Declaration',
   mineral_traceability: 'Mineral Traceability',
+  csrd_report: 'CSRD Report',
+  esrs_e1_disclosure: 'ESRS E1 Climate',
+  esrs_e2_disclosure: 'ESRS E2 Pollution',
+  esrs_e4_disclosure: 'ESRS E4 Biodiversity',
+  esrs_e5_disclosure: 'ESRS E5 Circular Economy',
+  taxonomy_assessment: 'Taxonomy Assessment',
+  om_report: 'O&M Report',
 };
 
 export const PROJECT_TYPE_LABELS: Record<string, string> = {
