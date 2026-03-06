@@ -15,13 +15,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DocumentTable } from "@/components/documents/document-table";
-import { DocumentViewer } from "@/components/documents/document-viewer";
 import { DataRoomBuilder } from "@/components/documents/data-room-builder";
 import { UploadDialog } from "@/components/documents/upload-dialog";
 import { documents } from "@/data/documents";
 import { projects } from "@/data/projects";
 import { DOCUMENT_CATEGORY_LABELS, DOCUMENT_STATUS_LABELS } from "@/lib/constants";
-import type { Document, DocumentCategory } from "@/lib/types";
+import type { Document } from "@/lib/types";
 
 interface DocumentsPageProps {
   params: Promise<{ projectId: string }>;
@@ -45,8 +44,6 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [fileTypeFilter, setFileTypeFilter] = useState("all");
-  const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
-  const [viewerOpen, setViewerOpen] = useState(false);
   const [dataRoomOpen, setDataRoomOpen] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
 
@@ -80,12 +77,7 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
   const router = useRouter();
 
   const handleSelect = useCallback((doc: Document) => {
-    if (doc.id.startsWith("doc-g8-annual-")) {
-      router.push(`/project/${projectId}/documents/${doc.id}`);
-      return;
-    }
-    setSelectedDoc(doc);
-    setViewerOpen(true);
+    router.push(`/project/${projectId}/documents/${doc.id}`);
   }, [projectId, router]);
 
   return (
@@ -185,13 +177,6 @@ export default function DocumentsPage({ params }: DocumentsPageProps) {
       <div className="rounded-lg border bg-white/[0.05]">
         <DocumentTable documents={filteredDocs} onSelect={handleSelect} />
       </div>
-
-      {/* Document Viewer Sheet */}
-      <DocumentViewer
-        document={selectedDoc}
-        open={viewerOpen}
-        onOpenChange={setViewerOpen}
-      />
 
       {/* Data Room Builder Dialog */}
       <DataRoomBuilder
