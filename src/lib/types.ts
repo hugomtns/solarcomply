@@ -359,6 +359,7 @@ export interface ComplianceCheckRequest {
   requirementIds?: string[];
   jurisdictions: string[];
   batchId?: string;
+  apiPassword?: string;
 }
 
 export interface ComplianceCheckResponse {

@@ -55,7 +55,10 @@ export function PocProvider({ children }: { children: ReactNode }) {
       const res = await fetch("/api/compliance-check", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(request),
+        body: JSON.stringify({
+          ...request,
+          apiPassword: process.env.NEXT_PUBLIC_COMPLIANCE_API_PASSWORD,
+        }),
       });
 
       const elapsed = ((performance.now() - t0) / 1000).toFixed(1);

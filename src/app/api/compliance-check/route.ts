@@ -21,6 +21,15 @@ export async function POST(request: NextRequest) {
     const body: ComplianceCheckRequest = await request.json();
     const { projectId, gatewayCode, jurisdictions, batchId } = body;
 
+    // 0. Verify API password
+    const expectedPassword = process.env.COMPLIANCE_API_PASSWORD;
+    if (!expectedPassword || body.apiPassword !== expectedPassword) {
+      return NextResponse.json(
+        { error: "Unauthorized. Invalid or missing API password." },
+        { status: 401 }
+      );
+    }
+
     // 1. Get applicable regulations
     const allRegulations = getRegulationsForCheck(gatewayCode, jurisdictions);
     if (allRegulations.length === 0 && !batchId) {
