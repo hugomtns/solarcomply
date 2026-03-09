@@ -5,7 +5,6 @@ import { ComplianceScoreRing } from "@/components/shared/compliance-score-ring";
 import { GatewayPipeline } from "@/components/project/gateway-pipeline";
 import { projects } from "@/data/projects";
 import { getGatewaysForProject } from "@/data/gateways";
-import { documents } from "@/data/documents";
 import { alerts } from "@/data/alerts";
 import { organizations } from "@/data/stakeholders";
 import { notFound } from "next/navigation";
@@ -19,6 +18,8 @@ import {
   Zap,
   Globe,
   ChevronRight,
+  CheckCircle2,
+  CircleDot,
 } from "lucide-react";
 import {
   PROJECT_TYPE_LABELS,
@@ -46,12 +47,22 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         : "blocked";
 
   const gateways = getGatewaysForProject(projectId);
-  const passedGateways = gateways.filter((g) => g.status === "passed").length;
-  const projectDocs = documents.filter((d) => d.projectId === projectId);
-  const approvedDocs = projectDocs.filter((d) => d.status === "approved").length;
-  const activeAlerts = alerts.filter(
-    (a) => a.projectId === projectId && !a.acknowledged
+  const currentGateway = gateways.find((g) => g.id === project.currentGatewayId);
+  const currentGateCode = currentGateway?.code ?? "G0";
+  const currentGateName = currentGateway?.name ?? "Unknown";
+
+  // Overall requirements progress across all gateways
+  const allRequirements = gateways.flatMap((g) => g.requirements);
+  const completedRequirements = allRequirements.filter(
+    (r) => r.status === "pass" || r.status === "not_applicable"
   ).length;
+
+  const projectAlerts = alerts.filter(
+    (a) => a.projectId === projectId && !a.acknowledged
+  );
+  const criticalAlerts = projectAlerts.filter((a) => a.severity === "critical").length;
+  const warningAlerts = projectAlerts.filter((a) => a.severity === "warning").length;
+
   const projectOrgs = organizations.filter((org) =>
     project.organizationIds.includes(org.id)
   );
@@ -64,7 +75,64 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
       {/* Hero stats row */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Compliance Score — featured card */}
+        {/* Active Alerts — first card for immediate attention */}
+        {projectAlerts.length > 0 ? (
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl border border-status-warning/20 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.4)] transition-all duration-300 hover:border-status-warning/30">
+            <div className="h-[2px] w-full bg-gradient-to-r from-status-warning to-status-error" />
+            <div className="p-5">
+              <div className="flex items-start justify-between">
+                <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-muted">
+                  Action Required
+                </p>
+                <div className="rounded-xl p-1.5 bg-status-warning/15 text-status-warning-light">
+                  <AlertTriangle className="h-4.5 w-4.5" />
+                </div>
+              </div>
+              <p className="mt-2 text-2xl font-bold text-white font-display">
+                {projectAlerts.length}
+              </p>
+              <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5">
+                {criticalAlerts > 0 && (
+                  <p className="text-[11px] text-status-error font-medium">
+                    {criticalAlerts} critical
+                  </p>
+                )}
+                {warningAlerts > 0 && (
+                  <p className="text-[11px] text-status-warning-light font-medium">
+                    {warningAlerts} warning
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <StatCard
+            label="Alerts"
+            value="0"
+            sub="all clear"
+            icon={<CheckCircle2 className="h-4.5 w-4.5" />}
+            color="teal"
+          />
+        )}
+
+        {/* Current Gateway — show gate code instead of passed count */}
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] shadow-[0_2px_8px_-2px_rgba(0,0,0,0.4)] transition-all duration-300 hover:border-white/[0.10]">
+          <div className="h-[2px] w-full bg-gradient-to-r from-palette-blue-500 to-palette-blue-400" />
+          <div className="p-5">
+            <div className="flex items-start justify-between">
+              <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-muted">
+                Current Gate
+              </p>
+              <div className="rounded-xl p-1.5 bg-status-info/15 text-palette-blue-400">
+                <CircleDot className="h-4.5 w-4.5" />
+              </div>
+            </div>
+            <p className="mt-2 text-2xl font-bold text-white font-display">{currentGateCode}</p>
+            <p className="mt-0.5 text-[11px] text-text-muted truncate">{currentGateName}</p>
+          </div>
+        </div>
+
+        {/* Compliance Score */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] shadow-[0_2px_8px_-2px_rgba(0,0,0,0.4)] transition-all duration-300 hover:border-primary/20 hover:shadow-[0_0_20px_rgba(6,214,160,0.1)]">
           <div className="h-[2px] w-full bg-gradient-to-r from-primary to-palette-blue-500" />
           <div className="p-5">
@@ -83,26 +151,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
         </div>
 
+        {/* Requirements Progress — overall completion */}
         <StatCard
-          label="Gateways"
-          value={`${passedGateways}/${gateways.length}`}
-          sub="passed"
+          label="Requirements"
+          value={`${completedRequirements}/${allRequirements.length}`}
+          sub="complete"
           icon={<Layers className="h-4.5 w-4.5" />}
-          color="blue"
-        />
-        <StatCard
-          label="Documents"
-          value={`${approvedDocs}/${projectDocs.length}`}
-          sub="approved"
-          icon={<FileText className="h-4.5 w-4.5" />}
           color="teal"
-        />
-        <StatCard
-          label="Active Alerts"
-          value={String(activeAlerts)}
-          sub={activeAlerts > 0 ? "needs attention" : "all clear"}
-          icon={<AlertTriangle className="h-4.5 w-4.5" />}
-          color={activeAlerts > 0 ? "amber" : "muted"}
         />
       </div>
 

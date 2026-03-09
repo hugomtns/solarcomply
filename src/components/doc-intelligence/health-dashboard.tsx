@@ -33,8 +33,8 @@ export function HealthDashboard({ healthScore }: HealthDashboardProps) {
               {healthScore.overallScore >= 80
                 ? "Good standing"
                 : healthScore.overallScore >= 60
-                  ? "Needs attention"
-                  : "Action required"}
+                  ? "Improving"
+                  : "Needs improvement"}
             </p>
           </div>
         </Card>

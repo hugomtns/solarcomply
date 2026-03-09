@@ -14,8 +14,8 @@ const strokeMap = { sm: 4, md: 6, lg: 8 };
 const textMap = { sm: "text-xs", md: "text-lg", lg: "text-2xl" };
 
 function getColor(score: number) {
-  if (score < 60) return COLORS.red;
-  if (score < 80) return COLORS.amber;
+  if (score < 60) return COLORS.amber;
+  if (score < 80) return COLORS.blue;
   return COLORS.teal;
 }
 
