@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, Fragment } from "react";
 import { PageHeader } from "@/components/layout/page-header";
 import { standards } from "@/data/standards";
 import { Badge } from "@/components/ui/badge";
@@ -149,9 +149,8 @@ export default function StandardsPage() {
           </TableHeader>
           <TableBody>
             {filtered.map((std) => (
-              <>
+              <Fragment key={std.id}>
                 <TableRow
-                  key={std.id}
                   className="cursor-pointer hover:bg-surface-glass"
                   onClick={() => toggleRow(std.id)}
                 >
@@ -217,7 +216,7 @@ export default function StandardsPage() {
                 </TableRow>
                 {expanded.has(std.id) && (
                   <TableRow key={`${std.id}-detail`}>
-                    <TableCell colSpan={6} className="p-0">
+                    <TableCell colSpan={6} className="p-0 whitespace-normal">
                       <div className="px-4 pb-4 pt-2">
                         <div className="rounded-lg bg-surface-glass p-4">
                           <div className="flex items-start gap-2 mb-2">
@@ -247,7 +246,7 @@ export default function StandardsPage() {
                     </TableCell>
                   </TableRow>
                 )}
-              </>
+              </Fragment>
             ))}
           </TableBody>
         </Table>
