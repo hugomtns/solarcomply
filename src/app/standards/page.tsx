@@ -134,16 +134,16 @@ export default function StandardsPage() {
           <p className="text-xs text-text-muted mt-1">Try adjusting your search or filter criteria</p>
         </Card>
       ) : (
-      <Card>
-        <Table>
+      <Card className="overflow-hidden">
+        <Table className="table-fixed">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[140px]">Standard</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead className="w-[100px]">Edition</TableHead>
-              <TableHead className="w-[120px]">Gateways</TableHead>
-              <TableHead className="w-[140px]">Project Types</TableHead>
-              <TableHead className="w-[120px]">Jurisdictions</TableHead>
+              <TableHead className="w-[12%]">Standard</TableHead>
+              <TableHead className="w-[32%]">Title</TableHead>
+              <TableHead className="w-[10%]">Edition</TableHead>
+              <TableHead className="w-[16%]">Gateways</TableHead>
+              <TableHead className="w-[15%]">Project Types</TableHead>
+              <TableHead className="w-[15%]">Jurisdictions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -164,7 +164,7 @@ export default function StandardsPage() {
                       {std.number}
                     </div>
                   </TableCell>
-                  <TableCell className="text-sm text-text-secondary max-w-[400px] truncate">
+                  <TableCell className="text-sm text-text-secondary truncate">
                     {std.title}
                   </TableCell>
                   <TableCell className="text-xs text-text-muted">{std.edition}</TableCell>
@@ -228,7 +228,7 @@ export default function StandardsPage() {
                               <p className="text-sm text-text-secondary mt-1">{std.title}</p>
                             </div>
                           </div>
-                          <p className="text-sm text-text-tertiary mt-3 leading-relaxed">{std.scope}</p>
+                          <p className="text-sm text-text-tertiary mt-3 leading-relaxed break-words">{std.scope}</p>
                           <div className="mt-3 flex items-center gap-4 text-xs text-text-muted">
                             <span>
                               <strong>Applicable Gateways:</strong>{" "}
