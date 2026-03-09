@@ -131,6 +131,7 @@ export function ProjectSummary({ projectId }: ProjectSummaryProps) {
                 size="icon-xs"
                 onClick={() => setManageOpen(true)}
                 title="Manage stakeholders"
+                aria-label="Manage stakeholders"
               >
                 <Settings className="h-3.5 w-3.5" />
               </Button>
@@ -139,6 +140,7 @@ export function ProjectSummary({ projectId }: ProjectSummaryProps) {
                 size="icon-xs"
                 onClick={() => setInviteOpen(true)}
                 title="Invite stakeholder"
+                aria-label="Invite stakeholder"
               >
                 <Plus className="h-3.5 w-3.5" />
               </Button>

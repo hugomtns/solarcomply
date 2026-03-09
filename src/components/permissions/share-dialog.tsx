@@ -163,6 +163,7 @@ export function ShareDialog({ open, onOpenChange }: ShareDialogProps) {
                 size="icon-xs"
                 onClick={handleCopyLink}
                 title="Copy link"
+                aria-label="Copy link"
               >
                 <Copy className="h-3 w-3" />
               </Button>

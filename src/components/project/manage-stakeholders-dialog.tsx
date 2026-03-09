@@ -102,6 +102,7 @@ export function ManageStakeholdersDialog({
                               size="icon-xs"
                               disabled
                               className="flex-shrink-0"
+                              aria-label="Cannot remove project owner"
                             >
                               <X className="h-3.5 w-3.5" />
                             </Button>
@@ -116,6 +117,7 @@ export function ManageStakeholdersDialog({
                         variant="ghost"
                         size="icon-xs"
                         className="flex-shrink-0 text-gray-400 hover:text-red-600"
+                        aria-label={`Remove ${org.name}`}
                         onClick={() =>
                           toast.success(`${org.name} removed`)
                         }
