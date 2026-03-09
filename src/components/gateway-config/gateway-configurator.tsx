@@ -13,6 +13,7 @@ export function GatewayConfigurator() {
   const [configs, setConfigs] = useState<Map<string, RequirementConfigStatus>>(new Map());
   const [naReasons, setNaReasons] = useState<Map<string, string>>(new Map());
   const [customRequirements, setCustomRequirements] = useState<CustomRequirement[]>([]);
+  const [disabledGateways, setDisabledGateways] = useState<Set<string>>(new Set());
 
   const totalCount = gatewayReference.reduce((acc, g) => acc + g.requirements.length, 0);
 
@@ -63,6 +64,15 @@ export function GatewayConfigurator() {
     setCustomRequirements((prev) => prev.filter((c) => c.id !== id));
   }, []);
 
+  const handleToggleGateway = useCallback((gatewayCode: string, enabled: boolean) => {
+    setDisabledGateways((prev) => {
+      const next = new Set(prev);
+      if (enabled) next.delete(gatewayCode);
+      else next.add(gatewayCode);
+      return next;
+    });
+  }, []);
+
   return (
     <div className="space-y-4">
       <MarketSelector
@@ -81,10 +91,12 @@ export function GatewayConfigurator() {
           configs={configs}
           naReasons={naReasons}
           customRequirements={customRequirements}
+          disabledGateways={disabledGateways}
           onToggle={handleToggle}
           onNaReason={handleNaReason}
           onAddCustom={handleAddCustom}
           onRemoveCustom={handleRemoveCustom}
+          onToggleGateway={handleToggleGateway}
         />
       </ScrollArea>
     </div>

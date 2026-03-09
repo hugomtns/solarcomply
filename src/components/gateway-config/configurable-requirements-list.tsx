@@ -30,10 +30,12 @@ interface ConfigurableRequirementsListProps {
   configs: Map<string, RequirementConfigStatus>;
   naReasons: Map<string, string>;
   customRequirements: CustomRequirement[];
+  disabledGateways: Set<string>;
   onToggle: (reqId: string, status: RequirementConfigStatus) => void;
   onNaReason: (reqId: string, reason: string) => void;
   onAddCustom: (gatewayCode: string, req: Omit<CustomRequirement, 'id' | 'gatewayCode'>) => void;
   onRemoveCustom: (id: string) => void;
+  onToggleGateway: (gatewayCode: string, enabled: boolean) => void;
 }
 
 export function ConfigurableRequirementsList({
@@ -42,10 +44,12 @@ export function ConfigurableRequirementsList({
   configs,
   naReasons,
   customRequirements,
+  disabledGateways,
   onToggle,
   onNaReason,
   onAddCustom,
   onRemoveCustom,
+  onToggleGateway,
 }: ConfigurableRequirementsListProps) {
   const [naDialogReqId, setNaDialogReqId] = useState<string | null>(null);
   const [naReason, setNaReason] = useState("");
@@ -69,20 +73,38 @@ export function ConfigurableRequirementsList({
           const reqs = filteredRequirements.get(gw.code) ?? [];
           const gwCustom = customRequirements.filter((c) => c.gatewayCode === gw.code);
           const enabledCount = reqs.filter((r) => getStatus(r.id) === 'enabled').length;
+          const isGatewayDisabled = disabledGateways.has(gw.code);
 
           return (
-            <AccordionItem key={gw.code} value={gw.code} className="border rounded-lg">
+            <AccordionItem key={gw.code} value={gw.code} className={`border rounded-lg transition-opacity ${isGatewayDisabled ? 'opacity-50' : ''}`}>
               <AccordionTrigger className="px-4 py-3 hover:no-underline">
                 <div className="flex items-center gap-3 text-left">
-                  <span className="text-sm font-semibold text-white">{gw.code}</span>
-                  <span className="text-sm text-text-secondary">{gw.name}</span>
-                  <Badge variant="outline" className="text-[10px] px-1.5 py-0 bg-teal-50 text-teal-700 border-teal-200">
-                    {enabledCount}/{reqs.length + gwCustom.length} enabled
-                  </Badge>
-                  {gwCustom.length > 0 && (
-                    <Badge variant="outline" className="text-[10px] px-1.5 py-0 bg-orange-50 text-orange-700 border-orange-200">
-                      +{gwCustom.length} custom
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') e.stopPropagation(); }}
+                  >
+                    <Switch
+                      checked={!isGatewayDisabled}
+                      onCheckedChange={(checked) => onToggleGateway(gw.code, checked)}
+                    />
+                  </div>
+                  <span className={`text-sm font-semibold ${isGatewayDisabled ? 'text-text-muted' : 'text-white'}`}>{gw.code}</span>
+                  <span className={`text-sm ${isGatewayDisabled ? 'text-text-disabled' : 'text-text-secondary'}`}>{gw.name}</span>
+                  {isGatewayDisabled ? (
+                    <Badge variant="outline" className="text-[10px] px-1.5 py-0 bg-white/[0.06] text-text-tertiary border-gray-200">
+                      Disabled
                     </Badge>
+                  ) : (
+                    <>
+                      <Badge variant="outline" className="text-[10px] px-1.5 py-0 bg-teal-50 text-teal-700 border-teal-200">
+                        {enabledCount}/{reqs.length + gwCustom.length} enabled
+                      </Badge>
+                      {gwCustom.length > 0 && (
+                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 bg-orange-50 text-orange-700 border-orange-200">
+                          +{gwCustom.length} custom
+                        </Badge>
+                      )}
+                    </>
                   )}
                 </div>
               </AccordionTrigger>
