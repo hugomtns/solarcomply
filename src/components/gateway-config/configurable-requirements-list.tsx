@@ -96,11 +96,11 @@ export function ConfigurableRequirementsList({
                     </Badge>
                   ) : (
                     <>
-                      <Badge variant="outline" className="text-[10px] px-1.5 py-0 bg-teal-50 text-teal-700 border-teal-200">
+                      <Badge variant="outline" className="text-[10px] px-1.5 py-0 bg-primary/15 text-primary border-primary/25">
                         {enabledCount}/{reqs.length + gwCustom.length} enabled
                       </Badge>
                       {gwCustom.length > 0 && (
-                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 bg-orange-50 text-orange-700 border-orange-200">
+                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 bg-palette-orange-500/15 text-palette-orange-400 border-palette-orange-500/25">
                           +{gwCustom.length} custom
                         </Badge>
                       )}
@@ -127,7 +127,7 @@ export function ConfigurableRequirementsList({
                         <span className={`flex-1 text-sm ${status === 'enabled' ? 'text-text-secondary' : 'text-text-muted'}`}>
                           {req.label}
                           {req.isBessOnly && (
-                            <Badge variant="outline" className="ml-1.5 text-[9px] px-1 py-0 bg-blue-50 text-blue-700 border-blue-200">
+                            <Badge variant="outline" className="ml-1.5 text-[9px] px-1 py-0 bg-status-info/15 text-palette-blue-400 border-status-info/25">
                               BESS
                             </Badge>
                           )}
@@ -176,12 +176,12 @@ export function ConfigurableRequirementsList({
                   {gwCustom.map((cr) => (
                     <div
                       key={cr.id}
-                      className="flex items-center gap-3 rounded-md px-3 py-2 text-sm bg-orange-50/50 border border-orange-100"
+                      className="flex items-center gap-3 rounded-md px-3 py-2 text-sm bg-palette-orange-500/10 border border-palette-orange-500/20"
                     >
                       <FileText className="h-3.5 w-3.5 text-orange-500 shrink-0" />
                       <span className="flex-1 text-sm text-text-secondary">
                         {cr.label}
-                        <Badge variant="outline" className="ml-1.5 text-[9px] px-1 py-0 bg-orange-50 text-orange-700 border-orange-200">
+                        <Badge variant="outline" className="ml-1.5 text-[9px] px-1 py-0 bg-palette-orange-500/15 text-palette-orange-400 border-palette-orange-500/25">
                           Custom
                         </Badge>
                       </span>

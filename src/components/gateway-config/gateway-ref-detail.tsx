@@ -28,7 +28,7 @@ export function GatewayRefDetail({ gateway }: GatewayRefDetailProps) {
           </div>
           <div className="flex items-center gap-1.5">
             {gateway.isSolarComplyExtension && (
-              <Badge variant="outline" className="text-[10px] bg-purple-50 text-purple-700 border-purple-200">
+              <Badge variant="outline" className="text-[10px] bg-status-special/15 text-palette-purple-400 border-status-special/25">
                 SolarComply Extension
               </Badge>
             )}

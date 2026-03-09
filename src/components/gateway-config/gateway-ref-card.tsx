@@ -17,24 +17,24 @@ export function GatewayRefCard({ gateway, isSelected, onClick }: GatewayRefCardP
       onClick={onClick}
       className={cn(
         "w-full text-left rounded-lg border p-3 transition-colors hover:bg-surface-glass",
-        isSelected ? "border-brand-blue bg-blue-50/20 ring-1 ring-brand-blue" : "border-white/[0.08]"
+        isSelected ? "border-brand-blue bg-status-info/10 ring-1 ring-brand-blue" : "border-white/[0.08]"
       )}
     >
       <div className="flex items-center justify-between mb-1">
         <span className="text-sm font-semibold text-white">{gateway.code}</span>
         <div className="flex items-center gap-1.5">
           {gateway.isSolarComplyExtension && (
-            <Badge variant="outline" className="text-[9px] px-1.5 py-0 bg-purple-50 text-purple-700 border-purple-200">
+            <Badge variant="outline" className="text-[9px] px-1.5 py-0 bg-status-special/15 text-palette-purple-400 border-status-special/25">
               SPE Extension
             </Badge>
           )}
-          <Badge variant="outline" className="text-[9px] px-1.5 py-0 bg-gray-50 text-gray-600 border-gray-200">
+          <Badge variant="outline" className="text-[9px] px-1.5 py-0 bg-white/[0.06] text-text-tertiary border-white/[0.08]">
             {gateway.requirements.length} req
           </Badge>
         </div>
       </div>
       <p className="text-xs font-medium text-text-secondary leading-tight">{gateway.name}</p>
-      <p className="text-[10px] text-gray-400 mt-1">
+      <p className="text-[10px] text-text-disabled mt-1">
         {LIFECYCLE_STAGE_LABELS[gateway.lifecycleStage]} &middot; {gateway.duration}
       </p>
     </button>

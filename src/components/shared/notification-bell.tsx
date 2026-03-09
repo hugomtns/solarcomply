@@ -8,9 +8,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 
 const severityConfig = {
-  critical: { icon: AlertCircle, color: "text-red-500", bg: "bg-red-50", border: "border-l-red-500" },
-  warning: { icon: AlertTriangle, color: "text-amber-500", bg: "bg-amber-50", border: "border-l-amber-500" },
-  info: { icon: Info, color: "text-blue-500", bg: "bg-blue-50", border: "border-l-blue-500" },
+  critical: { icon: AlertCircle, color: "text-red-400", bg: "bg-status-error/10", border: "border-l-red-500" },
+  warning: { icon: AlertTriangle, color: "text-amber-400", bg: "bg-status-warning/10", border: "border-l-amber-500" },
+  info: { icon: Info, color: "text-blue-400", bg: "bg-status-info/10", border: "border-l-blue-500" },
 };
 
 export function NotificationBell() {
@@ -21,7 +21,7 @@ export function NotificationBell() {
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="ghost" size="icon" className="relative" aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ""}`}>
-          <Bell className="h-5 w-5 text-gray-600" />
+          <Bell className="h-5 w-5 text-text-muted" />
           {unreadCount > 0 && (
             <span className="absolute -right-0.5 -top-0.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
               {unreadCount}
@@ -30,9 +30,9 @@ export function NotificationBell() {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-96 p-0" align="end">
-        <div className="border-b px-4 py-3">
-          <h4 className="text-sm font-semibold">Notifications</h4>
-          <p className="text-xs text-gray-500">{unreadCount} unread alerts</p>
+        <div className="border-b border-white/[0.06] px-4 py-3">
+          <h4 className="text-sm font-semibold text-text-heading">Notifications</h4>
+          <p className="text-xs text-text-muted">{unreadCount} unread alerts</p>
         </div>
         <ScrollArea className="max-h-80">
           {notifications.slice(0, 8).map((alert) => {
@@ -42,24 +42,24 @@ export function NotificationBell() {
               <div
                 key={alert.id}
                 className={cn(
-                  "border-b border-l-4 px-4 py-3 last:border-b-0",
+                  "border-b border-white/[0.06] border-l-4 px-4 py-3 last:border-b-0",
                   config.border,
-                  !alert.acknowledged ? config.bg : "bg-white"
+                  !alert.acknowledged ? config.bg : "bg-transparent"
                 )}
               >
                 <div className="flex items-start gap-2">
                   <Icon className={cn("mt-0.5 h-4 w-4 shrink-0", config.color)} />
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-gray-900">{alert.title}</p>
-                    <p className="mt-0.5 text-xs text-gray-500 line-clamp-2">{alert.description}</p>
+                    <p className="text-sm font-medium text-text-heading">{alert.title}</p>
+                    <p className="mt-0.5 text-xs text-text-muted line-clamp-2">{alert.description}</p>
                     <div className="mt-1 flex items-center justify-between">
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-text-disabled">
                         {new Date(alert.timestamp).toLocaleDateString()}
                       </span>
                       {!alert.acknowledged && (
                         <button
                           onClick={() => acknowledgeAlert(alert.id)}
-                          className="text-xs text-blue-600 hover:underline"
+                          className="text-xs text-brand-blue hover:underline"
                         >
                           Dismiss
                         </button>

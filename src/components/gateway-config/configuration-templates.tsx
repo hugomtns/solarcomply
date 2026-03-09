@@ -34,9 +34,9 @@ export function ConfigurationTemplates() {
   };
 
   const typeColors: Record<string, string> = {
-    pv: "bg-amber-100 text-amber-800 border-amber-200",
-    bess: "bg-blue-100 text-blue-800 border-blue-200",
-    hybrid: "bg-purple-100 text-purple-800 border-purple-200",
+    pv: "bg-status-warning/20 text-status-warning-light border-status-warning/25",
+    bess: "bg-status-info/20 text-palette-blue-400 border-status-info/25",
+    hybrid: "bg-status-special/20 text-palette-purple-400 border-status-special/25",
   };
 
   return (
@@ -83,7 +83,7 @@ export function ConfigurationTemplates() {
                   </div>
                 </div>
                 {applied === config.id && (
-                  <Badge className="bg-teal-500 text-white text-[10px]">Applied!</Badge>
+                  <Badge className="bg-primary text-white text-[10px]">Applied!</Badge>
                 )}
               </div>
 

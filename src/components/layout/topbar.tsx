@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { projects } from "@/data/projects";
 import { gateways } from "@/data/gateways";
+import { documents } from "@/data/documents";
 import { NotificationBell } from "@/components/shared/notification-bell";
 
 function useBreadcrumbs(pathname: string) {
@@ -30,6 +31,13 @@ function useBreadcrumbs(pathname: string) {
       crumbs.push({ label: "Gateways", href: `/project/${parts[1]}/gateways` });
     } else if (parts[2] === "documents") {
       crumbs.push({ label: "Documents", href: `/project/${parts[1]}/documents` });
+      if (parts[3]) {
+        const doc = documents.find((d) => d.id === parts[3]);
+        crumbs.push({
+          label: doc?.name || parts[3],
+          href: `/project/${parts[1]}/documents/${parts[3]}`,
+        });
+      }
     } else if (parts[2] === "permissions") {
       crumbs.push({ label: "Access Control", href: `/project/${parts[1]}/permissions` });
     } else if (parts[2] === "ai") {
