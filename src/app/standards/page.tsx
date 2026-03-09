@@ -135,16 +135,15 @@ export default function StandardsPage() {
         </Card>
       ) : (
       <Card className="overflow-hidden">
-        <div className="overflow-x-auto w-full">
-        <Table>
+        <Table className="table-fixed w-full">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[120px]">Standard</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead className="w-[80px]">Edition</TableHead>
-              <TableHead className="w-[140px]">Gateways</TableHead>
-              <TableHead className="w-[130px]">Project Types</TableHead>
-              <TableHead className="w-[130px]">Jurisdictions</TableHead>
+              <TableHead className="w-[12%]">Standard</TableHead>
+              <TableHead className="w-[33%]">Title</TableHead>
+              <TableHead className="w-[9%]">Edition</TableHead>
+              <TableHead className="w-[16%]">Gateways</TableHead>
+              <TableHead className="w-[15%]">Project Types</TableHead>
+              <TableHead className="w-[15%]">Jurisdictions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -164,7 +163,7 @@ export default function StandardsPage() {
                       {std.number}
                     </div>
                   </TableCell>
-                  <TableCell className="text-sm text-text-secondary truncate">
+                  <TableCell className="text-sm text-text-secondary whitespace-normal">
                     {std.title}
                   </TableCell>
                   <TableCell className="text-xs text-text-muted">{std.edition}</TableCell>
@@ -250,7 +249,6 @@ export default function StandardsPage() {
             ))}
           </TableBody>
         </Table>
-        </div>
       </Card>
       )}
     </>
