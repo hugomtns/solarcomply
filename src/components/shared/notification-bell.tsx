@@ -8,9 +8,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 
 const severityConfig = {
-  critical: { icon: AlertCircle, color: "text-red-400", bg: "bg-status-error/10", border: "border-l-red-500" },
-  warning: { icon: AlertTriangle, color: "text-amber-400", bg: "bg-status-warning/10", border: "border-l-amber-500" },
-  info: { icon: Info, color: "text-blue-400", bg: "bg-status-info/10", border: "border-l-blue-500" },
+  critical: { icon: AlertCircle, color: "text-red-400", bg: "bg-[#1a1520]", border: "border-l-red-500" },
+  warning: { icon: AlertTriangle, color: "text-amber-400", bg: "bg-[#1a1815]", border: "border-l-amber-500" },
+  info: { icon: Info, color: "text-blue-400", bg: "bg-[#141a22]", border: "border-l-blue-500" },
 };
 
 export function NotificationBell() {
@@ -44,7 +44,7 @@ export function NotificationBell() {
                 className={cn(
                   "border-b border-white/[0.06] border-l-4 px-4 py-3 last:border-b-0",
                   config.border,
-                  !alert.acknowledged ? config.bg : "bg-transparent"
+                  !alert.acknowledged ? config.bg : "bg-[#111827]"
                 )}
               >
                 <div className="flex items-start gap-2">
