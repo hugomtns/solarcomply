@@ -5,7 +5,9 @@ import { Briefcase, Zap, ShieldCheck, AlertTriangle } from "lucide-react";
 
 export function PortfolioStats() {
   const totalCapacity = projects.reduce((sum, p) => sum + p.capacityMW, 0);
-  const avgScore = Math.round(projects.reduce((sum, p) => sum + p.complianceScore, 0) / projects.length);
+  const avgScore = projects.length > 0
+    ? Math.round(projects.reduce((sum, p) => sum + p.complianceScore, 0) / projects.length)
+    : 0;
   const activeAlerts = alerts.filter((a) => !a.acknowledged).length;
 
   return (

@@ -127,6 +127,13 @@ export default function StandardsPage() {
       </p>
 
       {/* Standards Table */}
+      {filtered.length === 0 ? (
+        <Card className="flex flex-col items-center justify-center py-16 text-center">
+          <Search className="h-8 w-8 text-text-disabled mb-3" />
+          <p className="text-sm font-medium text-text-secondary">No standards match your filters</p>
+          <p className="text-xs text-text-muted mt-1">Try adjusting your search or filter criteria</p>
+        </Card>
+      ) : (
       <Card>
         <Table>
           <TableHeader>
@@ -244,6 +251,7 @@ export default function StandardsPage() {
           </TableBody>
         </Table>
       </Card>
+      )}
     </>
   );
 }
