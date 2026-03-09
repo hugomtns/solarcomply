@@ -135,7 +135,8 @@ export default function StandardsPage() {
         </Card>
       ) : (
       <Card className="overflow-hidden">
-        <Table className="table-fixed">
+        <div className="overflow-x-hidden w-full">
+        <Table className="table-fixed w-full">
           <TableHeader>
             <TableRow>
               <TableHead className="w-[12%]">Standard</TableHead>
@@ -216,20 +217,20 @@ export default function StandardsPage() {
                 </TableRow>
                 {expanded.has(std.id) && (
                   <TableRow key={`${std.id}-detail`}>
-                    <TableCell colSpan={6} className="p-0">
-                      <div className="px-4 pb-4 pt-2">
-                        <div className="rounded-lg bg-surface-glass p-4">
-                          <div className="flex items-start gap-2 mb-2">
-                            <Zap className="h-4 w-4 mt-0.5 text-brand-blue" />
-                            <div>
+                    <TableCell colSpan={6} className="p-0 overflow-hidden">
+                      <div className="px-4 pb-4 pt-2 max-w-full overflow-hidden">
+                        <div className="rounded-lg bg-surface-glass p-4 overflow-hidden">
+                          <div className="flex items-start gap-2 mb-2 min-w-0">
+                            <Zap className="h-4 w-4 mt-0.5 text-brand-blue shrink-0" />
+                            <div className="min-w-0">
                               <p className="text-sm font-medium text-text-heading">
                                 {std.body} {std.number} — {std.edition}
                               </p>
-                              <p className="text-sm text-text-secondary mt-1">{std.title}</p>
+                              <p className="text-sm text-text-secondary mt-1 break-words">{std.title}</p>
                             </div>
                           </div>
-                          <p className="text-sm text-text-tertiary mt-3 leading-relaxed break-words">{std.scope}</p>
-                          <div className="mt-3 flex items-center gap-4 text-xs text-text-muted">
+                          <p className="text-sm text-text-tertiary mt-3 leading-relaxed break-words [overflow-wrap:anywhere]">{std.scope}</p>
+                          <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-text-muted">
                             <span>
                               <strong>Applicable Gateways:</strong>{" "}
                               {std.applicableGateways.join(", ")}
@@ -250,6 +251,7 @@ export default function StandardsPage() {
             ))}
           </TableBody>
         </Table>
+        </div>
       </Card>
       )}
     </>
