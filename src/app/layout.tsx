@@ -7,6 +7,7 @@ import { AppProvider } from "@/contexts/app-context";
 import { PocProvider } from "@/contexts/poc-context";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { PocDevPanel } from "@/components/dev-tools/poc-dev-panel";
+import { Toaster } from "@/components/ui/sonner";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-heading",
@@ -50,6 +51,7 @@ export default function RootLayout({
                 </div>
               </div>
               <PocDevPanel />
+              <Toaster richColors position="bottom-right" />
             </TooltipProvider>
           </PocProvider>
         </AppProvider>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { organizations } from "@/data/stakeholders";
 import { permissions, permissionCategories } from "@/data/permissions";
 import {
@@ -84,7 +85,7 @@ export function PermissionMatrix() {
   };
 
   const handleSave = () => {
-    alert("Changes saved successfully");
+    toast.success("Permission changes saved");
   };
 
   return (

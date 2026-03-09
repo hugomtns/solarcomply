@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import {
   FileText,
   FileSpreadsheet,
@@ -134,7 +135,7 @@ export function DocumentViewer({ document: doc, open, onOpenChange }: DocumentVi
               variant="outline"
               size="sm"
               className="shrink-0 gap-1.5 text-xs border-status-special/25 text-palette-purple-400 hover:bg-status-special/15"
-              onClick={() => alert("Navigate to AI Hub with document context (mock)")}
+              onClick={() => toast.info("Opening AI Hub with document context")}
             >
               <Sparkles className="h-3 w-3" />
               Analyze
@@ -147,7 +148,7 @@ export function DocumentViewer({ document: doc, open, onOpenChange }: DocumentVi
               variant="outline"
               size="sm"
               className="flex-1"
-              onClick={() => alert("Download started (mock)")}
+              onClick={() => toast.success("Download started")}
             >
               <Download className="h-4 w-4" />
               Download
@@ -156,7 +157,7 @@ export function DocumentViewer({ document: doc, open, onOpenChange }: DocumentVi
               variant="outline"
               size="sm"
               className="flex-1"
-              onClick={() => alert("Share link copied (mock)")}
+              onClick={() => toast.success("Share link copied")}
             >
               <Share2 className="h-4 w-4" />
               Share
@@ -232,7 +233,7 @@ export function DocumentViewer({ document: doc, open, onOpenChange }: DocumentVi
               onClick={() => {
                 setConfirmOpen(false);
                 onOpenChange(false);
-                alert("Document deleted (mock)");
+                toast.success("Document deleted");
               }}
             >
               Delete

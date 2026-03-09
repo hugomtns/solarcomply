@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -94,7 +95,7 @@ export function UploadDialog({ open, onOpenChange, projectId }: UploadDialogProp
   };
 
   const handleSubmit = () => {
-    alert(`Document "${file?.name}" uploaded successfully (mock)`);
+    toast.success(`Document "${file?.name}" uploaded successfully`);
     onOpenChange(false);
     // Reset state
     setCurrentStep("upload");

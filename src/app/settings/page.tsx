@@ -25,6 +25,7 @@ import {
 import { useApp } from "@/contexts/app-context";
 import { organizations } from "@/data/stakeholders";
 import { Settings, User, Bell, Shield, Globe, Palette } from "lucide-react";
+import { toast } from "sonner";
 
 export default function SettingsPage() {
   const { currentUser } = useApp();
@@ -44,6 +45,7 @@ export default function SettingsPage() {
   const handleSave = () => {
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+    toast.success("Settings saved");
   };
 
   return (
@@ -210,7 +212,7 @@ export default function SettingsPage() {
                   <Label className="text-xs text-text-muted">Password</Label>
                   <div className="flex items-center gap-3 mt-1">
                     <Input type="password" defaultValue="••••••••••••" disabled className="bg-surface-glass" />
-                    <Button variant="outline" size="sm">Change</Button>
+                    <Button variant="outline" size="sm" onClick={() => toast.info("Password change is not available in the prototype")}>Change</Button>
                   </div>
                 </div>
                 <Separator />
@@ -219,7 +221,7 @@ export default function SettingsPage() {
                     <p className="text-sm font-medium text-text-secondary">Two-Factor Authentication</p>
                     <p className="text-xs text-text-muted">Add an extra layer of security to your account</p>
                   </div>
-                  <Button variant="outline" size="sm">Enable</Button>
+                  <Button variant="outline" size="sm" onClick={() => toast.info("Two-factor authentication is not available in the prototype")}>Enable</Button>
                 </div>
               </div>
             </Card>
@@ -241,7 +243,7 @@ export default function SettingsPage() {
                     <p className="text-sm font-medium text-text-secondary">Mobile App</p>
                     <p className="text-xs text-text-muted">iOS 18 — Last active 2 hours ago</p>
                   </div>
-                  <Button variant="ghost" size="sm" className="text-xs text-palette-red-400 hover:text-palette-red-400">
+                  <Button variant="ghost" size="sm" className="text-xs text-palette-red-400 hover:text-palette-red-400" onClick={() => toast.success("Session revoked")}>
                     Revoke
                   </Button>
                 </div>
@@ -259,7 +261,7 @@ export default function SettingsPage() {
                   <code className="text-xs text-text-muted">sc_live_••••••••••••3f2a</code>
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm">Regenerate</Button>
+                  <Button variant="outline" size="sm" onClick={() => toast.info("API key regeneration is not available in the prototype")}>Regenerate</Button>
                 </div>
               </div>
             </Card>

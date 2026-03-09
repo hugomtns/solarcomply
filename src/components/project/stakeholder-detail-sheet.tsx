@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import {
   Sheet,
   SheetContent,
@@ -107,9 +108,7 @@ export function StakeholderDetailSheet({
             className="w-full text-red-600 border-red-200 hover:bg-red-50"
             disabled={isProjectOwner}
             onClick={() =>
-              alert(
-                `${org.name} removed from project (mock)`
-              )
+              toast.success(`${org.name} removed from project`)
             }
             title={
               isProjectOwner ? "Cannot remove project owner" : undefined

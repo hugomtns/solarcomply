@@ -1,6 +1,7 @@
 "use client";
 
 import { use, useState } from "react";
+import { toast } from "sonner";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -174,15 +175,15 @@ export default function DocumentPage({ params }: DocumentPageProps) {
             <Upload className="h-4 w-4" />
             New Version
           </Button>
-          <Button variant="outline" size="sm" className="gap-1.5" onClick={() => alert("Download started (mock)")}>
+          <Button variant="outline" size="sm" className="gap-1.5" onClick={() => toast.success("Download started")}>
             <Download className="h-4 w-4" />
             Download
           </Button>
-          <Button variant="outline" size="sm" className="gap-1.5" onClick={() => alert("Share link copied (mock)")}>
+          <Button variant="outline" size="sm" className="gap-1.5" onClick={() => toast.success("Share link copied")}>
             <Share2 className="h-4 w-4" />
             Share
           </Button>
-          <Button variant="destructive" size="sm" onClick={() => alert("Document deleted (mock)")}>
+          <Button variant="destructive" size="sm" onClick={() => toast.success("Document deleted")}>
             <Trash2 className="h-4 w-4" />
           </Button>
         </div>

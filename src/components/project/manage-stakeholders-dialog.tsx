@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -116,7 +117,7 @@ export function ManageStakeholdersDialog({
                         size="icon-xs"
                         className="flex-shrink-0 text-gray-400 hover:text-red-600"
                         onClick={() =>
-                          alert(`${org.name} removed (mock)`)
+                          toast.success(`${org.name} removed`)
                         }
                       >
                         <X className="h-3.5 w-3.5" />
@@ -161,7 +162,7 @@ export function ManageStakeholdersDialog({
                     const org = organizations.find(
                       (o) => o.id === selectedOrgToAdd
                     );
-                    alert(`${org?.name ?? "Organization"} added (mock)`);
+                    toast.success(`${org?.name ?? "Organization"} added`);
                     setSelectedOrgToAdd("");
                   }}
                 >

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -40,7 +41,7 @@ export function WaiverDialog({
 
   const handleSubmit = () => {
     if (!justification.trim() || !riskLevel) {
-      alert("Please provide both a justification and a risk assessment.");
+      toast.warning("Please provide both a justification and a risk assessment.");
       return;
     }
 
@@ -50,9 +51,7 @@ export function WaiverDialog({
       riskLevel,
     });
 
-    alert(
-      `Waiver request submitted for "${requirement.label}".\n\nRisk: ${riskLevel}\nJustification: ${justification.trim()}\n\nThe request will be reviewed by the Compliance Manager.`
-    );
+    toast.success(`Waiver request submitted for "${requirement.label}"`);
 
     setJustification("");
     setRiskLevel("");

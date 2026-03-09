@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import { CheckStatus, ComplianceCheckResponse } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -34,7 +35,7 @@ export function GapReportPreview({ gapItems, complianceResult, projectName, onVi
   });
 
   const handleDownloadGapPdf = () => {
-    alert("Gap Analysis PDF export (mock) — standards-based gap report");
+    toast.success("Gap Analysis PDF export started");
   };
 
   const handleDownloadCompliancePdf = () => {

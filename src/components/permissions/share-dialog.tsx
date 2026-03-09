@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -48,7 +49,7 @@ export function ShareDialog({ open, onOpenChange }: ShareDialogProps) {
   const mockLink = `https://solarcomply.app/share/${Math.random().toString(36).slice(2, 10)}`;
 
   const handleShare = () => {
-    alert("Document shared successfully!");
+    toast.success("Document shared successfully");
     setEmail("");
     setMessage("");
     setExpiry("");
@@ -57,7 +58,7 @@ export function ShareDialog({ open, onOpenChange }: ShareDialogProps) {
 
   const handleCopyLink = () => {
     navigator.clipboard?.writeText(mockLink);
-    alert("Link copied to clipboard!");
+    toast.success("Link copied to clipboard");
   };
 
   return (

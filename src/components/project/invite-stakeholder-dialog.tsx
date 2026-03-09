@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { ORG_TYPE_LABELS } from "@/lib/constants";
 import { Send } from "lucide-react";
+import { toast } from "sonner";
 
 interface InviteStakeholderDialogProps {
   open: boolean;
@@ -40,9 +41,7 @@ export function InviteStakeholderDialog({
   const canSubmit = orgName.trim() !== "" && email.trim() !== "";
 
   const handleSubmit = () => {
-    alert(
-      `Invite sent to ${email} for "${orgName}" (mock)`
-    );
+    toast.success(`Invite sent to ${email} for "${orgName}"`);
     setOrgName("");
     setEmail("");
     setOrgType("");

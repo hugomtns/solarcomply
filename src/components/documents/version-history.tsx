@@ -1,4 +1,5 @@
 import { Circle, Upload } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { users } from "@/data/stakeholders";
@@ -40,7 +41,7 @@ export function VersionHistory({ document: doc }: VersionHistoryProps) {
           variant="outline"
           size="sm"
           className="w-full gap-1.5"
-          onClick={() => alert("Upload new version (mock)")}
+          onClick={() => toast.info("Version upload is not available in the prototype")}
         >
           <Upload className="h-3.5 w-3.5" />
           Upload New Version
@@ -108,7 +109,7 @@ export function VersionHistory({ document: doc }: VersionHistoryProps) {
         variant="outline"
         size="sm"
         className="w-full gap-1.5"
-        onClick={() => alert("Upload new version (mock)")}
+        onClick={() => toast.info("Version upload is not available in the prototype")}
       >
         <Upload className="h-3.5 w-3.5" />
         Upload New Version
