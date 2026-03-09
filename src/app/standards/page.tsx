@@ -135,16 +135,16 @@ export default function StandardsPage() {
         </Card>
       ) : (
       <Card className="overflow-hidden">
-        <div className="overflow-x-hidden w-full">
-        <Table className="table-fixed w-full">
+        <div className="overflow-x-auto w-full">
+        <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[12%]">Standard</TableHead>
-              <TableHead className="w-[32%]">Title</TableHead>
-              <TableHead className="w-[10%]">Edition</TableHead>
-              <TableHead className="w-[16%]">Gateways</TableHead>
-              <TableHead className="w-[15%]">Project Types</TableHead>
-              <TableHead className="w-[15%]">Jurisdictions</TableHead>
+              <TableHead className="w-[120px]">Standard</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead className="w-[80px]">Edition</TableHead>
+              <TableHead className="w-[140px]">Gateways</TableHead>
+              <TableHead className="w-[130px]">Project Types</TableHead>
+              <TableHead className="w-[130px]">Jurisdictions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -217,19 +217,19 @@ export default function StandardsPage() {
                 </TableRow>
                 {expanded.has(std.id) && (
                   <TableRow key={`${std.id}-detail`}>
-                    <TableCell colSpan={6} className="p-0 overflow-hidden">
-                      <div className="px-4 pb-4 pt-2 max-w-full overflow-hidden">
-                        <div className="rounded-lg bg-surface-glass p-4 overflow-hidden">
-                          <div className="flex items-start gap-2 mb-2 min-w-0">
+                    <TableCell colSpan={6} className="p-0">
+                      <div className="px-4 pb-4 pt-2">
+                        <div className="rounded-lg bg-surface-glass p-4">
+                          <div className="flex items-start gap-2 mb-2">
                             <Zap className="h-4 w-4 mt-0.5 text-brand-blue shrink-0" />
-                            <div className="min-w-0">
+                            <div>
                               <p className="text-sm font-medium text-text-heading">
                                 {std.body} {std.number} — {std.edition}
                               </p>
-                              <p className="text-sm text-text-secondary mt-1 break-words">{std.title}</p>
+                              <p className="text-sm text-text-secondary mt-1">{std.title}</p>
                             </div>
                           </div>
-                          <p className="text-sm text-text-tertiary mt-3 leading-relaxed break-words [overflow-wrap:anywhere]">{std.scope}</p>
+                          <p className="text-sm text-text-tertiary mt-3 leading-relaxed">{std.scope}</p>
                           <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-text-muted">
                             <span>
                               <strong>Applicable Gateways:</strong>{" "}
