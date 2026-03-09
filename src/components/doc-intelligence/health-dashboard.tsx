@@ -1,6 +1,7 @@
 "use client";
 
 import { ProjectDocHealthScore } from "@/lib/types";
+import { COLORS } from "@/lib/constants";
 import { ComplianceScoreRing } from "@/components/shared/compliance-score-ring";
 import { MetricCard } from "@/components/shared/metric-card";
 import { Card } from "@/components/ui/card";
@@ -11,10 +12,10 @@ interface HealthDashboardProps {
 }
 
 const SEVERITY_CONFIG = {
-  critical: { label: "Critical", color: "#EF4444" },
-  high: { label: "High", color: "#ED7D31" },
-  medium: { label: "Medium", color: "#F59E0B" },
-  low: { label: "Low", color: "#2E75B6" },
+  critical: { label: "Critical", color: COLORS.red },
+  high: { label: "High", color: COLORS.orange },
+  medium: { label: "Medium", color: COLORS.amber },
+  low: { label: "Low", color: COLORS.blue },
 } as const;
 
 export function HealthDashboard({ healthScore }: HealthDashboardProps) {

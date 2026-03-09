@@ -82,7 +82,11 @@ export function DocumentTable({ documents, onSelect }: DocumentTableProps) {
     return (
       <TableHead
         className="cursor-pointer select-none"
+        role="button"
+        tabIndex={0}
+        aria-label={`Sort by ${field}`}
         onClick={() => toggleSort(field)}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSort(field); } }}
       >
         <span className="inline-flex items-center gap-1">
           {children}
@@ -117,7 +121,11 @@ export function DocumentTable({ documents, onSelect }: DocumentTableProps) {
             <TableRow
               key={doc.id}
               className={`cursor-pointer ${idx % 2 === 0 ? "" : "bg-surface-glass"}`}
+              tabIndex={0}
+              role="button"
+              aria-label={`View document ${doc.name}`}
               onClick={() => onSelect(doc)}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(doc); } }}
             >
               <TableCell>
                 <Icon className="h-4 w-4 text-text-muted" />
