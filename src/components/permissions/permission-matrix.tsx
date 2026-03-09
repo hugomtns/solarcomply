@@ -25,24 +25,24 @@ const LEVELS: PermissionLevel[] = [
 ];
 
 const LEVEL_COLORS: Record<PermissionLevel, string> = {
-  none: "bg-gray-100 text-gray-500",
-  view: "bg-blue-50 text-blue-700",
-  download: "bg-blue-100 text-blue-800",
-  upload: "bg-green-50 text-green-700",
-  approve: "bg-amber-50 text-amber-700",
-  admin: "bg-purple-50 text-purple-700",
+  none: "bg-white/[0.04] text-text-disabled",
+  view: "bg-status-info/15 text-palette-blue-400",
+  download: "bg-status-info/20 text-palette-blue-400",
+  upload: "bg-primary/15 text-primary",
+  approve: "bg-status-warning/15 text-status-warning-light",
+  admin: "bg-status-special/15 text-palette-purple-400",
 };
 
 const ORG_TYPE_BADGE_COLORS: Record<string, string> = {
-  ipp: "bg-purple-100 text-purple-700",
-  epc: "bg-orange-100 text-orange-700",
-  om: "bg-teal-100 text-teal-700",
-  lender: "bg-blue-100 text-blue-700",
-  technical_advisor: "bg-indigo-100 text-indigo-700",
-  grid_operator: "bg-cyan-100 text-cyan-700",
-  oem: "bg-gray-100 text-gray-700",
-  insurer: "bg-rose-100 text-rose-700",
-  regulator: "bg-red-100 text-red-700",
+  ipp: "bg-status-special/20 text-palette-purple-400",
+  epc: "bg-palette-orange-500/20 text-palette-orange-400",
+  om: "bg-primary/20 text-primary",
+  lender: "bg-status-info/20 text-palette-blue-400",
+  technical_advisor: "bg-indigo-500/20 text-indigo-400",
+  grid_operator: "bg-cyan-500/20 text-cyan-400",
+  oem: "bg-white/[0.08] text-text-tertiary",
+  insurer: "bg-rose-500/20 text-rose-400",
+  regulator: "bg-status-error/20 text-red-400",
 };
 
 function abbreviateCategory(cat: DocumentCategory): string {
@@ -102,14 +102,14 @@ export function PermissionMatrix() {
       <CardContent className="overflow-x-auto p-0 pb-4">
         <table className="w-full min-w-[900px] text-xs">
           <thead>
-            <tr className="border-b">
-              <th className="sticky left-0 z-10 bg-white px-3 py-2 text-left font-medium text-gray-600">
+            <tr className="border-b border-white/[0.06]">
+              <th className="sticky left-0 z-10 bg-surface-card px-3 py-2 text-left font-medium text-text-muted">
                 Organization
               </th>
               {permissionCategories.map((cat) => (
                 <th
                   key={cat}
-                  className="px-1.5 py-2 text-center font-medium text-gray-600"
+                  className="px-1.5 py-2 text-center font-medium text-text-muted"
                   title={DOCUMENT_CATEGORY_LABELS[cat]}
                 >
                   {abbreviateCategory(cat)}
@@ -119,10 +119,10 @@ export function PermissionMatrix() {
           </thead>
           <tbody>
             {organizations.map((org) => (
-              <tr key={org.id} className="border-b last:border-b-0">
-                <td className="sticky left-0 z-10 bg-white px-3 py-2">
+              <tr key={org.id} className="border-b border-white/[0.06] last:border-b-0">
+                <td className="sticky left-0 z-10 bg-surface-card px-3 py-2">
                   <div className="flex items-center gap-2">
-                    <span className="font-medium text-gray-900 whitespace-nowrap">
+                    <span className="font-medium text-text-secondary whitespace-nowrap">
                       {org.name.length > 22
                         ? org.name.slice(0, 20) + "..."
                         : org.name}
